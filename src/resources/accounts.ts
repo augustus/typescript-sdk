@@ -1558,9 +1558,25 @@ export namespace AccountCreateParams {
 
 export interface AccountListParams extends CursorPageParams {
   /**
+   * Filter by account holder name (case-insensitive phrase match). Crypto wallets
+   * are excluded when set.
+   */
+  account_holder_name?: string;
+
+  /**
+   * Filter by exact fiat account number. Crypto wallets are excluded when set.
+   */
+  account_number?: string;
+
+  /**
    * ID of the account program to list virtual accounts for.
    */
   parent_id?: string;
+
+  /**
+   * Filter by account status.
+   */
+  status?: 'pending' | 'active' | 'frozen';
 }
 
 export interface AccountCloseParams {

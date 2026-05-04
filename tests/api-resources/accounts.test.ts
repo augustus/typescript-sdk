@@ -87,9 +87,12 @@ describe('resource accounts', () => {
     await expect(
       client.accounts.list(
         {
+          account_holder_name: 'x',
+          account_number: 'x',
           cursor: 'cursor',
           limit: 2,
           parent_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
       ),
