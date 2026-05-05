@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Augustus from '@augustus/typescript-sdk';
+import Augustus from '@agsts/typescript-sdk';
 
 const client = new Augustus({
   apiKey: 'My API Key',

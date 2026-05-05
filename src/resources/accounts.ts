@@ -8,7 +8,7 @@ import { path } from '../internal/utils/path';
 
 export class Accounts extends APIResource {
   /**
-   * Creates a new account
+   * Creates a new account.
    */
   create(body: AccountCreateParams, options?: RequestOptions): APIPromise<AccountCreateResponse> {
     return this._client.post('/v1/accounts', { body, ...options });
