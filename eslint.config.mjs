@@ -22,7 +22,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^@augustus/typescript-sdk(/.*)?',
+              regex: '^@agsts/typescript-sdk(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

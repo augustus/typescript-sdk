@@ -172,3 +172,23 @@ Methods:
 - <code title="get /v1/webhook_deliveries/{id}">client.webhookDeliveries.<a href="./src/resources/webhook-deliveries.ts">retrieve</a>(id) -> WebhookDeliveryRetrieveResponse</code>
 - <code title="get /v1/webhook_deliveries">client.webhookDeliveries.<a href="./src/resources/webhook-deliveries.ts">list</a>({ ...params }) -> WebhookDeliveryListResponsesCursorPage</code>
 - <code title="post /v1/webhook_deliveries/{id}/redeliver">client.webhookDeliveries.<a href="./src/resources/webhook-deliveries.ts">redeliver</a>(id) -> WebhookDeliveryRedeliverResponse</code>
+
+# Scopes
+
+Types:
+
+- <code><a href="./src/resources/scopes.ts">ScopeListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/scopes">client.scopes.<a href="./src/resources/scopes.ts">list</a>() -> ScopeListResponse</code>
+
+# APIKey
+
+Types:
+
+- <code><a href="./src/resources/api-key.ts">APIKeyIntrospectResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/api_key">client.apiKey.<a href="./src/resources/api-key.ts">introspect</a>() -> APIKeyIntrospectResponse</code>

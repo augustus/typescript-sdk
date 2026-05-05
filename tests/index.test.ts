@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@augustus/typescript-sdk/core/api-promise';
+import { APIPromise } from '@agsts/typescript-sdk/core/api-promise';
 
 import util from 'node:util';
-import Augustus from '@augustus/typescript-sdk';
-import { APIUserAbortError } from '@augustus/typescript-sdk';
+import Augustus from '@agsts/typescript-sdk';
+import { APIUserAbortError } from '@agsts/typescript-sdk';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

@@ -1,9 +1,5 @@
 import { inspect } from 'node:util';
-import {
-  buildHeaders,
-  type HeadersLike,
-  type NullableHeaders,
-} from '@augustus/typescript-sdk/internal/headers';
+import { buildHeaders, type HeadersLike, type NullableHeaders } from '@agsts/typescript-sdk/internal/headers';
 
 function inspectNullableHeaders(headers: NullableHeaders) {
   return `NullableHeaders {${[

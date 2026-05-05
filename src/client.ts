@@ -41,6 +41,7 @@ import {
   AccountUnfreezeResponse,
   Accounts,
 } from './resources/accounts';
+import { APIKey, APIKeyIntrospectResponse } from './resources/api-key';
 import {
   ConversionCreateParams,
   ConversionCreateResponse,
@@ -74,6 +75,7 @@ import {
   Payouts,
 } from './resources/payouts';
 import { ReturnRetrieveResponse, Returns } from './resources/returns';
+import { ScopeListResponse, Scopes } from './resources/scopes';
 import {
   WebhookDeliveries,
   WebhookDeliveryListParams,
@@ -893,6 +895,8 @@ export class Augustus {
   webhookSubscriptions: API.WebhookSubscriptions = new API.WebhookSubscriptions(this);
   events: API.Events = new API.Events(this);
   webhookDeliveries: API.WebhookDeliveries = new API.WebhookDeliveries(this);
+  scopes: API.Scopes = new API.Scopes(this);
+  apiKey: API.APIKey = new API.APIKey(this);
 }
 
 Augustus.Webhooks = Webhooks;
@@ -906,6 +910,8 @@ Augustus.Returns = Returns;
 Augustus.WebhookSubscriptions = WebhookSubscriptions;
 Augustus.Events = Events;
 Augustus.WebhookDeliveries = WebhookDeliveries;
+Augustus.Scopes = Scopes;
+Augustus.APIKey = APIKey;
 
 export declare namespace Augustus {
   export type RequestOptions = Opts.RequestOptions;
@@ -1017,4 +1023,8 @@ export declare namespace Augustus {
     type WebhookDeliveryListResponsesCursorPage as WebhookDeliveryListResponsesCursorPage,
     type WebhookDeliveryListParams as WebhookDeliveryListParams,
   };
+
+  export { Scopes as Scopes, type ScopeListResponse as ScopeListResponse };
+
+  export { APIKey as APIKey, type APIKeyIntrospectResponse as APIKeyIntrospectResponse };
 }

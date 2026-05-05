@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from '@augustus/typescript-sdk/internal/to-file';
-import { toFile } from '@augustus/typescript-sdk/core/uploads';
+import type { ResponseLike } from '@agsts/typescript-sdk/internal/to-file';
+import { toFile } from '@agsts/typescript-sdk/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('@augustus/typescript-sdk/core/uploads');
+    const uploads = await import('@agsts/typescript-sdk/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(
