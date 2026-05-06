@@ -173,6 +173,16 @@ Methods:
 - <code title="get /v1/webhook_deliveries">client.webhookDeliveries.<a href="./src/resources/webhook-deliveries.ts">list</a>({ ...params }) -> WebhookDeliveryListResponsesCursorPage</code>
 - <code title="post /v1/webhook_deliveries/{id}/redeliver">client.webhookDeliveries.<a href="./src/resources/webhook-deliveries.ts">redeliver</a>(id) -> WebhookDeliveryRedeliverResponse</code>
 
+# APIVersions
+
+Types:
+
+- <code><a href="./src/resources/api-versions.ts">APIVersionListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/api_versions">client.apiVersions.<a href="./src/resources/api-versions.ts">list</a>() -> APIVersionListResponse</code>
+
 # Scopes
 
 Types:
@@ -183,12 +193,12 @@ Methods:
 
 - <code title="get /v1/scopes">client.scopes.<a href="./src/resources/scopes.ts">list</a>() -> ScopeListResponse</code>
 
-# APIKey
+# APIKeys
 
 Types:
 
-- <code><a href="./src/resources/api-key.ts">APIKeyIntrospectResponse</a></code>
+- <code><a href="./src/resources/api-keys.ts">APIKeyIntrospectResponse</a></code>
 
 Methods:
 
-- <code title="get /v1/api_key">client.apiKey.<a href="./src/resources/api-key.ts">introspect</a>() -> APIKeyIntrospectResponse</code>
+- <code title="get /v1/api_key">client.apiKeys.<a href="./src/resources/api-keys.ts">introspect</a>() -> APIKeyIntrospectResponse</code>

@@ -4,7 +4,7 @@ import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 
-export class APIKey extends APIResource {
+export class APIKeys extends APIResource {
   /**
    * Returns the API key resource for the key authenticating this request. Useful for
    * verifying which key is in use and discovering its current authorization context
@@ -84,6 +84,6 @@ export interface APIKeyIntrospectResponse {
   updated_at: string | null;
 }
 
-export declare namespace APIKey {
+export declare namespace APIKeys {
   export { type APIKeyIntrospectResponse as APIKeyIntrospectResponse };
 }

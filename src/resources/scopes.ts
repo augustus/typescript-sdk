@@ -18,7 +18,9 @@ export class Scopes extends APIResource {
 export interface ScopeListResponse {
   data: Array<ScopeListResponse.Data>;
 
-  type: 'list';
+  has_more: boolean;
+
+  next_cursor: string | null;
 }
 
 export namespace ScopeListResponse {
@@ -68,6 +70,8 @@ export namespace ScopeListResponse {
      * Resource the scope applies to.
      */
     resource: string;
+
+    type: 'scope';
   }
 }
 

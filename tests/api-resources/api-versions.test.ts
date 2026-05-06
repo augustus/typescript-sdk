@@ -7,10 +7,10 @@ const client = new Augustus({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource apiKey', () => {
+describe('resource apiVersions', () => {
   // Mock server tests are disabled
-  test.skip('introspect', async () => {
-    const responsePromise = client.apiKey.introspect();
+  test.skip('list', async () => {
+    const responsePromise = client.apiVersions.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
