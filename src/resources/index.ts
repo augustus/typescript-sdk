@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { APIKey, type APIKeyIntrospectResponse } from './api-key';
+export { APIKeys, type APIKeyIntrospectResponse } from './api-keys';
+export { APIVersions, type APIVersionListResponse } from './api-versions';
 export {
   AccountPrograms,
   type AccountProgramRetrieveResponse,
