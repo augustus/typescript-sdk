@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from '@agsts/typescript-sdk/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from '@augustusbank/typescript-sdk/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 

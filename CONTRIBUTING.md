@@ -55,12 +55,12 @@ $ cd typescript-sdk
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link @agsts/typescript-sdk
+$ yarn link @augustusbank/typescript-sdk
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global @agsts/typescript-sdk
+$ pnpm link --global @augustusbank/typescript-sdk
 ```
 
 ## Running tests
