@@ -2,7 +2,7 @@
 
 import { Webhook } from 'standardwebhooks';
 
-import Augustus from '@agsts/typescript-sdk';
+import Augustus from '@augustusbank/typescript-sdk';
 
 const client = new Augustus({
   apiKey: 'My API Key',

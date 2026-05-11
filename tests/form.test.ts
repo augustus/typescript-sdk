@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from '@agsts/typescript-sdk/internal/uploads';
-import { toFile } from '@agsts/typescript-sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@augustusbank/typescript-sdk/internal/uploads';
+import { toFile } from '@augustusbank/typescript-sdk/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "@agsts/typescript-sdk/*": ["./src/*"],
-      "@agsts/typescript-sdk": ["./src/index.ts"]
+      "@augustusbank/typescript-sdk/*": ["./src/*"],
+      "@augustusbank/typescript-sdk": ["./src/index.ts"]
     },
     "noEmit": true,
 
