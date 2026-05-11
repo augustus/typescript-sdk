@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "@augustus/typescript-sdk/*": ["./dist/src/*"],
-      "@augustus/typescript-sdk": ["./dist/src/index.ts"]
+      "@augustusbank/typescript-sdk/*": ["./dist/src/*"],
+      "@augustusbank/typescript-sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

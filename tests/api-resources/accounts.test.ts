@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Augustus from '@augustus/typescript-sdk';
+import Augustus from '@augustusbank/typescript-sdk';
 
 const client = new Augustus({
   apiKey: 'My API Key',
@@ -87,9 +87,12 @@ describe('resource accounts', () => {
     await expect(
       client.accounts.list(
         {
+          account_holder_name: 'x',
+          account_number: 'x',
           cursor: 'cursor',
           limit: 2,
           parent_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
       ),

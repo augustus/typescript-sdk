@@ -28,8 +28,8 @@ export class AccountPrograms extends APIResource {
   }
 
   /**
-   * Returns the aggregated available balance for all active and frozen virtual
-   * accounts under the account program.
+   * Returns the aggregated available balance for all virtual accounts under the
+   * account program.
    */
   retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountProgramRetrieveBalanceResponse> {
     return this._client.get(path`/v1/account_programs/${id}/balance`, options);

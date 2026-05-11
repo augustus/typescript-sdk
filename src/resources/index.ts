@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export { APIKeys, type APIKeyIntrospectResponse } from './api-keys';
+export { APIVersions, type APIVersionListResponse } from './api-versions';
 export {
   AccountPrograms,
   type AccountProgramRetrieveResponse,
@@ -56,6 +58,7 @@ export {
 } from './payouts';
 export { Quotes, type QuoteRetrieveResponse } from './quotes/quotes';
 export { Returns, type ReturnRetrieveResponse } from './returns';
+export { Scopes, type ScopeListResponse } from './scopes';
 export {
   WebhookDeliveries,
   type WebhookDeliveryRetrieveResponse,

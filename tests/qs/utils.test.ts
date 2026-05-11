@@ -1,4 +1,9 @@
-import { combine, merge, is_buffer, assign_single_source } from '@augustus/typescript-sdk/internal/qs/utils';
+import {
+  combine,
+  merge,
+  is_buffer,
+  assign_single_source,
+} from '@augustusbank/typescript-sdk/internal/qs/utils';
 
 describe('merge()', function () {
   // t.deepEqual(merge(null, true), [null, true], 'merges true into null');

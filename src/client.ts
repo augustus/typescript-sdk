@@ -41,6 +41,8 @@ import {
   AccountUnfreezeResponse,
   Accounts,
 } from './resources/accounts';
+import { APIKeyIntrospectResponse, APIKeys } from './resources/api-keys';
+import { APIVersionListResponse, APIVersions } from './resources/api-versions';
 import {
   ConversionCreateParams,
   ConversionCreateResponse,
@@ -74,6 +76,7 @@ import {
   Payouts,
 } from './resources/payouts';
 import { ReturnRetrieveResponse, Returns } from './resources/returns';
+import { ScopeListResponse, Scopes } from './resources/scopes';
 import {
   WebhookDeliveries,
   WebhookDeliveryListParams,
@@ -142,6 +145,11 @@ export interface ClientOptions {
    * Webhook signing secret for verifying webhook signatures
    */
   webhookKey?: string | null | undefined;
+
+  /**
+   * Augustus Banking API version to pin requests to. When unset, the server uses the version pinned to your API key, falling back to the latest published version.
+   */
+  apiVersion?: string | null | undefined;
 
   /**
    * Specifies the environment to use for the API.
@@ -227,6 +235,7 @@ export interface ClientOptions {
 export class Augustus {
   apiKey: string;
   webhookKey: string | null;
+  apiVersion: string | null;
 
   baseURL: string;
   maxRetries: number;
@@ -245,6 +254,7 @@ export class Augustus {
    *
    * @param {string | undefined} [opts.apiKey=process.env['AUGUSTUS_API_KEY'] ?? undefined]
    * @param {string | null | undefined} [opts.webhookKey=process.env['AUGUSTUS_WEBHOOK_KEY'] ?? null]
+   * @param {string | null | undefined} [opts.apiVersion=process.env['AUGUSTUS_API_VERSION'] ?? null]
    * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
    * @param {string} [opts.baseURL=process.env['AUGUSTUS_BASE_URL'] ?? https://api.augustus.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -258,6 +268,7 @@ export class Augustus {
     baseURL = readEnv('AUGUSTUS_BASE_URL'),
     apiKey = readEnv('AUGUSTUS_API_KEY'),
     webhookKey = readEnv('AUGUSTUS_WEBHOOK_KEY') ?? null,
+    apiVersion = readEnv('AUGUSTUS_API_VERSION') ?? null,
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
@@ -269,6 +280,7 @@ export class Augustus {
     const options: ClientOptions = {
       apiKey,
       webhookKey,
+      apiVersion,
       ...opts,
       baseURL,
       environment: opts.environment ?? 'production',
@@ -312,6 +324,7 @@ export class Augustus {
 
     this.apiKey = apiKey;
     this.webhookKey = webhookKey;
+    this.apiVersion = apiVersion;
   }
 
   /**
@@ -330,6 +343,7 @@ export class Augustus {
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       webhookKey: this.webhookKey,
+      apiVersion: this.apiVersion,
       ...options,
     });
     return client;
@@ -800,6 +814,7 @@ export class Augustus {
         'X-Stainless-Retry-Count': String(retryCount),
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
+        'api-version': this.apiVersion,
       },
       await this.authHeaders(options),
       this._options.defaultHeaders,
@@ -893,6 +908,9 @@ export class Augustus {
   webhookSubscriptions: API.WebhookSubscriptions = new API.WebhookSubscriptions(this);
   events: API.Events = new API.Events(this);
   webhookDeliveries: API.WebhookDeliveries = new API.WebhookDeliveries(this);
+  apiVersions: API.APIVersions = new API.APIVersions(this);
+  scopes: API.Scopes = new API.Scopes(this);
+  apiKeys: API.APIKeys = new API.APIKeys(this);
 }
 
 Augustus.Webhooks = Webhooks;
@@ -906,6 +924,9 @@ Augustus.Returns = Returns;
 Augustus.WebhookSubscriptions = WebhookSubscriptions;
 Augustus.Events = Events;
 Augustus.WebhookDeliveries = WebhookDeliveries;
+Augustus.APIVersions = APIVersions;
+Augustus.Scopes = Scopes;
+Augustus.APIKeys = APIKeys;
 
 export declare namespace Augustus {
   export type RequestOptions = Opts.RequestOptions;
@@ -1017,4 +1038,10 @@ export declare namespace Augustus {
     type WebhookDeliveryListResponsesCursorPage as WebhookDeliveryListResponsesCursorPage,
     type WebhookDeliveryListParams as WebhookDeliveryListParams,
   };
+
+  export { APIVersions as APIVersions, type APIVersionListResponse as APIVersionListResponse };
+
+  export { Scopes as Scopes, type ScopeListResponse as ScopeListResponse };
+
+  export { APIKeys as APIKeys, type APIKeyIntrospectResponse as APIKeyIntrospectResponse };
 }

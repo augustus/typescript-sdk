@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.11.0 (2026-05-11)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/getivy/typescript-sdk/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** api update ([da0178b](https://github.com/getivy/typescript-sdk/commit/da0178b76ebe4d33c503782dc63d347efd134c66))
+* **api:** api update ([0124cba](https://github.com/getivy/typescript-sdk/commit/0124cba91014ac47d6ce072577d9eecef2dcbd55))
+* **api:** api update ([0ff1b7f](https://github.com/getivy/typescript-sdk/commit/0ff1b7f3fa156c80bb0a70dd8e5cb6fceea2643d))
+* **api:** api update ([823f0f7](https://github.com/getivy/typescript-sdk/commit/823f0f7992775f0783496882ec483b6af7636623))
+* **api:** api update ([054c10a](https://github.com/getivy/typescript-sdk/commit/054c10ae35cb5951455465d42a6a808d85745b14))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([6596d5b](https://github.com/getivy/typescript-sdk/commit/6596d5b376ffaca1669a25152139dbc7320fada6))
+* update SDK settings ([0478b5d](https://github.com/getivy/typescript-sdk/commit/0478b5d4bedb054bc6dd70c6eb9394b88608cb43))
+* update SDK settings ([88015a1](https://github.com/getivy/typescript-sdk/commit/88015a151f94912515e5404d0e3fe4f70c3348c6))
+
 ## 0.10.0 (2026-04-30)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/getivy/typescript-sdk/compare/v0.9.0...v0.10.0)
