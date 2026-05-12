@@ -97,7 +97,7 @@ export interface DepositRetrieveResponse {
   /**
    * Current status of the deposit.
    */
-  status: 'received' | 'rejected' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
 
   /**
    * Transaction hash for crypto deposits, or null when not known.
@@ -248,7 +248,7 @@ export interface DepositListResponse {
   /**
    * Current status of the deposit.
    */
-  status: 'received' | 'rejected' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
 
   /**
    * Transaction hash for crypto deposits, or null when not known.
@@ -335,7 +335,7 @@ export interface DepositListParams extends CursorPageParams {
   /**
    * Filter by deposit status.
    */
-  status?: 'received' | 'rejected' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  status?: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
 }
 
 export namespace DepositListParams {

@@ -1428,7 +1428,7 @@ export namespace DepositReceivedWebhookEvent {
     /**
      * Current status of the deposit.
      */
-    status: 'received' | 'rejected' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+    status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
 
     /**
      * Transaction hash for crypto deposits, or null when not known.
