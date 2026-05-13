@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.1 (2026-05-13)
+
+Full Changelog: [v0.12.0...v0.12.1](https://github.com/getivy/typescript-sdk/compare/v0.12.0...v0.12.1)
+
 ## 0.12.0 (2026-05-12)
 
 Full Changelog: [v0.11.0...v0.12.0](https://github.com/getivy/typescript-sdk/compare/v0.11.0...v0.12.0)
