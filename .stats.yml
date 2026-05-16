@@ -1,4 +1,4 @@
 configured_endpoints: 35
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/ivy/augustus-1c57e4ec346c4f2903d741d504794ec6f080bde0fa0c790fe64db4c8933269ee.yml
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/ivy/augustus-c9913941e01feb2ec7e49199ddd499ecc0bc7f9c6e6387c9cb41707ad56c702d.yml
 openapi_spec_hash: 41511918d48a4eac8fc6d6db0e2e9ce6
-config_hash: 04d340006cea8594a3686a02387bd2e1
+config_hash: a883ff5953bf52b2309be7f1e430e50d
