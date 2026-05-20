@@ -961,283 +961,26 @@ export interface AccountCreateParams {
   /**
    * Personal information of the account beneficiary.
    */
-  beneficiary_data: AccountCreateParams.BeneficiaryData;
+  beneficiary_data: AccountCreateParams.UnionMember0 | AccountCreateParams.UnionMember1;
 }
 
 export namespace AccountCreateParams {
-  /**
-   * Personal information of the account beneficiary.
-   */
-  export interface BeneficiaryData {
+  export interface UnionMember0 {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
-    country_of_citizenship:
-      | 'AF'
-      | 'AL'
-      | 'DZ'
-      | 'AS'
-      | 'AD'
-      | 'AO'
-      | 'AI'
-      | 'AQ'
-      | 'AG'
-      | 'AR'
-      | 'AM'
-      | 'AW'
-      | 'AU'
-      | 'AT'
-      | 'AZ'
-      | 'BS'
-      | 'BH'
-      | 'BD'
-      | 'BB'
-      | 'BY'
-      | 'BE'
-      | 'BZ'
-      | 'BJ'
-      | 'BM'
-      | 'BT'
-      | 'BO'
-      | 'BA'
-      | 'BW'
-      | 'BV'
-      | 'BR'
-      | 'IO'
-      | 'BN'
-      | 'BG'
-      | 'BF'
-      | 'BI'
-      | 'KH'
-      | 'CM'
-      | 'CA'
-      | 'CV'
-      | 'KY'
-      | 'CF'
-      | 'TD'
-      | 'CL'
-      | 'CN'
-      | 'CX'
-      | 'CC'
-      | 'CO'
-      | 'KM'
-      | 'CG'
-      | 'CD'
-      | 'CK'
-      | 'CR'
-      | 'CI'
-      | 'HR'
-      | 'CU'
-      | 'CY'
-      | 'CZ'
-      | 'DK'
-      | 'DJ'
-      | 'DM'
-      | 'DO'
-      | 'EC'
-      | 'EG'
-      | 'SV'
-      | 'GQ'
-      | 'ER'
-      | 'EE'
-      | 'ET'
-      | 'FK'
-      | 'FO'
-      | 'FJ'
-      | 'FI'
-      | 'FR'
-      | 'GF'
-      | 'PF'
-      | 'TF'
-      | 'GA'
-      | 'GM'
-      | 'GE'
-      | 'DE'
-      | 'GH'
-      | 'GI'
-      | 'GR'
-      | 'GL'
-      | 'GD'
-      | 'GP'
-      | 'GU'
-      | 'GT'
-      | 'GN'
-      | 'GW'
-      | 'GY'
-      | 'HT'
-      | 'HM'
-      | 'VA'
-      | 'HN'
-      | 'HK'
-      | 'HU'
-      | 'IS'
-      | 'IN'
-      | 'ID'
-      | 'IR'
-      | 'IQ'
-      | 'IE'
-      | 'IL'
-      | 'IT'
-      | 'JM'
-      | 'JP'
-      | 'JO'
-      | 'KZ'
-      | 'KE'
-      | 'KI'
-      | 'KP'
-      | 'KR'
-      | 'KW'
-      | 'KG'
-      | 'LA'
-      | 'LV'
-      | 'LB'
-      | 'LS'
-      | 'LR'
-      | 'LY'
-      | 'LI'
-      | 'LT'
-      | 'LU'
-      | 'MO'
-      | 'MG'
-      | 'MW'
-      | 'MY'
-      | 'MV'
-      | 'ML'
-      | 'MT'
-      | 'MH'
-      | 'MQ'
-      | 'MR'
-      | 'MU'
-      | 'YT'
-      | 'MX'
-      | 'FM'
-      | 'MD'
-      | 'MC'
-      | 'MN'
-      | 'MS'
-      | 'MA'
-      | 'MZ'
-      | 'MM'
-      | 'NA'
-      | 'NR'
-      | 'NP'
-      | 'NL'
-      | 'NC'
-      | 'NZ'
-      | 'NI'
-      | 'NE'
-      | 'NG'
-      | 'NU'
-      | 'NF'
-      | 'MP'
-      | 'MK'
-      | 'NO'
-      | 'OM'
-      | 'PK'
-      | 'PW'
-      | 'PS'
-      | 'PA'
-      | 'PG'
-      | 'PY'
-      | 'PE'
-      | 'PH'
-      | 'PN'
-      | 'PL'
-      | 'PT'
-      | 'PR'
-      | 'QA'
-      | 'RE'
-      | 'RO'
-      | 'RU'
-      | 'RW'
-      | 'SH'
-      | 'KN'
-      | 'LC'
-      | 'PM'
-      | 'VC'
-      | 'WS'
-      | 'SM'
-      | 'ST'
-      | 'SA'
-      | 'SN'
-      | 'SC'
-      | 'SL'
-      | 'SG'
-      | 'SK'
-      | 'SI'
-      | 'SB'
-      | 'SO'
-      | 'ZA'
-      | 'GS'
-      | 'ES'
-      | 'LK'
-      | 'SD'
-      | 'SR'
-      | 'SJ'
-      | 'SZ'
-      | 'SE'
-      | 'CH'
-      | 'SY'
-      | 'TW'
-      | 'TJ'
-      | 'TZ'
-      | 'TH'
-      | 'TL'
-      | 'TG'
-      | 'TK'
-      | 'TO'
-      | 'TT'
-      | 'TN'
-      | 'TR'
-      | 'TM'
-      | 'TC'
-      | 'TV'
-      | 'UG'
-      | 'UA'
-      | 'AE'
-      | 'GB'
-      | 'US'
-      | 'UM'
-      | 'UY'
-      | 'UZ'
-      | 'VU'
-      | 'VE'
-      | 'VN'
-      | 'VG'
-      | 'VI'
-      | 'WF'
-      | 'EH'
-      | 'YE'
-      | 'ZM'
-      | 'ZW'
-      | 'AX'
-      | 'BQ'
-      | 'CW'
-      | 'GG'
-      | 'IM'
-      | 'JE'
-      | 'ME'
-      | 'BL'
-      | 'MF'
-      | 'RS'
-      | 'SX'
-      | 'SS'
-      | 'XK';
+    country_of_citizenship: 'US';
 
     /**
-     * Date of birth in YYYY-MM-DD (UTC) format.
+     * Date of birth as an ISO 8601 calendar date (YYYY-MM-DD).
      */
     date_of_birth: string;
 
     /**
-     * Government-issued identification. Discriminated union with type: "id" (generic
-     * ID), "ssn" (Social Security Number, format ###-##-####), or "itin" (Individual
-     * Taxpayer ID, format 9##-##-####).
+     * Government-issued identification with type: "ssn" (Social Security Number,
+     * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
-    identification:
-      | BeneficiaryData.UnionMember0
-      | BeneficiaryData.UnionMember1
-      | BeneficiaryData.UnionMember2;
+    identification: UnionMember0.UnionMember0 | UnionMember0.UnionMember1;
 
     /**
      * Full legal name of the account holder.
@@ -1247,32 +990,55 @@ export namespace AccountCreateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: BeneficiaryData.ResidentialAddress;
+    residential_address: UnionMember0.UnionMember0 | UnionMember0.UnionMember1;
   }
 
-  export namespace BeneficiaryData {
+  export namespace UnionMember0 {
     export interface UnionMember0 {
-      type: 'id';
-
-      value: string;
-    }
-
-    export interface UnionMember1 {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface UnionMember2 {
+    export interface UnionMember1 {
       type: 'itin';
 
       value: string;
     }
 
-    /**
-     * Residential address of the account holder.
-     */
-    export interface ResidentialAddress {
+    export interface UnionMember0 {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country: 'US';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Two-letter state code.
+       */
+      state: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
+
+      /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+
+    export interface UnionMember1 {
       /**
        * City name.
        */
@@ -1505,7 +1271,6 @@ export namespace AccountCreateParams {
         | 'UA'
         | 'AE'
         | 'GB'
-        | 'US'
         | 'UM'
         | 'UY'
         | 'UZ'
@@ -1544,9 +1309,599 @@ export namespace AccountCreateParams {
       street_line_1: string;
 
       /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+  }
+
+  export interface UnionMember1 {
+    /**
+     * ISO 3166-1 alpha-2 country code of citizenship.
+     */
+    country_of_citizenship:
+      | 'AF'
+      | 'AL'
+      | 'DZ'
+      | 'AS'
+      | 'AD'
+      | 'AO'
+      | 'AI'
+      | 'AQ'
+      | 'AG'
+      | 'AR'
+      | 'AM'
+      | 'AW'
+      | 'AU'
+      | 'AT'
+      | 'AZ'
+      | 'BS'
+      | 'BH'
+      | 'BD'
+      | 'BB'
+      | 'BY'
+      | 'BE'
+      | 'BZ'
+      | 'BJ'
+      | 'BM'
+      | 'BT'
+      | 'BO'
+      | 'BA'
+      | 'BW'
+      | 'BV'
+      | 'BR'
+      | 'IO'
+      | 'BN'
+      | 'BG'
+      | 'BF'
+      | 'BI'
+      | 'KH'
+      | 'CM'
+      | 'CA'
+      | 'CV'
+      | 'KY'
+      | 'CF'
+      | 'TD'
+      | 'CL'
+      | 'CN'
+      | 'CX'
+      | 'CC'
+      | 'CO'
+      | 'KM'
+      | 'CG'
+      | 'CD'
+      | 'CK'
+      | 'CR'
+      | 'CI'
+      | 'HR'
+      | 'CU'
+      | 'CY'
+      | 'CZ'
+      | 'DK'
+      | 'DJ'
+      | 'DM'
+      | 'DO'
+      | 'EC'
+      | 'EG'
+      | 'SV'
+      | 'GQ'
+      | 'ER'
+      | 'EE'
+      | 'ET'
+      | 'FK'
+      | 'FO'
+      | 'FJ'
+      | 'FI'
+      | 'FR'
+      | 'GF'
+      | 'PF'
+      | 'TF'
+      | 'GA'
+      | 'GM'
+      | 'GE'
+      | 'DE'
+      | 'GH'
+      | 'GI'
+      | 'GR'
+      | 'GL'
+      | 'GD'
+      | 'GP'
+      | 'GU'
+      | 'GT'
+      | 'GN'
+      | 'GW'
+      | 'GY'
+      | 'HT'
+      | 'HM'
+      | 'VA'
+      | 'HN'
+      | 'HK'
+      | 'HU'
+      | 'IS'
+      | 'IN'
+      | 'ID'
+      | 'IR'
+      | 'IQ'
+      | 'IE'
+      | 'IL'
+      | 'IT'
+      | 'JM'
+      | 'JP'
+      | 'JO'
+      | 'KZ'
+      | 'KE'
+      | 'KI'
+      | 'KP'
+      | 'KR'
+      | 'KW'
+      | 'KG'
+      | 'LA'
+      | 'LV'
+      | 'LB'
+      | 'LS'
+      | 'LR'
+      | 'LY'
+      | 'LI'
+      | 'LT'
+      | 'LU'
+      | 'MO'
+      | 'MG'
+      | 'MW'
+      | 'MY'
+      | 'MV'
+      | 'ML'
+      | 'MT'
+      | 'MH'
+      | 'MQ'
+      | 'MR'
+      | 'MU'
+      | 'YT'
+      | 'MX'
+      | 'FM'
+      | 'MD'
+      | 'MC'
+      | 'MN'
+      | 'MS'
+      | 'MA'
+      | 'MZ'
+      | 'MM'
+      | 'NA'
+      | 'NR'
+      | 'NP'
+      | 'NL'
+      | 'NC'
+      | 'NZ'
+      | 'NI'
+      | 'NE'
+      | 'NG'
+      | 'NU'
+      | 'NF'
+      | 'MP'
+      | 'MK'
+      | 'NO'
+      | 'OM'
+      | 'PK'
+      | 'PW'
+      | 'PS'
+      | 'PA'
+      | 'PG'
+      | 'PY'
+      | 'PE'
+      | 'PH'
+      | 'PN'
+      | 'PL'
+      | 'PT'
+      | 'PR'
+      | 'QA'
+      | 'RE'
+      | 'RO'
+      | 'RU'
+      | 'RW'
+      | 'SH'
+      | 'KN'
+      | 'LC'
+      | 'PM'
+      | 'VC'
+      | 'WS'
+      | 'SM'
+      | 'ST'
+      | 'SA'
+      | 'SN'
+      | 'SC'
+      | 'SL'
+      | 'SG'
+      | 'SK'
+      | 'SI'
+      | 'SB'
+      | 'SO'
+      | 'ZA'
+      | 'GS'
+      | 'ES'
+      | 'LK'
+      | 'SD'
+      | 'SR'
+      | 'SJ'
+      | 'SZ'
+      | 'SE'
+      | 'CH'
+      | 'SY'
+      | 'TW'
+      | 'TJ'
+      | 'TZ'
+      | 'TH'
+      | 'TL'
+      | 'TG'
+      | 'TK'
+      | 'TO'
+      | 'TT'
+      | 'TN'
+      | 'TR'
+      | 'TM'
+      | 'TC'
+      | 'TV'
+      | 'UG'
+      | 'UA'
+      | 'AE'
+      | 'GB'
+      | 'UM'
+      | 'UY'
+      | 'UZ'
+      | 'VU'
+      | 'VE'
+      | 'VN'
+      | 'VG'
+      | 'VI'
+      | 'WF'
+      | 'EH'
+      | 'YE'
+      | 'ZM'
+      | 'ZW'
+      | 'AX'
+      | 'BQ'
+      | 'CW'
+      | 'GG'
+      | 'IM'
+      | 'JE'
+      | 'ME'
+      | 'BL'
+      | 'MF'
+      | 'RS'
+      | 'SX'
+      | 'SS'
+      | 'XK';
+
+    /**
+     * Date of birth as an ISO 8601 calendar date (YYYY-MM-DD).
+     */
+    date_of_birth: string;
+
+    /**
+     * Government-issued identification with type: "id" (generic government-issued ID).
+     */
+    identification: UnionMember1.Identification;
+
+    /**
+     * Full legal name of the account holder.
+     */
+    legal_name: string;
+
+    /**
+     * Residential address of the account holder.
+     */
+    residential_address: UnionMember1.UnionMember0 | UnionMember1.UnionMember1;
+  }
+
+  export namespace UnionMember1 {
+    /**
+     * Government-issued identification with type: "id" (generic government-issued ID).
+     */
+    export interface Identification {
+      type: 'id';
+
+      value: string;
+    }
+
+    export interface UnionMember0 {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country: 'US';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
        * Two-letter state code.
        */
-      state?: string;
+      state: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
+
+      /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+
+    export interface UnionMember1 {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
 
       /**
        * Secondary street address (apartment, suite, etc.).
