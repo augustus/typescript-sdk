@@ -92,7 +92,8 @@ export interface DepositRetrieveResponse {
   source:
     | DepositRetrieveResponse.UnionMember0
     | DepositRetrieveResponse.UnionMember1
-    | DepositRetrieveResponse.UnionMember2;
+    | DepositRetrieveResponse.UnionMember2
+    | DepositRetrieveResponse.UnionMember3;
 
   /**
    * Current status of the deposit.
@@ -161,6 +162,28 @@ export namespace DepositRetrieveResponse {
   }
 
   export interface UnionMember2 {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire source.
+     */
+    type: 'aba';
+  }
+
+  export interface UnionMember3 {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -243,7 +266,8 @@ export interface DepositListResponse {
   source:
     | DepositListResponse.UnionMember0
     | DepositListResponse.UnionMember1
-    | DepositListResponse.UnionMember2;
+    | DepositListResponse.UnionMember2
+    | DepositListResponse.UnionMember3;
 
   /**
    * Current status of the deposit.
@@ -312,6 +336,28 @@ export namespace DepositListResponse {
   }
 
   export interface UnionMember2 {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire source.
+     */
+    type: 'aba';
+  }
+
+  export interface UnionMember3 {
     /**
      * Wallet address on the specified blockchain.
      */
