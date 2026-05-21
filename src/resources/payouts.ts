@@ -606,7 +606,8 @@ export interface PayoutCreateParams {
   destination:
     | PayoutCreateParams.UnionMember0
     | PayoutCreateParams.UnionMember1
-    | PayoutCreateParams.UnionMember2;
+    | PayoutCreateParams.UnionMember2
+    | PayoutCreateParams.UnionMember3;
 
   /**
    * Payment reference.
@@ -675,6 +676,28 @@ export namespace PayoutCreateParams {
   }
 
   export interface UnionMember2 {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
+  export interface UnionMember3 {
     /**
      * Wallet address on the specified blockchain.
      */

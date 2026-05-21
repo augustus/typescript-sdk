@@ -1423,7 +1423,7 @@ export namespace DepositReceivedWebhookEvent {
     /**
      * Counterparty bank account or crypto wallet that sent the funds.
      */
-    source: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2;
+    source: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
 
     /**
      * Current status of the deposit.
@@ -1492,6 +1492,28 @@ export namespace DepositReceivedWebhookEvent {
     }
 
     export interface UnionMember2 {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire source.
+       */
+      type: 'aba';
+    }
+
+    export interface UnionMember3 {
       /**
        * Wallet address on the specified blockchain.
        */
