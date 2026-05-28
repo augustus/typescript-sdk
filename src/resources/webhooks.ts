@@ -1407,6 +1407,8 @@ export namespace DepositReceivedWebhookEvent {
       | 'swift'
       | 'internal'
       | 'target'
+      | 'ach'
+      | 'fedwire'
       | 'eth'
       | 'eth_sepolia'
       | 'sol'
