@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.13.0 (2026-06-08)
+
+Full Changelog: [v0.12.1...v0.13.0](https://github.com/getivy/typescript-sdk/compare/v0.12.1...v0.13.0)
+
+### Features
+
+* **api:** api update ([2890bd7](https://github.com/getivy/typescript-sdk/commit/2890bd7465407b9ea8321fedc2c4321f4a7588da))
+* **api:** api update ([2323eaf](https://github.com/getivy/typescript-sdk/commit/2323eafb7d33266327606c1c56d7225266519a01))
+* **api:** api update ([580a0a2](https://github.com/getivy/typescript-sdk/commit/580a0a218aa87d8cf78984af05f817970febab2d))
+* **api:** api update ([5562b04](https://github.com/getivy/typescript-sdk/commit/5562b047da483cce8ff6b780069decec7574ba46))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([9c878d9](https://github.com/getivy/typescript-sdk/commit/9c878d95adc86913703bf8dce0e25fd9478037d6))
+
+
+### Chores
+
+* **internal:** codegen related update ([37228a6](https://github.com/getivy/typescript-sdk/commit/37228a6ef7a8ddf6f787a761162e287671292590))
+* **tests:** remove redundant File import ([e4977b1](https://github.com/getivy/typescript-sdk/commit/e4977b1531f8b73f532a196e61e1d709709e9b44))
+
 ## 0.12.1 (2026-05-13)
 
 Full Changelog: [v0.12.0...v0.12.1](https://github.com/getivy/typescript-sdk/compare/v0.12.0...v0.12.1)
