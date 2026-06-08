@@ -196,7 +196,7 @@ export namespace AccountCreateResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -339,7 +339,7 @@ export namespace AccountRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -482,7 +482,7 @@ export namespace AccountListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -625,7 +625,7 @@ export namespace AccountCloseResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -768,7 +768,7 @@ export namespace AccountFreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -938,7 +938,7 @@ export namespace AccountUnfreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.

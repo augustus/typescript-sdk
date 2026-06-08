@@ -194,7 +194,7 @@ export namespace DepositRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.
@@ -370,7 +370,7 @@ export namespace DepositListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.

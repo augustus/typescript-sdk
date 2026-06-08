@@ -176,7 +176,7 @@ export namespace PayoutCreateResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -361,7 +361,7 @@ export namespace PayoutRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -546,7 +546,7 @@ export namespace PayoutListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -706,7 +706,7 @@ export namespace PayoutCreateParams {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
