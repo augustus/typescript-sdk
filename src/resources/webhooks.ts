@@ -187,7 +187,7 @@ export namespace PayoutCreatedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon';
+      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -400,7 +400,7 @@ export namespace PayoutInitiatedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon';
+      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -613,7 +613,7 @@ export namespace PayoutPaidWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon';
+      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -826,7 +826,7 @@ export namespace PayoutFailedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon';
+      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -1524,7 +1524,7 @@ export namespace DepositReceivedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon';
+      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet source.
