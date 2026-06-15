@@ -51,7 +51,7 @@ export interface DepositRetrieveResponse {
   /**
    * Supported fiat or crypto currency code for the deposit amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * ID of the merchant account that received the deposit.
@@ -75,6 +75,8 @@ export interface DepositRetrieveResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'btc'
+    | 'btc_testnet4'
     | 'eth'
     | 'eth_sepolia'
     | 'sol'
@@ -194,7 +196,15 @@ export namespace DepositRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.
@@ -227,7 +237,7 @@ export interface DepositListResponse {
   /**
    * Supported fiat or crypto currency code for the deposit amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * ID of the merchant account that received the deposit.
@@ -251,6 +261,8 @@ export interface DepositListResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'btc'
+    | 'btc_testnet4'
     | 'eth'
     | 'eth_sepolia'
     | 'sol'
@@ -370,7 +382,15 @@ export namespace DepositListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.

@@ -53,7 +53,7 @@ export interface PayoutCreateResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -176,7 +176,15 @@ export namespace PayoutCreateResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -238,7 +246,7 @@ export interface PayoutRetrieveResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -361,7 +369,15 @@ export namespace PayoutRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -423,7 +439,7 @@ export interface PayoutListResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -546,7 +562,15 @@ export namespace PayoutListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -598,7 +622,7 @@ export interface PayoutCreateParams {
   /**
    * Currency for the payout.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Bank account or crypto wallet to send funds to.
@@ -706,7 +730,15 @@ export namespace PayoutCreateParams {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -722,7 +754,7 @@ export interface PayoutListParams extends CursorPageParams {
    * Filter to these currency codes. Use a separate `currencies` query parameter for
    * each value (e.g. `?currencies=EUR&currencies=USD`).
    */
-  currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC'>;
+  currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC'>;
 
   /**
    * Filter by payout status.

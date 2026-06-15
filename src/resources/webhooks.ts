@@ -68,7 +68,7 @@ export namespace PayoutCreatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -187,7 +187,15 @@ export namespace PayoutCreatedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -281,7 +289,7 @@ export namespace PayoutInitiatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -400,7 +408,15 @@ export namespace PayoutInitiatedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -494,7 +510,7 @@ export namespace PayoutPaidWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -613,7 +629,15 @@ export namespace PayoutPaidWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -707,7 +731,7 @@ export namespace PayoutFailedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -826,7 +850,15 @@ export namespace PayoutFailedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet financial address.
@@ -920,7 +952,7 @@ export namespace ReturnInitiatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * ID of the parent deposit.
@@ -1035,7 +1067,7 @@ export namespace ReturnPaidWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * ID of the parent deposit.
@@ -1150,7 +1182,7 @@ export namespace ReturnFailedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * ID of the parent deposit.
@@ -1265,7 +1297,7 @@ export namespace ReturnReturnedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * ID of the parent deposit.
@@ -1385,7 +1417,7 @@ export namespace DepositReceivedWebhookEvent {
     /**
      * Supported fiat or crypto currency code for the deposit amount.
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * ID of the merchant account that received the deposit.
@@ -1409,6 +1441,8 @@ export namespace DepositReceivedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'btc'
+      | 'btc_testnet4'
       | 'eth'
       | 'eth_sepolia'
       | 'sol'
@@ -1524,7 +1558,15 @@ export namespace DepositReceivedWebhookEvent {
       /**
        * Blockchain network for the crypto wallet.
        */
-      blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
 
       /**
        * Discriminator for crypto wallet source.
@@ -1609,7 +1651,7 @@ export namespace ConversionCreatedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Current status of the conversion.
@@ -1624,7 +1666,7 @@ export namespace ConversionCreatedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Resource type discriminator.
@@ -1725,7 +1767,7 @@ export namespace ConversionCompletedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Current status of the conversion.
@@ -1740,7 +1782,7 @@ export namespace ConversionCompletedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Resource type discriminator.
@@ -1841,7 +1883,7 @@ export namespace ConversionFailedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Current status of the conversion.
@@ -1856,7 +1898,7 @@ export namespace ConversionFailedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
     /**
      * Resource type discriminator.

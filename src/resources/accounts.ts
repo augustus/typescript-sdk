@@ -86,7 +86,7 @@ export interface AccountCreateResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -196,7 +196,15 @@ export namespace AccountCreateResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -229,7 +237,7 @@ export interface AccountRetrieveResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -339,7 +347,15 @@ export namespace AccountRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -372,7 +388,7 @@ export interface AccountListResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -482,7 +498,15 @@ export namespace AccountListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -515,7 +539,7 @@ export interface AccountCloseResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -625,7 +649,15 @@ export namespace AccountCloseResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -658,7 +690,7 @@ export interface AccountFreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -768,7 +800,15 @@ export namespace AccountFreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -796,7 +836,7 @@ export interface AccountRetrieveBalanceResponse {
   /**
    * ISO 4217 currency code for the balance.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Resource type discriminator.
@@ -828,7 +868,7 @@ export interface AccountUnfreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -938,7 +978,15 @@ export namespace AccountUnfreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
