@@ -57,7 +57,15 @@ export {
   type PayoutListResponsesCursorPage,
 } from './payouts';
 export { Quotes, type QuoteRetrieveResponse } from './quotes/quotes';
-export { Returns, type ReturnRetrieveResponse } from './returns';
+export {
+  Returns,
+  type ReturnCreateResponse,
+  type ReturnRetrieveResponse,
+  type ReturnListResponse,
+  type ReturnCreateParams,
+  type ReturnListParams,
+  type ReturnListResponsesCursorPage,
+} from './returns';
 export { Scopes, type ScopeListResponse } from './scopes';
 export {
   WebhookDeliveries,
