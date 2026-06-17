@@ -86,17 +86,17 @@ export interface AccountCreateResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountCreateResponse.UnionMember0
-    | AccountCreateResponse.UnionMember1
-    | AccountCreateResponse.UnionMember2
-    | AccountCreateResponse.UnionMember3
+    | AccountCreateResponse.IbanFinancialAddress
+    | AccountCreateResponse.SortCodeFinancialAddress
+    | AccountCreateResponse.AbaFinancialAddress
+    | AccountCreateResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -121,7 +121,7 @@ export interface AccountCreateResponse {
 }
 
 export namespace AccountCreateResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -143,7 +143,7 @@ export namespace AccountCreateResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -165,7 +165,7 @@ export namespace AccountCreateResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -187,7 +187,7 @@ export namespace AccountCreateResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -196,7 +196,15 @@ export namespace AccountCreateResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -229,17 +237,17 @@ export interface AccountRetrieveResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountRetrieveResponse.UnionMember0
-    | AccountRetrieveResponse.UnionMember1
-    | AccountRetrieveResponse.UnionMember2
-    | AccountRetrieveResponse.UnionMember3
+    | AccountRetrieveResponse.IbanFinancialAddress
+    | AccountRetrieveResponse.SortCodeFinancialAddress
+    | AccountRetrieveResponse.AbaFinancialAddress
+    | AccountRetrieveResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -264,7 +272,7 @@ export interface AccountRetrieveResponse {
 }
 
 export namespace AccountRetrieveResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -286,7 +294,7 @@ export namespace AccountRetrieveResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -308,7 +316,7 @@ export namespace AccountRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -330,7 +338,7 @@ export namespace AccountRetrieveResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -339,7 +347,15 @@ export namespace AccountRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -372,17 +388,17 @@ export interface AccountListResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountListResponse.UnionMember0
-    | AccountListResponse.UnionMember1
-    | AccountListResponse.UnionMember2
-    | AccountListResponse.UnionMember3
+    | AccountListResponse.IbanFinancialAddress
+    | AccountListResponse.SortCodeFinancialAddress
+    | AccountListResponse.AbaFinancialAddress
+    | AccountListResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -407,7 +423,7 @@ export interface AccountListResponse {
 }
 
 export namespace AccountListResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -429,7 +445,7 @@ export namespace AccountListResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -451,7 +467,7 @@ export namespace AccountListResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -473,7 +489,7 @@ export namespace AccountListResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -482,7 +498,15 @@ export namespace AccountListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -515,17 +539,17 @@ export interface AccountCloseResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountCloseResponse.UnionMember0
-    | AccountCloseResponse.UnionMember1
-    | AccountCloseResponse.UnionMember2
-    | AccountCloseResponse.UnionMember3
+    | AccountCloseResponse.IbanFinancialAddress
+    | AccountCloseResponse.SortCodeFinancialAddress
+    | AccountCloseResponse.AbaFinancialAddress
+    | AccountCloseResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -550,7 +574,7 @@ export interface AccountCloseResponse {
 }
 
 export namespace AccountCloseResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -572,7 +596,7 @@ export namespace AccountCloseResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -594,7 +618,7 @@ export namespace AccountCloseResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -616,7 +640,7 @@ export namespace AccountCloseResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -625,7 +649,15 @@ export namespace AccountCloseResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -658,17 +690,17 @@ export interface AccountFreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountFreezeResponse.UnionMember0
-    | AccountFreezeResponse.UnionMember1
-    | AccountFreezeResponse.UnionMember2
-    | AccountFreezeResponse.UnionMember3
+    | AccountFreezeResponse.IbanFinancialAddress
+    | AccountFreezeResponse.SortCodeFinancialAddress
+    | AccountFreezeResponse.AbaFinancialAddress
+    | AccountFreezeResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -693,7 +725,7 @@ export interface AccountFreezeResponse {
 }
 
 export namespace AccountFreezeResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -715,7 +747,7 @@ export namespace AccountFreezeResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -737,7 +769,7 @@ export namespace AccountFreezeResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -759,7 +791,7 @@ export namespace AccountFreezeResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -768,7 +800,15 @@ export namespace AccountFreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -796,7 +836,7 @@ export interface AccountRetrieveBalanceResponse {
   /**
    * ISO 4217 currency code for the balance.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Resource type discriminator.
@@ -828,17 +868,17 @@ export interface AccountUnfreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountUnfreezeResponse.UnionMember0
-    | AccountUnfreezeResponse.UnionMember1
-    | AccountUnfreezeResponse.UnionMember2
-    | AccountUnfreezeResponse.UnionMember3
+    | AccountUnfreezeResponse.IbanFinancialAddress
+    | AccountUnfreezeResponse.SortCodeFinancialAddress
+    | AccountUnfreezeResponse.AbaFinancialAddress
+    | AccountUnfreezeResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -863,7 +903,7 @@ export interface AccountUnfreezeResponse {
 }
 
 export namespace AccountUnfreezeResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -885,7 +925,7 @@ export namespace AccountUnfreezeResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -907,7 +947,7 @@ export namespace AccountUnfreezeResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -929,7 +969,7 @@ export namespace AccountUnfreezeResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -938,7 +978,15 @@ export namespace AccountUnfreezeResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet financial address.
@@ -961,283 +1009,26 @@ export interface AccountCreateParams {
   /**
    * Personal information of the account beneficiary.
    */
-  beneficiary_data: AccountCreateParams.BeneficiaryData;
+  beneficiary_data: AccountCreateParams.UsBeneficiaryData | AccountCreateParams.NonUsBeneficiaryData;
 }
 
 export namespace AccountCreateParams {
-  /**
-   * Personal information of the account beneficiary.
-   */
-  export interface BeneficiaryData {
+  export interface UsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
-    country_of_citizenship:
-      | 'AF'
-      | 'AL'
-      | 'DZ'
-      | 'AS'
-      | 'AD'
-      | 'AO'
-      | 'AI'
-      | 'AQ'
-      | 'AG'
-      | 'AR'
-      | 'AM'
-      | 'AW'
-      | 'AU'
-      | 'AT'
-      | 'AZ'
-      | 'BS'
-      | 'BH'
-      | 'BD'
-      | 'BB'
-      | 'BY'
-      | 'BE'
-      | 'BZ'
-      | 'BJ'
-      | 'BM'
-      | 'BT'
-      | 'BO'
-      | 'BA'
-      | 'BW'
-      | 'BV'
-      | 'BR'
-      | 'IO'
-      | 'BN'
-      | 'BG'
-      | 'BF'
-      | 'BI'
-      | 'KH'
-      | 'CM'
-      | 'CA'
-      | 'CV'
-      | 'KY'
-      | 'CF'
-      | 'TD'
-      | 'CL'
-      | 'CN'
-      | 'CX'
-      | 'CC'
-      | 'CO'
-      | 'KM'
-      | 'CG'
-      | 'CD'
-      | 'CK'
-      | 'CR'
-      | 'CI'
-      | 'HR'
-      | 'CU'
-      | 'CY'
-      | 'CZ'
-      | 'DK'
-      | 'DJ'
-      | 'DM'
-      | 'DO'
-      | 'EC'
-      | 'EG'
-      | 'SV'
-      | 'GQ'
-      | 'ER'
-      | 'EE'
-      | 'ET'
-      | 'FK'
-      | 'FO'
-      | 'FJ'
-      | 'FI'
-      | 'FR'
-      | 'GF'
-      | 'PF'
-      | 'TF'
-      | 'GA'
-      | 'GM'
-      | 'GE'
-      | 'DE'
-      | 'GH'
-      | 'GI'
-      | 'GR'
-      | 'GL'
-      | 'GD'
-      | 'GP'
-      | 'GU'
-      | 'GT'
-      | 'GN'
-      | 'GW'
-      | 'GY'
-      | 'HT'
-      | 'HM'
-      | 'VA'
-      | 'HN'
-      | 'HK'
-      | 'HU'
-      | 'IS'
-      | 'IN'
-      | 'ID'
-      | 'IR'
-      | 'IQ'
-      | 'IE'
-      | 'IL'
-      | 'IT'
-      | 'JM'
-      | 'JP'
-      | 'JO'
-      | 'KZ'
-      | 'KE'
-      | 'KI'
-      | 'KP'
-      | 'KR'
-      | 'KW'
-      | 'KG'
-      | 'LA'
-      | 'LV'
-      | 'LB'
-      | 'LS'
-      | 'LR'
-      | 'LY'
-      | 'LI'
-      | 'LT'
-      | 'LU'
-      | 'MO'
-      | 'MG'
-      | 'MW'
-      | 'MY'
-      | 'MV'
-      | 'ML'
-      | 'MT'
-      | 'MH'
-      | 'MQ'
-      | 'MR'
-      | 'MU'
-      | 'YT'
-      | 'MX'
-      | 'FM'
-      | 'MD'
-      | 'MC'
-      | 'MN'
-      | 'MS'
-      | 'MA'
-      | 'MZ'
-      | 'MM'
-      | 'NA'
-      | 'NR'
-      | 'NP'
-      | 'NL'
-      | 'NC'
-      | 'NZ'
-      | 'NI'
-      | 'NE'
-      | 'NG'
-      | 'NU'
-      | 'NF'
-      | 'MP'
-      | 'MK'
-      | 'NO'
-      | 'OM'
-      | 'PK'
-      | 'PW'
-      | 'PS'
-      | 'PA'
-      | 'PG'
-      | 'PY'
-      | 'PE'
-      | 'PH'
-      | 'PN'
-      | 'PL'
-      | 'PT'
-      | 'PR'
-      | 'QA'
-      | 'RE'
-      | 'RO'
-      | 'RU'
-      | 'RW'
-      | 'SH'
-      | 'KN'
-      | 'LC'
-      | 'PM'
-      | 'VC'
-      | 'WS'
-      | 'SM'
-      | 'ST'
-      | 'SA'
-      | 'SN'
-      | 'SC'
-      | 'SL'
-      | 'SG'
-      | 'SK'
-      | 'SI'
-      | 'SB'
-      | 'SO'
-      | 'ZA'
-      | 'GS'
-      | 'ES'
-      | 'LK'
-      | 'SD'
-      | 'SR'
-      | 'SJ'
-      | 'SZ'
-      | 'SE'
-      | 'CH'
-      | 'SY'
-      | 'TW'
-      | 'TJ'
-      | 'TZ'
-      | 'TH'
-      | 'TL'
-      | 'TG'
-      | 'TK'
-      | 'TO'
-      | 'TT'
-      | 'TN'
-      | 'TR'
-      | 'TM'
-      | 'TC'
-      | 'TV'
-      | 'UG'
-      | 'UA'
-      | 'AE'
-      | 'GB'
-      | 'US'
-      | 'UM'
-      | 'UY'
-      | 'UZ'
-      | 'VU'
-      | 'VE'
-      | 'VN'
-      | 'VG'
-      | 'VI'
-      | 'WF'
-      | 'EH'
-      | 'YE'
-      | 'ZM'
-      | 'ZW'
-      | 'AX'
-      | 'BQ'
-      | 'CW'
-      | 'GG'
-      | 'IM'
-      | 'JE'
-      | 'ME'
-      | 'BL'
-      | 'MF'
-      | 'RS'
-      | 'SX'
-      | 'SS'
-      | 'XK';
+    country_of_citizenship: 'US';
 
     /**
-     * Date of birth in YYYY-MM-DD (UTC) format.
+     * Date of birth as an ISO 8601 calendar date (YYYY-MM-DD).
      */
     date_of_birth: string;
 
     /**
-     * Government-issued identification. Discriminated union with type: "id" (generic
-     * ID), "ssn" (Social Security Number, format ###-##-####), or "itin" (Individual
-     * Taxpayer ID, format 9##-##-####).
+     * Government-issued identification with type: "ssn" (Social Security Number,
+     * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
-    identification:
-      | BeneficiaryData.UnionMember0
-      | BeneficiaryData.UnionMember1
-      | BeneficiaryData.UnionMember2;
+    identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -1247,32 +1038,55 @@ export namespace AccountCreateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: BeneficiaryData.ResidentialAddress;
+    residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
   }
 
-  export namespace BeneficiaryData {
-    export interface UnionMember0 {
-      type: 'id';
-
-      value: string;
-    }
-
-    export interface UnionMember1 {
+  export namespace UsBeneficiaryData {
+    export interface SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface UnionMember2 {
+    export interface ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    /**
-     * Residential address of the account holder.
-     */
-    export interface ResidentialAddress {
+    export interface UsResidentialAddress {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country: 'US';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Two-letter state code.
+       */
+      state: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
+
+      /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+
+    export interface NonUsResidentialAddress {
       /**
        * City name.
        */
@@ -1505,7 +1319,6 @@ export namespace AccountCreateParams {
         | 'UA'
         | 'AE'
         | 'GB'
-        | 'US'
         | 'UM'
         | 'UY'
         | 'UZ'
@@ -1544,9 +1357,601 @@ export namespace AccountCreateParams {
       street_line_1: string;
 
       /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+  }
+
+  export interface NonUsBeneficiaryData {
+    /**
+     * ISO 3166-1 alpha-2 country code of citizenship.
+     */
+    country_of_citizenship:
+      | 'AF'
+      | 'AL'
+      | 'DZ'
+      | 'AS'
+      | 'AD'
+      | 'AO'
+      | 'AI'
+      | 'AQ'
+      | 'AG'
+      | 'AR'
+      | 'AM'
+      | 'AW'
+      | 'AU'
+      | 'AT'
+      | 'AZ'
+      | 'BS'
+      | 'BH'
+      | 'BD'
+      | 'BB'
+      | 'BY'
+      | 'BE'
+      | 'BZ'
+      | 'BJ'
+      | 'BM'
+      | 'BT'
+      | 'BO'
+      | 'BA'
+      | 'BW'
+      | 'BV'
+      | 'BR'
+      | 'IO'
+      | 'BN'
+      | 'BG'
+      | 'BF'
+      | 'BI'
+      | 'KH'
+      | 'CM'
+      | 'CA'
+      | 'CV'
+      | 'KY'
+      | 'CF'
+      | 'TD'
+      | 'CL'
+      | 'CN'
+      | 'CX'
+      | 'CC'
+      | 'CO'
+      | 'KM'
+      | 'CG'
+      | 'CD'
+      | 'CK'
+      | 'CR'
+      | 'CI'
+      | 'HR'
+      | 'CU'
+      | 'CY'
+      | 'CZ'
+      | 'DK'
+      | 'DJ'
+      | 'DM'
+      | 'DO'
+      | 'EC'
+      | 'EG'
+      | 'SV'
+      | 'GQ'
+      | 'ER'
+      | 'EE'
+      | 'ET'
+      | 'FK'
+      | 'FO'
+      | 'FJ'
+      | 'FI'
+      | 'FR'
+      | 'GF'
+      | 'PF'
+      | 'TF'
+      | 'GA'
+      | 'GM'
+      | 'GE'
+      | 'DE'
+      | 'GH'
+      | 'GI'
+      | 'GR'
+      | 'GL'
+      | 'GD'
+      | 'GP'
+      | 'GU'
+      | 'GT'
+      | 'GN'
+      | 'GW'
+      | 'GY'
+      | 'HT'
+      | 'HM'
+      | 'VA'
+      | 'HN'
+      | 'HK'
+      | 'HU'
+      | 'IS'
+      | 'IN'
+      | 'ID'
+      | 'IR'
+      | 'IQ'
+      | 'IE'
+      | 'IL'
+      | 'IT'
+      | 'JM'
+      | 'JP'
+      | 'JO'
+      | 'KZ'
+      | 'KE'
+      | 'KI'
+      | 'KP'
+      | 'KR'
+      | 'KW'
+      | 'KG'
+      | 'LA'
+      | 'LV'
+      | 'LB'
+      | 'LS'
+      | 'LR'
+      | 'LY'
+      | 'LI'
+      | 'LT'
+      | 'LU'
+      | 'MO'
+      | 'MG'
+      | 'MW'
+      | 'MY'
+      | 'MV'
+      | 'ML'
+      | 'MT'
+      | 'MH'
+      | 'MQ'
+      | 'MR'
+      | 'MU'
+      | 'YT'
+      | 'MX'
+      | 'FM'
+      | 'MD'
+      | 'MC'
+      | 'MN'
+      | 'MS'
+      | 'MA'
+      | 'MZ'
+      | 'MM'
+      | 'NA'
+      | 'NR'
+      | 'NP'
+      | 'NL'
+      | 'NC'
+      | 'NZ'
+      | 'NI'
+      | 'NE'
+      | 'NG'
+      | 'NU'
+      | 'NF'
+      | 'MP'
+      | 'MK'
+      | 'NO'
+      | 'OM'
+      | 'PK'
+      | 'PW'
+      | 'PS'
+      | 'PA'
+      | 'PG'
+      | 'PY'
+      | 'PE'
+      | 'PH'
+      | 'PN'
+      | 'PL'
+      | 'PT'
+      | 'PR'
+      | 'QA'
+      | 'RE'
+      | 'RO'
+      | 'RU'
+      | 'RW'
+      | 'SH'
+      | 'KN'
+      | 'LC'
+      | 'PM'
+      | 'VC'
+      | 'WS'
+      | 'SM'
+      | 'ST'
+      | 'SA'
+      | 'SN'
+      | 'SC'
+      | 'SL'
+      | 'SG'
+      | 'SK'
+      | 'SI'
+      | 'SB'
+      | 'SO'
+      | 'ZA'
+      | 'GS'
+      | 'ES'
+      | 'LK'
+      | 'SD'
+      | 'SR'
+      | 'SJ'
+      | 'SZ'
+      | 'SE'
+      | 'CH'
+      | 'SY'
+      | 'TW'
+      | 'TJ'
+      | 'TZ'
+      | 'TH'
+      | 'TL'
+      | 'TG'
+      | 'TK'
+      | 'TO'
+      | 'TT'
+      | 'TN'
+      | 'TR'
+      | 'TM'
+      | 'TC'
+      | 'TV'
+      | 'UG'
+      | 'UA'
+      | 'AE'
+      | 'GB'
+      | 'UM'
+      | 'UY'
+      | 'UZ'
+      | 'VU'
+      | 'VE'
+      | 'VN'
+      | 'VG'
+      | 'VI'
+      | 'WF'
+      | 'EH'
+      | 'YE'
+      | 'ZM'
+      | 'ZW'
+      | 'AX'
+      | 'BQ'
+      | 'CW'
+      | 'GG'
+      | 'IM'
+      | 'JE'
+      | 'ME'
+      | 'BL'
+      | 'MF'
+      | 'RS'
+      | 'SX'
+      | 'SS'
+      | 'XK';
+
+    /**
+     * Date of birth as an ISO 8601 calendar date (YYYY-MM-DD).
+     */
+    date_of_birth: string;
+
+    /**
+     * Government-issued identification with type: "id" (generic government-issued ID).
+     */
+    identification: NonUsBeneficiaryData.Identification;
+
+    /**
+     * Full legal name of the account holder.
+     */
+    legal_name: string;
+
+    /**
+     * Residential address of the account holder.
+     */
+    residential_address:
+      | NonUsBeneficiaryData.UsResidentialAddress
+      | NonUsBeneficiaryData.NonUsResidentialAddress;
+  }
+
+  export namespace NonUsBeneficiaryData {
+    /**
+     * Government-issued identification with type: "id" (generic government-issued ID).
+     */
+    export interface Identification {
+      type: 'id';
+
+      value: string;
+    }
+
+    export interface UsResidentialAddress {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country: 'US';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
        * Two-letter state code.
        */
-      state?: string;
+      state: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
+
+      /**
+       * Secondary street address (apartment, suite, etc.).
+       */
+      street_line_2?: string;
+    }
+
+    export interface NonUsResidentialAddress {
+      /**
+       * City name.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Primary street address.
+       */
+      street_line_1: string;
 
       /**
        * Secondary street address (apartment, suite, etc.).

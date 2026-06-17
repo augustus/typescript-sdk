@@ -51,7 +51,7 @@ export interface DepositRetrieveResponse {
   /**
    * Supported fiat or crypto currency code for the deposit amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * ID of the merchant account that received the deposit.
@@ -73,6 +73,10 @@ export interface DepositRetrieveResponse {
     | 'swift'
     | 'internal'
     | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'btc'
+    | 'btc_testnet4'
     | 'eth'
     | 'eth_sepolia'
     | 'sol'
@@ -92,7 +96,8 @@ export interface DepositRetrieveResponse {
   source:
     | DepositRetrieveResponse.UnionMember0
     | DepositRetrieveResponse.UnionMember1
-    | DepositRetrieveResponse.UnionMember2;
+    | DepositRetrieveResponse.UnionMember2
+    | DepositRetrieveResponse.UnionMember3;
 
   /**
    * Current status of the deposit.
@@ -162,6 +167,28 @@ export namespace DepositRetrieveResponse {
 
   export interface UnionMember2 {
     /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire source.
+     */
+    type: 'aba';
+  }
+
+  export interface UnionMember3 {
+    /**
      * Wallet address on the specified blockchain.
      */
     address: string;
@@ -169,7 +196,15 @@ export namespace DepositRetrieveResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.
@@ -202,7 +237,7 @@ export interface DepositListResponse {
   /**
    * Supported fiat or crypto currency code for the deposit amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * ID of the merchant account that received the deposit.
@@ -224,6 +259,10 @@ export interface DepositListResponse {
     | 'swift'
     | 'internal'
     | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'btc'
+    | 'btc_testnet4'
     | 'eth'
     | 'eth_sepolia'
     | 'sol'
@@ -243,7 +282,8 @@ export interface DepositListResponse {
   source:
     | DepositListResponse.UnionMember0
     | DepositListResponse.UnionMember1
-    | DepositListResponse.UnionMember2;
+    | DepositListResponse.UnionMember2
+    | DepositListResponse.UnionMember3;
 
   /**
    * Current status of the deposit.
@@ -313,6 +353,28 @@ export namespace DepositListResponse {
 
   export interface UnionMember2 {
     /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire source.
+     */
+    type: 'aba';
+  }
+
+  export interface UnionMember3 {
+    /**
      * Wallet address on the specified blockchain.
      */
     address: string;
@@ -320,7 +382,15 @@ export namespace DepositListResponse {
     /**
      * Blockchain network for the crypto wallet.
      */
-    blockchain: 'ethereum' | 'solana' | 'polygon';
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
 
     /**
      * Discriminator for crypto wallet source.
