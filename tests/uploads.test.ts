@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from '@augustusbank/typescript-sdk/internal/to-file';
 import { toFile } from '@augustusbank/typescript-sdk/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';

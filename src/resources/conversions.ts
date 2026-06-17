@@ -81,7 +81,7 @@ export interface ConversionCreateResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Current status of the conversion.
@@ -96,7 +96,7 @@ export interface ConversionCreateResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Resource type discriminator.
@@ -165,7 +165,7 @@ export interface ConversionRetrieveResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Current status of the conversion.
@@ -180,7 +180,7 @@ export interface ConversionRetrieveResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Resource type discriminator.
@@ -249,7 +249,7 @@ export interface ConversionListResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Current status of the conversion.
@@ -264,7 +264,7 @@ export interface ConversionListResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Resource type discriminator.
@@ -315,7 +315,7 @@ export interface ConversionListParams extends CursorPageParams {
   /**
    * Filter by source currency code.
    */
-  source_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  source_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 
   /**
    * Filter by conversion status.
@@ -325,7 +325,7 @@ export interface ConversionListParams extends CursorPageParams {
   /**
    * Filter by target currency code.
    */
-  target_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
 }
 
 export declare namespace Conversions {
