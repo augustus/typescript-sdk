@@ -2,8 +2,6 @@
 
 set -eux
 
-npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
-
 yarn build
 cd dist
 
@@ -57,5 +55,9 @@ else
   TAG="latest"
 fi
 
+# Install OIDC compatible npm version
+npm install --prefix ../oidc/ npm@11.6.2
+
 # Publish with the appropriate tag
-yarn publish --tag "$TAG"
+export npm_config_registry='https://registry.npmjs.org'
+../oidc/node_modules/.bin/npm publish --tag "$TAG"
