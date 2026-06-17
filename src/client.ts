@@ -75,7 +75,15 @@ import {
   PayoutRetrieveResponse,
   Payouts,
 } from './resources/payouts';
-import { ReturnRetrieveResponse, Returns } from './resources/returns';
+import {
+  ReturnCreateParams,
+  ReturnCreateResponse,
+  ReturnListParams,
+  ReturnListResponse,
+  ReturnListResponsesCursorPage,
+  ReturnRetrieveResponse,
+  Returns,
+} from './resources/returns';
 import { ScopeListResponse, Scopes } from './resources/scopes';
 import {
   WebhookDeliveries,
@@ -1014,7 +1022,15 @@ export declare namespace Augustus {
     type AccountProgramListParams as AccountProgramListParams,
   };
 
-  export { Returns as Returns, type ReturnRetrieveResponse as ReturnRetrieveResponse };
+  export {
+    Returns as Returns,
+    type ReturnCreateResponse as ReturnCreateResponse,
+    type ReturnRetrieveResponse as ReturnRetrieveResponse,
+    type ReturnListResponse as ReturnListResponse,
+    type ReturnListResponsesCursorPage as ReturnListResponsesCursorPage,
+    type ReturnCreateParams as ReturnCreateParams,
+    type ReturnListParams as ReturnListParams,
+  };
 
   export {
     WebhookSubscriptions as WebhookSubscriptions,

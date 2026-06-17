@@ -121,11 +121,15 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/returns.ts">ReturnCreateResponse</a></code>
 - <code><a href="./src/resources/returns.ts">ReturnRetrieveResponse</a></code>
+- <code><a href="./src/resources/returns.ts">ReturnListResponse</a></code>
 
 Methods:
 
+- <code title="post /v1/returns">client.returns.<a href="./src/resources/returns.ts">create</a>({ ...params }) -> ReturnCreateResponse</code>
 - <code title="get /v1/returns/{id}">client.returns.<a href="./src/resources/returns.ts">retrieve</a>(id) -> ReturnRetrieveResponse</code>
+- <code title="get /v1/returns">client.returns.<a href="./src/resources/returns.ts">list</a>({ ...params }) -> ReturnListResponsesCursorPage</code>
 
 # WebhookSubscriptions
 
