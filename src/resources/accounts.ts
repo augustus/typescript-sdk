@@ -93,10 +93,10 @@ export interface AccountCreateResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountCreateResponse.UnionMember0
-    | AccountCreateResponse.UnionMember1
-    | AccountCreateResponse.UnionMember2
-    | AccountCreateResponse.UnionMember3
+    | AccountCreateResponse.IbanFinancialAddress
+    | AccountCreateResponse.SortCodeFinancialAddress
+    | AccountCreateResponse.AbaFinancialAddress
+    | AccountCreateResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -121,7 +121,7 @@ export interface AccountCreateResponse {
 }
 
 export namespace AccountCreateResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -143,7 +143,7 @@ export namespace AccountCreateResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -165,7 +165,7 @@ export namespace AccountCreateResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -187,7 +187,7 @@ export namespace AccountCreateResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -244,10 +244,10 @@ export interface AccountRetrieveResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountRetrieveResponse.UnionMember0
-    | AccountRetrieveResponse.UnionMember1
-    | AccountRetrieveResponse.UnionMember2
-    | AccountRetrieveResponse.UnionMember3
+    | AccountRetrieveResponse.IbanFinancialAddress
+    | AccountRetrieveResponse.SortCodeFinancialAddress
+    | AccountRetrieveResponse.AbaFinancialAddress
+    | AccountRetrieveResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -272,7 +272,7 @@ export interface AccountRetrieveResponse {
 }
 
 export namespace AccountRetrieveResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -294,7 +294,7 @@ export namespace AccountRetrieveResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -316,7 +316,7 @@ export namespace AccountRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -338,7 +338,7 @@ export namespace AccountRetrieveResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -395,10 +395,10 @@ export interface AccountListResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountListResponse.UnionMember0
-    | AccountListResponse.UnionMember1
-    | AccountListResponse.UnionMember2
-    | AccountListResponse.UnionMember3
+    | AccountListResponse.IbanFinancialAddress
+    | AccountListResponse.SortCodeFinancialAddress
+    | AccountListResponse.AbaFinancialAddress
+    | AccountListResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -423,7 +423,7 @@ export interface AccountListResponse {
 }
 
 export namespace AccountListResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -445,7 +445,7 @@ export namespace AccountListResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -467,7 +467,7 @@ export namespace AccountListResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -489,7 +489,7 @@ export namespace AccountListResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -546,10 +546,10 @@ export interface AccountCloseResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountCloseResponse.UnionMember0
-    | AccountCloseResponse.UnionMember1
-    | AccountCloseResponse.UnionMember2
-    | AccountCloseResponse.UnionMember3
+    | AccountCloseResponse.IbanFinancialAddress
+    | AccountCloseResponse.SortCodeFinancialAddress
+    | AccountCloseResponse.AbaFinancialAddress
+    | AccountCloseResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -574,7 +574,7 @@ export interface AccountCloseResponse {
 }
 
 export namespace AccountCloseResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -596,7 +596,7 @@ export namespace AccountCloseResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -618,7 +618,7 @@ export namespace AccountCloseResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -640,7 +640,7 @@ export namespace AccountCloseResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -697,10 +697,10 @@ export interface AccountFreezeResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountFreezeResponse.UnionMember0
-    | AccountFreezeResponse.UnionMember1
-    | AccountFreezeResponse.UnionMember2
-    | AccountFreezeResponse.UnionMember3
+    | AccountFreezeResponse.IbanFinancialAddress
+    | AccountFreezeResponse.SortCodeFinancialAddress
+    | AccountFreezeResponse.AbaFinancialAddress
+    | AccountFreezeResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -725,7 +725,7 @@ export interface AccountFreezeResponse {
 }
 
 export namespace AccountFreezeResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -747,7 +747,7 @@ export namespace AccountFreezeResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -769,7 +769,7 @@ export namespace AccountFreezeResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -791,7 +791,7 @@ export namespace AccountFreezeResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -875,10 +875,10 @@ export interface AccountUnfreezeResponse {
    * this account can send or receive funds.
    */
   financial_addresses: Array<
-    | AccountUnfreezeResponse.UnionMember0
-    | AccountUnfreezeResponse.UnionMember1
-    | AccountUnfreezeResponse.UnionMember2
-    | AccountUnfreezeResponse.UnionMember3
+    | AccountUnfreezeResponse.IbanFinancialAddress
+    | AccountUnfreezeResponse.SortCodeFinancialAddress
+    | AccountUnfreezeResponse.AbaFinancialAddress
+    | AccountUnfreezeResponse.CryptoWalletFinancialAddress
   >;
 
   /**
@@ -903,7 +903,7 @@ export interface AccountUnfreezeResponse {
 }
 
 export namespace AccountUnfreezeResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -925,7 +925,7 @@ export namespace AccountUnfreezeResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -947,7 +947,7 @@ export namespace AccountUnfreezeResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -969,7 +969,7 @@ export namespace AccountUnfreezeResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -1009,11 +1009,11 @@ export interface AccountCreateParams {
   /**
    * Personal information of the account beneficiary.
    */
-  beneficiary_data: AccountCreateParams.UnionMember0 | AccountCreateParams.UnionMember1;
+  beneficiary_data: AccountCreateParams.UsBeneficiaryData | AccountCreateParams.NonUsBeneficiaryData;
 }
 
 export namespace AccountCreateParams {
-  export interface UnionMember0 {
+  export interface UsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -1028,7 +1028,7 @@ export namespace AccountCreateParams {
      * Government-issued identification with type: "ssn" (Social Security Number,
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
-    identification: UnionMember0.UnionMember0 | UnionMember0.UnionMember1;
+    identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -1038,23 +1038,23 @@ export namespace AccountCreateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: UnionMember0.UnionMember0 | UnionMember0.UnionMember1;
+    residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
   }
 
-  export namespace UnionMember0 {
-    export interface UnionMember0 {
+  export namespace UsBeneficiaryData {
+    export interface SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface UnionMember1 {
+    export interface ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UnionMember0 {
+    export interface UsResidentialAddress {
       /**
        * City name.
        */
@@ -1086,7 +1086,7 @@ export namespace AccountCreateParams {
       street_line_2?: string;
     }
 
-    export interface UnionMember1 {
+    export interface NonUsResidentialAddress {
       /**
        * City name.
        */
@@ -1363,7 +1363,7 @@ export namespace AccountCreateParams {
     }
   }
 
-  export interface UnionMember1 {
+  export interface NonUsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -1626,7 +1626,7 @@ export namespace AccountCreateParams {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: UnionMember1.Identification;
+    identification: NonUsBeneficiaryData.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -1636,10 +1636,12 @@ export namespace AccountCreateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: UnionMember1.UnionMember0 | UnionMember1.UnionMember1;
+    residential_address:
+      | NonUsBeneficiaryData.UsResidentialAddress
+      | NonUsBeneficiaryData.NonUsResidentialAddress;
   }
 
-  export namespace UnionMember1 {
+  export namespace NonUsBeneficiaryData {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -1649,7 +1651,7 @@ export namespace AccountCreateParams {
       value: string;
     }
 
-    export interface UnionMember0 {
+    export interface UsResidentialAddress {
       /**
        * City name.
        */
@@ -1681,7 +1683,7 @@ export namespace AccountCreateParams {
       street_line_2?: string;
     }
 
-    export interface UnionMember1 {
+    export interface NonUsResidentialAddress {
       /**
        * City name.
        */
