@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.0 (2026-06-17)
+
+Full Changelog: [v0.12.1...v0.13.0](https://github.com/augustus/typescript-sdk/compare/v0.12.1...v0.13.0)
+
+### Features
+
+* **api:** manual updates ([09ccb33](https://github.com/augustus/typescript-sdk/commit/09ccb335568f5a8f22f1321871db42672e429655))
+
+
+### Chores
+
+* **ci:** switch npm publish typescript sdk to trusted publishing (OIDC) ([ddc9b3a](https://github.com/augustus/typescript-sdk/commit/ddc9b3a9dc8839851a93e0cc90081c7063a8339f))
+* sync repo ([33069ca](https://github.com/augustus/typescript-sdk/commit/33069cadb9dc6ea3dca979ef0a62083aa90e0fbe))
+
 ## 0.12.1 (2026-05-13)
 
 Full Changelog: [v0.12.0...v0.12.1](https://github.com/getivy/typescript-sdk/compare/v0.12.0...v0.12.1)
