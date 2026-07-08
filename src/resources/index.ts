@@ -3,6 +3,11 @@
 export { APIKeys, type APIKeyIntrospectResponse } from './api-keys';
 export { APIVersions, type APIVersionListResponse } from './api-versions';
 export {
+  AccountOpenings,
+  type AccountOpeningCreateResponse,
+  type AccountOpeningCreateParams,
+} from './account-openings';
+export {
   AccountPrograms,
   type AccountProgramRetrieveResponse,
   type AccountProgramListResponse,
