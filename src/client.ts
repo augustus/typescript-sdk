@@ -20,6 +20,11 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  AccountOpeningCreateParams,
+  AccountOpeningCreateResponse,
+  AccountOpenings,
+} from './resources/account-openings';
+import {
   AccountProgramListParams,
   AccountProgramListResponse,
   AccountProgramListResponsesCursorPage,
@@ -919,6 +924,7 @@ export class Augustus {
   conversions: API.Conversions = new API.Conversions(this);
   quotes: API.Quotes = new API.Quotes(this);
   accounts: API.Accounts = new API.Accounts(this);
+  accountOpenings: API.AccountOpenings = new API.AccountOpenings(this);
   accountPrograms: API.AccountPrograms = new API.AccountPrograms(this);
   returns: API.Returns = new API.Returns(this);
   webhookSubscriptions: API.WebhookSubscriptions = new API.WebhookSubscriptions(this);
@@ -935,6 +941,7 @@ Augustus.Deposits = Deposits;
 Augustus.Conversions = Conversions;
 Augustus.Quotes = Quotes;
 Augustus.Accounts = Accounts;
+Augustus.AccountOpenings = AccountOpenings;
 Augustus.AccountPrograms = AccountPrograms;
 Augustus.Returns = Returns;
 Augustus.WebhookSubscriptions = WebhookSubscriptions;
@@ -1011,6 +1018,12 @@ export declare namespace Augustus {
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
     type AccountCloseParams as AccountCloseParams,
+  };
+
+  export {
+    AccountOpenings as AccountOpenings,
+    type AccountOpeningCreateResponse as AccountOpeningCreateResponse,
+    type AccountOpeningCreateParams as AccountOpeningCreateParams,
   };
 
   export {
