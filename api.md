@@ -103,16 +103,6 @@ Methods:
 - <code title="get /v1/accounts/{id}/balance">client.accounts.<a href="./src/resources/accounts.ts">retrieveBalance</a>(id) -> AccountRetrieveBalanceResponse</code>
 - <code title="post /v1/accounts/{id}/unfreeze">client.accounts.<a href="./src/resources/accounts.ts">unfreeze</a>(id) -> AccountUnfreezeResponse</code>
 
-# AccountOpenings
-
-Types:
-
-- <code><a href="./src/resources/account-openings.ts">AccountOpeningCreateResponse</a></code>
-
-Methods:
-
-- <code title="post /v1/account_openings">client.accountOpenings.<a href="./src/resources/account-openings.ts">create</a>({ ...params }) -> AccountOpeningCreateResponse</code>
-
 # AccountPrograms
 
 Types:
