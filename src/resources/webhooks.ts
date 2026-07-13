@@ -68,7 +68,7 @@ export namespace PayoutCreatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -289,7 +289,7 @@ export namespace PayoutInitiatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -510,7 +510,7 @@ export namespace PayoutPaidWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -731,7 +731,7 @@ export namespace PayoutFailedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Bank account or crypto wallet the payout was sent to.
@@ -952,7 +952,7 @@ export namespace ReturnInitiatedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * ID of the parent deposit.
@@ -1067,7 +1067,7 @@ export namespace ReturnPaidWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * ID of the parent deposit.
@@ -1182,7 +1182,7 @@ export namespace ReturnFailedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * ID of the parent deposit.
@@ -1297,7 +1297,7 @@ export namespace ReturnReturnedWebhookEvent {
     /**
      * Currency code (ISO 4217 currency code or crypto currency code).
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * ID of the parent deposit.
@@ -1417,7 +1417,7 @@ export namespace DepositReceivedWebhookEvent {
     /**
      * Supported fiat or crypto currency code for the deposit amount.
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * ID of the merchant account that received the deposit.
@@ -1651,7 +1651,7 @@ export namespace ConversionCreatedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Current status of the conversion.
@@ -1666,7 +1666,7 @@ export namespace ConversionCreatedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Resource type discriminator.
@@ -1767,7 +1767,7 @@ export namespace ConversionCompletedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Current status of the conversion.
@@ -1782,7 +1782,7 @@ export namespace ConversionCompletedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Resource type discriminator.
@@ -1883,7 +1883,7 @@ export namespace ConversionFailedWebhookEvent {
     /**
      * Source currency code.
      */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Current status of the conversion.
@@ -1898,7 +1898,7 @@ export namespace ConversionFailedWebhookEvent {
     /**
      * Target currency code.
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
     /**
      * Resource type discriminator.

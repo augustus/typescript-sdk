@@ -53,7 +53,7 @@ export interface PayoutCreateResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -246,7 +246,7 @@ export interface PayoutRetrieveResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -439,7 +439,7 @@ export interface PayoutListResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Bank account or crypto wallet the payout was sent to.
@@ -622,7 +622,7 @@ export interface PayoutCreateParams {
   /**
    * Currency for the payout.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Bank account or crypto wallet to send funds to.
@@ -754,7 +754,7 @@ export interface PayoutListParams extends CursorPageParams {
    * Filter to these currency codes. Use a separate `currencies` query parameter for
    * each value (e.g. `?currencies=EUR&currencies=USD`).
    */
-  currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC'>;
+  currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL'>;
 
   /**
    * Filter by payout status.
