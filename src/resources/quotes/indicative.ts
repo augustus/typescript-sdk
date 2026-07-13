@@ -40,7 +40,7 @@ export interface IndicativeRetrieveResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Target amount as a string decimal.
@@ -50,7 +50,7 @@ export interface IndicativeRetrieveResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Venue the quote was fetched from.
@@ -71,7 +71,7 @@ export namespace IndicativeRetrieveResponse {
     /**
      * Fee currency code.
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
   }
 }
 
@@ -79,12 +79,12 @@ export interface IndicativeRetrieveParams {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Source amount as a string decimal. Defaults to 1 unit if omitted.
