@@ -44,7 +44,8 @@ export namespace ScopeListResponse {
       | 'webhook_subscriptions:write'
       | 'events:read'
       | 'webhook_deliveries:read'
-      | 'webhook_deliveries:write';
+      | 'webhook_deliveries:write'
+      | 'transactions:read';
 
     /**
      * Action category.

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.17.0 (2026-07-20)
+
+Full Changelog: [v0.16.0...v0.17.0](https://github.com/augustus/typescript-sdk/compare/v0.16.0...v0.17.0)
+
+### Features
+
+* **api:** api update ([804157d](https://github.com/augustus/typescript-sdk/commit/804157d6d210de83d58cfd45f927788aa2813faf))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([fd35cb8](https://github.com/augustus/typescript-sdk/commit/fd35cb89c2012e3cd364e427b10bfb00113a7776))
+
+
+### Chores
+
+* trigger release ([3a930c1](https://github.com/augustus/typescript-sdk/commit/3a930c1ba5a7fc132495be37d398fffa09a9712d))
+
 ## 0.16.0 (2026-07-13)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/augustus/typescript-sdk/compare/v0.15.0...v0.16.0)
