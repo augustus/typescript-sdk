@@ -68,6 +68,13 @@ export {
 } from './returns';
 export { Scopes, type ScopeListResponse } from './scopes';
 export {
+  Transactions,
+  type TransactionRetrieveResponse,
+  type TransactionListResponse,
+  type TransactionListParams,
+  type TransactionListResponsesCursorPage,
+} from './transactions';
+export {
   WebhookDeliveries,
   type WebhookDeliveryRetrieveResponse,
   type WebhookDeliveryListResponse,

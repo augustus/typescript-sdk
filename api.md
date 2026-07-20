@@ -47,6 +47,18 @@ Methods:
 - <code title="get /v1/deposits/{id}">client.deposits.<a href="./src/resources/deposits.ts">retrieve</a>(id) -> DepositRetrieveResponse</code>
 - <code title="get /v1/deposits">client.deposits.<a href="./src/resources/deposits.ts">list</a>({ ...params }) -> DepositListResponsesCursorPage</code>
 
+# Transactions
+
+Types:
+
+- <code><a href="./src/resources/transactions.ts">TransactionRetrieveResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/transactions/{id}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(id) -> TransactionRetrieveResponse</code>
+- <code title="get /v1/transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponsesCursorPage</code>
+
 # Conversions
 
 Types:
