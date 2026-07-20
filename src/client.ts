@@ -86,6 +86,13 @@ import {
 } from './resources/returns';
 import { ScopeListResponse, Scopes } from './resources/scopes';
 import {
+  TransactionListParams,
+  TransactionListResponse,
+  TransactionListResponsesCursorPage,
+  TransactionRetrieveResponse,
+  Transactions,
+} from './resources/transactions';
+import {
   WebhookDeliveries,
   WebhookDeliveryListParams,
   WebhookDeliveryListResponse,
@@ -916,6 +923,7 @@ export class Augustus {
   webhooks: API.Webhooks = new API.Webhooks(this);
   payouts: API.Payouts = new API.Payouts(this);
   deposits: API.Deposits = new API.Deposits(this);
+  transactions: API.Transactions = new API.Transactions(this);
   conversions: API.Conversions = new API.Conversions(this);
   quotes: API.Quotes = new API.Quotes(this);
   accounts: API.Accounts = new API.Accounts(this);
@@ -932,6 +940,7 @@ export class Augustus {
 Augustus.Webhooks = Webhooks;
 Augustus.Payouts = Payouts;
 Augustus.Deposits = Deposits;
+Augustus.Transactions = Transactions;
 Augustus.Conversions = Conversions;
 Augustus.Quotes = Quotes;
 Augustus.Accounts = Accounts;
@@ -984,6 +993,14 @@ export declare namespace Augustus {
     type DepositListResponse as DepositListResponse,
     type DepositListResponsesCursorPage as DepositListResponsesCursorPage,
     type DepositListParams as DepositListParams,
+  };
+
+  export {
+    Transactions as Transactions,
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
+    type TransactionListResponse as TransactionListResponse,
+    type TransactionListResponsesCursorPage as TransactionListResponsesCursorPage,
+    type TransactionListParams as TransactionListParams,
   };
 
   export {

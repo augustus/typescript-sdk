@@ -70,6 +70,7 @@ export interface APIKeyIntrospectResponse {
     | 'events:read'
     | 'webhook_deliveries:read'
     | 'webhook_deliveries:write'
+    | 'transactions:read'
   >;
 
   /**
