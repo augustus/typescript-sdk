@@ -71,7 +71,7 @@ export interface AccountCreateResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -86,7 +86,7 @@ export interface AccountCreateResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -222,7 +222,7 @@ export interface AccountRetrieveResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -237,7 +237,7 @@ export interface AccountRetrieveResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -373,7 +373,7 @@ export interface AccountListResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -388,7 +388,7 @@ export interface AccountListResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -524,7 +524,7 @@ export interface AccountCloseResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -539,7 +539,7 @@ export interface AccountCloseResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -675,7 +675,7 @@ export interface AccountFreezeResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -690,7 +690,7 @@ export interface AccountFreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -836,7 +836,7 @@ export interface AccountRetrieveBalanceResponse {
   /**
    * ISO 4217 currency code for the balance.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Resource type discriminator.
@@ -853,7 +853,7 @@ export interface AccountUnfreezeResponse {
   /**
    * Type of the account.
    */
-  account_type: 'virtual_account' | 'payment_account';
+  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -868,7 +868,7 @@ export interface AccountUnfreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which

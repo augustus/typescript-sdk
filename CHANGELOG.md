@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.16.0 (2026-07-13)
+
+Full Changelog: [v0.15.0...v0.16.0](https://github.com/augustus/typescript-sdk/compare/v0.15.0...v0.16.0)
+
+### Features
+
+* **api:** api update ([068d2a7](https://github.com/augustus/typescript-sdk/commit/068d2a79e9bc990a156646d86d416df59f460bb5))
+* **api:** api update ([6744bc2](https://github.com/augustus/typescript-sdk/commit/6744bc26a4534505fb4a4d50cc76d6a8817a892b))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([60d6492](https://github.com/augustus/typescript-sdk/commit/60d6492536d385f432afa71cef5d3d2f88e5fd65))
+
 ## 0.15.0 (2026-07-08)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/augustus/typescript-sdk/compare/v0.14.0...v0.15.0)
