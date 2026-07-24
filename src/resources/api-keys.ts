@@ -65,6 +65,8 @@ export interface APIKeyIntrospectResponse {
     | 'accounts:read'
     | 'accounts:write'
     | 'account_programs:read'
+    | 'account_holders:read'
+    | 'account_holders:write'
     | 'webhook_subscriptions:read'
     | 'webhook_subscriptions:write'
     | 'events:read'

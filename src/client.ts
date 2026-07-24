@@ -20,6 +20,15 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  AccountHolderCreateParams,
+  AccountHolderCreateResponse,
+  AccountHolderListParams,
+  AccountHolderListResponse,
+  AccountHolderListResponsesCursorPage,
+  AccountHolderRetrieveResponse,
+  AccountHolders,
+} from './resources/account-holders';
+import {
   AccountProgramListParams,
   AccountProgramListResponse,
   AccountProgramListResponsesCursorPage,
@@ -928,6 +937,7 @@ export class Augustus {
   quotes: API.Quotes = new API.Quotes(this);
   accounts: API.Accounts = new API.Accounts(this);
   accountPrograms: API.AccountPrograms = new API.AccountPrograms(this);
+  accountHolders: API.AccountHolders = new API.AccountHolders(this);
   returns: API.Returns = new API.Returns(this);
   webhookSubscriptions: API.WebhookSubscriptions = new API.WebhookSubscriptions(this);
   events: API.Events = new API.Events(this);
@@ -945,6 +955,7 @@ Augustus.Conversions = Conversions;
 Augustus.Quotes = Quotes;
 Augustus.Accounts = Accounts;
 Augustus.AccountPrograms = AccountPrograms;
+Augustus.AccountHolders = AccountHolders;
 Augustus.Returns = Returns;
 Augustus.WebhookSubscriptions = WebhookSubscriptions;
 Augustus.Events = Events;
@@ -1037,6 +1048,16 @@ export declare namespace Augustus {
     type AccountProgramRetrieveBalanceResponse as AccountProgramRetrieveBalanceResponse,
     type AccountProgramListResponsesCursorPage as AccountProgramListResponsesCursorPage,
     type AccountProgramListParams as AccountProgramListParams,
+  };
+
+  export {
+    AccountHolders as AccountHolders,
+    type AccountHolderCreateResponse as AccountHolderCreateResponse,
+    type AccountHolderRetrieveResponse as AccountHolderRetrieveResponse,
+    type AccountHolderListResponse as AccountHolderListResponse,
+    type AccountHolderListResponsesCursorPage as AccountHolderListResponsesCursorPage,
+    type AccountHolderCreateParams as AccountHolderCreateParams,
+    type AccountHolderListParams as AccountHolderListParams,
   };
 
   export {
