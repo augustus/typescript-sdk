@@ -3,6 +3,15 @@
 export { APIKeys, type APIKeyIntrospectResponse } from './api-keys';
 export { APIVersions, type APIVersionListResponse } from './api-versions';
 export {
+  AccountHolders,
+  type AccountHolderCreateResponse,
+  type AccountHolderRetrieveResponse,
+  type AccountHolderListResponse,
+  type AccountHolderCreateParams,
+  type AccountHolderListParams,
+  type AccountHolderListResponsesCursorPage,
+} from './account-holders';
+export {
   AccountPrograms,
   type AccountProgramRetrieveResponse,
   type AccountProgramListResponse,
