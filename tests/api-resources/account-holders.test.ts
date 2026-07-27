@@ -25,6 +25,7 @@ describe('resource accountHolders', () => {
           street_line_1: 'x',
         },
       },
+      holder_type: 'natural_person',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -53,6 +54,7 @@ describe('resource accountHolders', () => {
           street_line_2: 'street_line_2',
         },
       },
+      holder_type: 'natural_person',
     });
   });
 
