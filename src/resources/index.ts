@@ -118,6 +118,8 @@ export {
   type ConversionCreatedWebhookEvent,
   type ConversionCompletedWebhookEvent,
   type ConversionFailedWebhookEvent,
+  type AccountHolderActiveWebhookEvent,
+  type AccountHolderClosedWebhookEvent,
   type PingTestWebhookEvent,
   type UnwrapWebhookEvent,
 } from './webhooks';

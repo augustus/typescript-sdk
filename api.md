@@ -14,6 +14,8 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">ConversionCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ConversionCompletedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ConversionFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountHolderActiveWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountHolderClosedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PingTestWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">UnwrapWebhookEvent</a></code>
 
