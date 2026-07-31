@@ -6,8 +6,10 @@ export {
   AccountHolders,
   type AccountHolderCreateResponse,
   type AccountHolderRetrieveResponse,
+  type AccountHolderUpdateResponse,
   type AccountHolderListResponse,
   type AccountHolderCreateParams,
+  type AccountHolderUpdateParams,
   type AccountHolderListParams,
   type AccountHolderListResponsesCursorPage,
 } from './account-holders';
