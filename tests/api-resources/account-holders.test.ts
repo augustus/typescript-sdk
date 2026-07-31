@@ -71,6 +71,52 @@ describe('resource accountHolders', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('update: only required params', async () => {
+    const responsePromise = client.accountHolders.update('E1CB97d8EBbDbaAae6d9B1ca', {
+      beneficiary_data: {
+        country_of_citizenship: 'US',
+        date_of_birth: '2019-12-27',
+        identification: { type: 'ssn', value: '732-66-9102' },
+        legal_name: 'x',
+        residential_address: {
+          city: 'x',
+          country: 'US',
+          postal_code: 'x',
+          state: 'xx',
+          street_line_1: 'x',
+        },
+      },
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('update: required and optional params', async () => {
+    const response = await client.accountHolders.update('E1CB97d8EBbDbaAae6d9B1ca', {
+      beneficiary_data: {
+        country_of_citizenship: 'US',
+        date_of_birth: '2019-12-27',
+        identification: { type: 'ssn', value: '732-66-9102' },
+        legal_name: 'x',
+        residential_address: {
+          city: 'x',
+          country: 'US',
+          postal_code: 'x',
+          state: 'xx',
+          street_line_1: 'x',
+          street_line_2: 'street_line_2',
+        },
+      },
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.accountHolders.list();
     const rawResponse = await responsePromise.asResponse();

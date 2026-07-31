@@ -137,12 +137,14 @@ Types:
 
 - <code><a href="./src/resources/account-holders.ts">AccountHolderCreateResponse</a></code>
 - <code><a href="./src/resources/account-holders.ts">AccountHolderRetrieveResponse</a></code>
+- <code><a href="./src/resources/account-holders.ts">AccountHolderUpdateResponse</a></code>
 - <code><a href="./src/resources/account-holders.ts">AccountHolderListResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/account_holders">client.accountHolders.<a href="./src/resources/account-holders.ts">create</a>({ ...params }) -> AccountHolderCreateResponse</code>
 - <code title="get /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">retrieve</a>(id) -> AccountHolderRetrieveResponse</code>
+- <code title="post /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">update</a>(id, { ...params }) -> AccountHolderUpdateResponse</code>
 - <code title="get /v1/account_holders">client.accountHolders.<a href="./src/resources/account-holders.ts">list</a>({ ...params }) -> AccountHolderListResponsesCursorPage</code>
 
 # Returns

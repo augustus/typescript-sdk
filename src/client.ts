@@ -26,6 +26,8 @@ import {
   AccountHolderListResponse,
   AccountHolderListResponsesCursorPage,
   AccountHolderRetrieveResponse,
+  AccountHolderUpdateParams,
+  AccountHolderUpdateResponse,
   AccountHolders,
 } from './resources/account-holders';
 import {
@@ -1058,9 +1060,11 @@ export declare namespace Augustus {
     AccountHolders as AccountHolders,
     type AccountHolderCreateResponse as AccountHolderCreateResponse,
     type AccountHolderRetrieveResponse as AccountHolderRetrieveResponse,
+    type AccountHolderUpdateResponse as AccountHolderUpdateResponse,
     type AccountHolderListResponse as AccountHolderListResponse,
     type AccountHolderListResponsesCursorPage as AccountHolderListResponsesCursorPage,
     type AccountHolderCreateParams as AccountHolderCreateParams,
+    type AccountHolderUpdateParams as AccountHolderUpdateParams,
     type AccountHolderListParams as AccountHolderListParams,
   };
 
