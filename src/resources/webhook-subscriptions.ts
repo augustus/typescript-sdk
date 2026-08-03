@@ -96,6 +96,8 @@ export interface WebhookSubscriptionCreateResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
   >;
 
   /**
@@ -141,6 +143,8 @@ export interface WebhookSubscriptionRetrieveResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
   >;
 
   /**
@@ -186,6 +190,8 @@ export interface WebhookSubscriptionUpdateResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
   >;
 
   /**
@@ -231,6 +237,8 @@ export interface WebhookSubscriptionListResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
   >;
 
   /**
@@ -276,6 +284,8 @@ export interface WebhookSubscriptionDeleteResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
   >;
 
   /**
@@ -333,6 +343,8 @@ export interface WebhookSubscriptionSendTestEventResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | 'ping.test';
 
   /**
@@ -358,6 +370,8 @@ export interface WebhookSubscriptionCreateParams {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | '*'
   >;
 
@@ -384,6 +398,8 @@ export interface WebhookSubscriptionUpdateParams {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | '*'
   >;
 

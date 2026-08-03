@@ -67,6 +67,8 @@ export interface EventRetrieveResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | 'ping.test';
 
   /**
@@ -114,6 +116,8 @@ export interface EventListResponse {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | 'ping.test';
 
   /**
@@ -141,6 +145,8 @@ export interface EventListParams extends CursorPageParams {
     | 'conversion.created'
     | 'conversion.completed'
     | 'conversion.failed'
+    | 'account_holder.active'
+    | 'account_holder.closed'
     | 'ping.test';
 }
 

@@ -26,6 +26,8 @@ import {
   AccountHolderListResponse,
   AccountHolderListResponsesCursorPage,
   AccountHolderRetrieveResponse,
+  AccountHolderUpdateParams,
+  AccountHolderUpdateResponse,
   AccountHolders,
 } from './resources/account-holders';
 import {
@@ -123,6 +125,8 @@ import {
   WebhookSubscriptions,
 } from './resources/webhook-subscriptions';
 import {
+  AccountHolderActiveWebhookEvent,
+  AccountHolderClosedWebhookEvent,
   ConversionCompletedWebhookEvent,
   ConversionCreatedWebhookEvent,
   ConversionFailedWebhookEvent,
@@ -984,6 +988,8 @@ export declare namespace Augustus {
     type ConversionCreatedWebhookEvent as ConversionCreatedWebhookEvent,
     type ConversionCompletedWebhookEvent as ConversionCompletedWebhookEvent,
     type ConversionFailedWebhookEvent as ConversionFailedWebhookEvent,
+    type AccountHolderActiveWebhookEvent as AccountHolderActiveWebhookEvent,
+    type AccountHolderClosedWebhookEvent as AccountHolderClosedWebhookEvent,
     type PingTestWebhookEvent as PingTestWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
   };
@@ -1054,9 +1060,11 @@ export declare namespace Augustus {
     AccountHolders as AccountHolders,
     type AccountHolderCreateResponse as AccountHolderCreateResponse,
     type AccountHolderRetrieveResponse as AccountHolderRetrieveResponse,
+    type AccountHolderUpdateResponse as AccountHolderUpdateResponse,
     type AccountHolderListResponse as AccountHolderListResponse,
     type AccountHolderListResponsesCursorPage as AccountHolderListResponsesCursorPage,
     type AccountHolderCreateParams as AccountHolderCreateParams,
+    type AccountHolderUpdateParams as AccountHolderUpdateParams,
     type AccountHolderListParams as AccountHolderListParams,
   };
 
