@@ -81,7 +81,7 @@ export interface ConversionCreateResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -96,7 +96,7 @@ export interface ConversionCreateResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Resource type discriminator.
@@ -165,7 +165,7 @@ export interface ConversionRetrieveResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -180,7 +180,7 @@ export interface ConversionRetrieveResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Resource type discriminator.
@@ -249,7 +249,7 @@ export interface ConversionListResponse {
   /**
    * Source currency code.
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -264,7 +264,7 @@ export interface ConversionListResponse {
   /**
    * Target currency code.
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Resource type discriminator.
@@ -315,7 +315,7 @@ export interface ConversionListParams extends CursorPageParams {
   /**
    * Filter by source currency code.
    */
-  source_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Filter by conversion status.
@@ -325,7 +325,7 @@ export interface ConversionListParams extends CursorPageParams {
   /**
    * Filter by target currency code.
    */
-  target_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency?: 'EUR' | 'GBP' | 'USD' | 'USDC';
 }
 
 export declare namespace Conversions {
