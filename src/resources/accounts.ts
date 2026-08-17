@@ -86,7 +86,7 @@ export interface AccountCreateResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -237,7 +237,7 @@ export interface AccountRetrieveResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -388,7 +388,7 @@ export interface AccountListResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -539,7 +539,7 @@ export interface AccountCloseResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -690,7 +690,7 @@ export interface AccountFreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
@@ -836,7 +836,7 @@ export interface AccountRetrieveBalanceResponse {
   /**
    * ISO 4217 currency code for the balance.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Resource type discriminator.
@@ -868,7 +868,7 @@ export interface AccountUnfreezeResponse {
   /**
    * ISO 4217 currency code for the account.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which

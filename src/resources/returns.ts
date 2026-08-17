@@ -53,7 +53,7 @@ export interface ReturnCreateResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * ID of the parent deposit.
@@ -136,7 +136,7 @@ export interface ReturnRetrieveResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * ID of the parent deposit.
@@ -219,7 +219,7 @@ export interface ReturnListResponse {
   /**
    * Currency code (ISO 4217 currency code or crypto currency code).
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * ID of the parent deposit.

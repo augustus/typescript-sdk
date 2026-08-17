@@ -69,7 +69,7 @@ export interface TransactionRetrieveResponse {
   /**
    * ISO 4217 fiat or crypto currency code of the amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * The product that caused this transaction, or null when no product is linked.
@@ -239,7 +239,7 @@ export interface TransactionListResponse {
   /**
    * ISO 4217 fiat or crypto currency code of the amount.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * The product that caused this transaction, or null when no product is linked.
