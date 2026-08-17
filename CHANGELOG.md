@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.0 (2026-08-17)
+
+Full Changelog: [v0.19.0...v0.20.0](https://github.com/augustus/typescript-sdk/compare/v0.19.0...v0.20.0)
+
+### Features
+
+* **api:** api update ([7e771cc](https://github.com/augustus/typescript-sdk/commit/7e771ccb3fa17beb91eeb76979b5a3ba10708996))
+
 ## 0.19.0 (2026-07-31)
 
 Full Changelog: [v0.18.0...v0.19.0](https://github.com/augustus/typescript-sdk/compare/v0.18.0...v0.19.0)
