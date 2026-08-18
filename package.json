@@ -1,6 +1,6 @@
 {
   "name": "@augustusbank/typescript-sdk",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "The official TypeScript library for the Augustus API",
   "author": "Augustus <developer@augustus.com>",
   "types": "dist/index.d.ts",
