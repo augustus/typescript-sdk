@@ -59,7 +59,7 @@ export interface DepositRetrieveResponse {
   destination_account_id: string;
 
   /**
-   * Payment rail or blockchain used for the deposit.
+   * Payment rail or blockchain used for the deposit, or null when unknown.
    */
   rail:
     | 'sepa_instant'
@@ -94,10 +94,10 @@ export interface DepositRetrieveResponse {
    * Counterparty bank account or crypto wallet that sent the funds.
    */
   source:
-    | DepositRetrieveResponse.UnionMember0
-    | DepositRetrieveResponse.UnionMember1
-    | DepositRetrieveResponse.UnionMember2
-    | DepositRetrieveResponse.UnionMember3;
+    | DepositRetrieveResponse.Iban
+    | DepositRetrieveResponse.UkSortCode
+    | DepositRetrieveResponse.Aba
+    | DepositRetrieveResponse.Wallet;
 
   /**
    * Current status of the deposit.
@@ -121,7 +121,7 @@ export interface DepositRetrieveResponse {
 }
 
 export namespace DepositRetrieveResponse {
-  export interface UnionMember0 {
+  export interface Iban {
     /**
      * Name of the account holder.
      */
@@ -143,7 +143,7 @@ export namespace DepositRetrieveResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface UkSortCode {
     /**
      * Name of the account holder.
      */
@@ -165,7 +165,7 @@ export namespace DepositRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface Aba {
     /**
      * Name of the account holder.
      */
@@ -187,7 +187,7 @@ export namespace DepositRetrieveResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface Wallet {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -245,7 +245,7 @@ export interface DepositListResponse {
   destination_account_id: string;
 
   /**
-   * Payment rail or blockchain used for the deposit.
+   * Payment rail or blockchain used for the deposit, or null when unknown.
    */
   rail:
     | 'sepa_instant'
@@ -280,10 +280,10 @@ export interface DepositListResponse {
    * Counterparty bank account or crypto wallet that sent the funds.
    */
   source:
-    | DepositListResponse.UnionMember0
-    | DepositListResponse.UnionMember1
-    | DepositListResponse.UnionMember2
-    | DepositListResponse.UnionMember3;
+    | DepositListResponse.Iban
+    | DepositListResponse.UkSortCode
+    | DepositListResponse.Aba
+    | DepositListResponse.Wallet;
 
   /**
    * Current status of the deposit.
@@ -307,7 +307,7 @@ export interface DepositListResponse {
 }
 
 export namespace DepositListResponse {
-  export interface UnionMember0 {
+  export interface Iban {
     /**
      * Name of the account holder.
      */
@@ -329,7 +329,7 @@ export namespace DepositListResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface UkSortCode {
     /**
      * Name of the account holder.
      */
@@ -351,7 +351,7 @@ export namespace DepositListResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface Aba {
     /**
      * Name of the account holder.
      */
@@ -373,7 +373,7 @@ export namespace DepositListResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface Wallet {
     /**
      * Wallet address on the specified blockchain.
      */
