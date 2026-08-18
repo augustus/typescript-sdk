@@ -73,7 +73,11 @@ export namespace PayoutCreatedWebhookEvent {
     /**
      * Bank account or crypto wallet the payout was sent to.
      */
-    destination: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
+    destination:
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.AbaFinancialAddress
+      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -112,7 +116,7 @@ export namespace PayoutCreatedWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UnionMember0 {
+    export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -134,7 +138,7 @@ export namespace PayoutCreatedWebhookEvent {
       type: 'iban';
     }
 
-    export interface UnionMember1 {
+    export interface SortCodeFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -156,7 +160,7 @@ export namespace PayoutCreatedWebhookEvent {
       type: 'sort_code';
     }
 
-    export interface UnionMember2 {
+    export interface AbaFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -178,7 +182,7 @@ export namespace PayoutCreatedWebhookEvent {
       type: 'aba';
     }
 
-    export interface UnionMember3 {
+    export interface CryptoWalletFinancialAddress {
       /**
        * Wallet address on the specified blockchain.
        */
@@ -294,7 +298,11 @@ export namespace PayoutInitiatedWebhookEvent {
     /**
      * Bank account or crypto wallet the payout was sent to.
      */
-    destination: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
+    destination:
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.AbaFinancialAddress
+      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -333,7 +341,7 @@ export namespace PayoutInitiatedWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UnionMember0 {
+    export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -355,7 +363,7 @@ export namespace PayoutInitiatedWebhookEvent {
       type: 'iban';
     }
 
-    export interface UnionMember1 {
+    export interface SortCodeFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -377,7 +385,7 @@ export namespace PayoutInitiatedWebhookEvent {
       type: 'sort_code';
     }
 
-    export interface UnionMember2 {
+    export interface AbaFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -399,7 +407,7 @@ export namespace PayoutInitiatedWebhookEvent {
       type: 'aba';
     }
 
-    export interface UnionMember3 {
+    export interface CryptoWalletFinancialAddress {
       /**
        * Wallet address on the specified blockchain.
        */
@@ -515,7 +523,11 @@ export namespace PayoutPaidWebhookEvent {
     /**
      * Bank account or crypto wallet the payout was sent to.
      */
-    destination: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
+    destination:
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.AbaFinancialAddress
+      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -554,7 +566,7 @@ export namespace PayoutPaidWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UnionMember0 {
+    export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -576,7 +588,7 @@ export namespace PayoutPaidWebhookEvent {
       type: 'iban';
     }
 
-    export interface UnionMember1 {
+    export interface SortCodeFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -598,7 +610,7 @@ export namespace PayoutPaidWebhookEvent {
       type: 'sort_code';
     }
 
-    export interface UnionMember2 {
+    export interface AbaFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -620,7 +632,7 @@ export namespace PayoutPaidWebhookEvent {
       type: 'aba';
     }
 
-    export interface UnionMember3 {
+    export interface CryptoWalletFinancialAddress {
       /**
        * Wallet address on the specified blockchain.
        */
@@ -736,7 +748,11 @@ export namespace PayoutFailedWebhookEvent {
     /**
      * Bank account or crypto wallet the payout was sent to.
      */
-    destination: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
+    destination:
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.AbaFinancialAddress
+      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -775,7 +791,7 @@ export namespace PayoutFailedWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UnionMember0 {
+    export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -797,7 +813,7 @@ export namespace PayoutFailedWebhookEvent {
       type: 'iban';
     }
 
-    export interface UnionMember1 {
+    export interface SortCodeFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -819,7 +835,7 @@ export namespace PayoutFailedWebhookEvent {
       type: 'sort_code';
     }
 
-    export interface UnionMember2 {
+    export interface AbaFinancialAddress {
       /**
        * Name of the account holder.
        */
@@ -841,7 +857,7 @@ export namespace PayoutFailedWebhookEvent {
       type: 'aba';
     }
 
-    export interface UnionMember3 {
+    export interface CryptoWalletFinancialAddress {
       /**
        * Wallet address on the specified blockchain.
        */
@@ -1425,7 +1441,7 @@ export namespace DepositReceivedWebhookEvent {
     destination_account_id: string;
 
     /**
-     * Payment rail or blockchain used for the deposit.
+     * Payment rail or blockchain used for the deposit, or null when unknown.
      */
     rail:
       | 'sepa_instant'
@@ -1459,7 +1475,7 @@ export namespace DepositReceivedWebhookEvent {
     /**
      * Counterparty bank account or crypto wallet that sent the funds.
      */
-    source: Payload.UnionMember0 | Payload.UnionMember1 | Payload.UnionMember2 | Payload.UnionMember3;
+    source: Payload.Iban | Payload.UkSortCode | Payload.Aba | Payload.Wallet;
 
     /**
      * Current status of the deposit.
@@ -1483,7 +1499,7 @@ export namespace DepositReceivedWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UnionMember0 {
+    export interface Iban {
       /**
        * Name of the account holder.
        */
@@ -1505,7 +1521,7 @@ export namespace DepositReceivedWebhookEvent {
       type: 'iban';
     }
 
-    export interface UnionMember1 {
+    export interface UkSortCode {
       /**
        * Name of the account holder.
        */
@@ -1527,7 +1543,7 @@ export namespace DepositReceivedWebhookEvent {
       type: 'sort_code';
     }
 
-    export interface UnionMember2 {
+    export interface Aba {
       /**
        * Name of the account holder.
        */
@@ -1549,7 +1565,7 @@ export namespace DepositReceivedWebhookEvent {
       type: 'aba';
     }
 
-    export interface UnionMember3 {
+    export interface Wallet {
       /**
        * Wallet address on the specified blockchain.
        */
