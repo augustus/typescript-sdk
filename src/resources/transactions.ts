@@ -55,10 +55,10 @@ export interface TransactionRetrieveResponse {
    * Bank account or wallet of the other party, or null when not known.
    */
   counterparty:
-    | TransactionRetrieveResponse.UnionMember0
-    | TransactionRetrieveResponse.UnionMember1
-    | TransactionRetrieveResponse.UnionMember2
-    | TransactionRetrieveResponse.UnionMember3
+    | TransactionRetrieveResponse.IbanFinancialAddress
+    | TransactionRetrieveResponse.SortCodeFinancialAddress
+    | TransactionRetrieveResponse.AbaFinancialAddress
+    | TransactionRetrieveResponse.CryptoWalletFinancialAddress
     | null;
 
   /**
@@ -93,7 +93,7 @@ export interface TransactionRetrieveResponse {
 }
 
 export namespace TransactionRetrieveResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -115,7 +115,7 @@ export namespace TransactionRetrieveResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -137,7 +137,7 @@ export namespace TransactionRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -159,7 +159,7 @@ export namespace TransactionRetrieveResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -225,10 +225,10 @@ export interface TransactionListResponse {
    * Bank account or wallet of the other party, or null when not known.
    */
   counterparty:
-    | TransactionListResponse.UnionMember0
-    | TransactionListResponse.UnionMember1
-    | TransactionListResponse.UnionMember2
-    | TransactionListResponse.UnionMember3
+    | TransactionListResponse.IbanFinancialAddress
+    | TransactionListResponse.SortCodeFinancialAddress
+    | TransactionListResponse.AbaFinancialAddress
+    | TransactionListResponse.CryptoWalletFinancialAddress
     | null;
 
   /**
@@ -263,7 +263,7 @@ export interface TransactionListResponse {
 }
 
 export namespace TransactionListResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -285,7 +285,7 @@ export namespace TransactionListResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -307,7 +307,7 @@ export namespace TransactionListResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -329,7 +329,7 @@ export namespace TransactionListResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */

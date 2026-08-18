@@ -59,10 +59,10 @@ export interface PayoutCreateResponse {
    * Bank account or crypto wallet the payout was sent to.
    */
   destination:
-    | PayoutCreateResponse.UnionMember0
-    | PayoutCreateResponse.UnionMember1
-    | PayoutCreateResponse.UnionMember2
-    | PayoutCreateResponse.UnionMember3;
+    | PayoutCreateResponse.IbanFinancialAddress
+    | PayoutCreateResponse.SortCodeFinancialAddress
+    | PayoutCreateResponse.AbaFinancialAddress
+    | PayoutCreateResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -101,7 +101,7 @@ export interface PayoutCreateResponse {
 }
 
 export namespace PayoutCreateResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -123,7 +123,7 @@ export namespace PayoutCreateResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -145,7 +145,7 @@ export namespace PayoutCreateResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -167,7 +167,7 @@ export namespace PayoutCreateResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -252,10 +252,10 @@ export interface PayoutRetrieveResponse {
    * Bank account or crypto wallet the payout was sent to.
    */
   destination:
-    | PayoutRetrieveResponse.UnionMember0
-    | PayoutRetrieveResponse.UnionMember1
-    | PayoutRetrieveResponse.UnionMember2
-    | PayoutRetrieveResponse.UnionMember3;
+    | PayoutRetrieveResponse.IbanFinancialAddress
+    | PayoutRetrieveResponse.SortCodeFinancialAddress
+    | PayoutRetrieveResponse.AbaFinancialAddress
+    | PayoutRetrieveResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -294,7 +294,7 @@ export interface PayoutRetrieveResponse {
 }
 
 export namespace PayoutRetrieveResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -316,7 +316,7 @@ export namespace PayoutRetrieveResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -338,7 +338,7 @@ export namespace PayoutRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -360,7 +360,7 @@ export namespace PayoutRetrieveResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -445,10 +445,10 @@ export interface PayoutListResponse {
    * Bank account or crypto wallet the payout was sent to.
    */
   destination:
-    | PayoutListResponse.UnionMember0
-    | PayoutListResponse.UnionMember1
-    | PayoutListResponse.UnionMember2
-    | PayoutListResponse.UnionMember3;
+    | PayoutListResponse.IbanFinancialAddress
+    | PayoutListResponse.SortCodeFinancialAddress
+    | PayoutListResponse.AbaFinancialAddress
+    | PayoutListResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -487,7 +487,7 @@ export interface PayoutListResponse {
 }
 
 export namespace PayoutListResponse {
-  export interface UnionMember0 {
+  export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -509,7 +509,7 @@ export namespace PayoutListResponse {
     type: 'iban';
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -531,7 +531,7 @@ export namespace PayoutListResponse {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -553,7 +553,7 @@ export namespace PayoutListResponse {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
@@ -628,10 +628,10 @@ export interface PayoutCreateParams {
    * Bank account or crypto wallet to send funds to.
    */
   destination:
-    | PayoutCreateParams.UnionMember0
-    | PayoutCreateParams.UnionMember1
-    | PayoutCreateParams.UnionMember2
-    | PayoutCreateParams.UnionMember3;
+    | PayoutCreateParams.Iban
+    | PayoutCreateParams.SortCodeFinancialAddress
+    | PayoutCreateParams.AbaFinancialAddress
+    | PayoutCreateParams.CryptoWalletFinancialAddress;
 
   /**
    * Payment reference.
@@ -655,7 +655,7 @@ export interface PayoutCreateParams {
 }
 
 export namespace PayoutCreateParams {
-  export interface UnionMember0 {
+  export interface Iban {
     /**
      * Name of the account holder.
      */
@@ -677,7 +677,7 @@ export namespace PayoutCreateParams {
     bic?: string;
   }
 
-  export interface UnionMember1 {
+  export interface SortCodeFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -699,7 +699,7 @@ export namespace PayoutCreateParams {
     type: 'sort_code';
   }
 
-  export interface UnionMember2 {
+  export interface AbaFinancialAddress {
     /**
      * Name of the account holder.
      */
@@ -721,7 +721,7 @@ export namespace PayoutCreateParams {
     type: 'aba';
   }
 
-  export interface UnionMember3 {
+  export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
      */
