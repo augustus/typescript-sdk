@@ -9,6 +9,16 @@ import { path } from '../internal/utils/path';
 export class Accounts extends APIResource {
   /**
    * Creates a new account.
+   *
+   * @example
+   * ```ts
+   * const account = await client.accounts.create({
+   *   account_holder_id: '68e0a1b2c3d4e5f60718293a',
+   *   account_program_id:
+   *     '550e8400-e29b-41d4-a716-446655440002',
+   *   account_type: 'virtual_account',
+   * });
+   * ```
    */
   create(body: AccountCreateParams, options?: RequestOptions): APIPromise<AccountCreateResponse> {
     return this._client.post('/v1/accounts', { body, ...options });
@@ -16,6 +26,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieves an account by ID.
+   *
+   * @example
+   * ```ts
+   * const account = await client.accounts.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<AccountRetrieveResponse> {
     return this._client.get(path`/v1/accounts/${id}`, options);
@@ -23,6 +40,14 @@ export class Accounts extends APIResource {
 
   /**
    * Returns a paginated list of accounts.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const accountListResponse of client.accounts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: AccountListParams | null | undefined = {},
@@ -33,6 +58,14 @@ export class Accounts extends APIResource {
 
   /**
    * Closes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.close(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   *   { reason: 'aml_risk_fraud' },
+   * );
+   * ```
    */
   close(id: string, body: AccountCloseParams, options?: RequestOptions): APIPromise<AccountCloseResponse> {
     return this._client.post(path`/v1/accounts/${id}/close`, { body, ...options });
@@ -40,6 +73,13 @@ export class Accounts extends APIResource {
 
   /**
    * Freezes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.freeze(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   freeze(id: string, options?: RequestOptions): APIPromise<AccountFreezeResponse> {
     return this._client.post(path`/v1/accounts/${id}/freeze`, options);
@@ -47,6 +87,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieves the available balance for an account.
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.retrieveBalance(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountRetrieveBalanceResponse> {
     return this._client.get(path`/v1/accounts/${id}/balance`, options);
@@ -54,6 +101,13 @@ export class Accounts extends APIResource {
 
   /**
    * Unfreezes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.unfreeze(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   unfreeze(id: string, options?: RequestOptions): APIPromise<AccountUnfreezeResponse> {
     return this._client.post(path`/v1/accounts/${id}/unfreeze`, options);

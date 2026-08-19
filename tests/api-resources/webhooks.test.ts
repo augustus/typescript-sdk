@@ -13,7 +13,7 @@ describe('resource webhooks', () => {
   test.skip('unwrap', () => {
     const key = 'whsec_c2VjcmV0Cg==';
     const payload =
-      '{"id":"id","api_version":"api_version","date":"2019-12-27T18:11:19.117Z","payload":{"id":"id","amount":"amount","created_at":"2019-12-27T18:11:19.117Z","currency":"EUR","destination":{"account_holder_name":"account_holder_name","bic":"bic","iban":"iban","type":"iban"},"failure":{"code":"account_closed","message":"message","retry":true},"metadata":{"foo":"string"},"reference":"reference","source_account_id":"source_account_id","status":"pending","type":"payout","updated_at":"2019-12-27T18:11:19.117Z"},"type":"payout.created"}';
+      '{"id":"550e8400-e29b-41d4-a716-446655440008","api_version":"2026-05-01","date":"2026-01-15T10:30:00Z","payload":{"id":"550e8400-e29b-41d4-a716-446655440003","amount":"100.50","created_at":"2026-01-15T10:30:00Z","currency":"EUR","destination":{"account_holder_name":"Acme Sandbox Ltd.","bic":"COBADEFFXXX","iban":"DE89370400440532013000","type":"iban"},"failure":{"code":"account_closed","message":"message","retry":true},"metadata":{"invoice_id":"INV-2026-0042"},"reference":"INV-2026-0042","source_account_id":"550e8400-e29b-41d4-a716-44665544000b","status":"pending","type":"payout","updated_at":"2026-01-15T10:35:00Z"},"type":"payout.created"}';
     const msgID = '1';
     const timestamp = new Date();
     const wh = new Webhook('whsec_c2VjcmV0Cg==');

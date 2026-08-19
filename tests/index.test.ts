@@ -479,15 +479,15 @@ describe('idempotency', () => {
     });
     await client.payouts.create(
       {
-        amount: 'amount',
+        amount: '100.50',
         currency: 'EUR',
         destination: {
-          account_holder_name: 'account_holder_name',
-          iban: 'iban',
+          account_holder_name: 'Acme Sandbox Ltd.',
+          iban: 'DE89370400440532013000',
           type: 'iban',
         },
-        reference: 'reference',
-        source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        reference: 'INV-2026-0042',
+        source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
       },
       { idempotencyKey: 'my-idempotency-key' },
     );

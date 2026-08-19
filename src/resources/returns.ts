@@ -9,6 +9,13 @@ import { path } from '../internal/utils/path';
 export class Returns extends APIResource {
   /**
    * Initiates a return of funds from a deposit to the source.
+   *
+   * @example
+   * ```ts
+   * const _return = await client.returns.create({
+   *   deposit_id: '550e8400-e29b-41d4-a716-446655440004',
+   * });
+   * ```
    */
   create(body: ReturnCreateParams, options?: RequestOptions): APIPromise<ReturnCreateResponse> {
     return this._client.post('/v1/returns', { body, ...options });
@@ -16,6 +23,13 @@ export class Returns extends APIResource {
 
   /**
    * Retrieves a return by ID.
+   *
+   * @example
+   * ```ts
+   * const _return = await client.returns.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440005',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<ReturnRetrieveResponse> {
     return this._client.get(path`/v1/returns/${id}`, options);
@@ -23,6 +37,14 @@ export class Returns extends APIResource {
 
   /**
    * Lists deposit returns for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const returnListResponse of client.returns.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: ReturnListParams | null | undefined = {},
@@ -290,7 +312,7 @@ export interface ReturnCreateParams {
   deposit_id: string;
 
   /**
-   * Payment rail when the deposit allows multiple schemes.
+   * When set, constrains the outbound payment rail where applicable.
    */
   rail?: 'sepa_instant' | 'sepa' | 'faster_payments';
 }
@@ -304,7 +326,7 @@ export interface ReturnListParams extends CursorPageParams {
   deposit_id?: string;
 
   /**
-   * Current status of the return.
+   * Filter by return status.
    */
   status?: 'pending' | 'paid' | 'failed' | 'returned';
 }

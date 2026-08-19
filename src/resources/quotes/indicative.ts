@@ -51,11 +51,6 @@ export interface IndicativeRetrieveResponse {
    * Target currency code.
    */
   target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
-
-  /**
-   * Venue the quote was fetched from.
-   */
-  venue: string;
 }
 
 export namespace IndicativeRetrieveResponse {

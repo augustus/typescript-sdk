@@ -9,6 +9,21 @@ import { path } from '../internal/utils/path';
 export class Payouts extends APIResource {
   /**
    * Creates a new payout.
+   *
+   * @example
+   * ```ts
+   * const payout = await client.payouts.create({
+   *   amount: '100.50',
+   *   currency: 'EUR',
+   *   destination: {
+   *     account_holder_name: 'Acme Sandbox Ltd.',
+   *     iban: 'DE89370400440532013000',
+   *     type: 'iban',
+   *   },
+   *   reference: 'INV-2026-0042',
+   *   source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+   * });
+   * ```
    */
   create(body: PayoutCreateParams, options?: RequestOptions): APIPromise<PayoutCreateResponse> {
     return this._client.post('/v1/payouts', { body, ...options });
@@ -16,6 +31,13 @@ export class Payouts extends APIResource {
 
   /**
    * Retrieves a payout by ID.
+   *
+   * @example
+   * ```ts
+   * const payout = await client.payouts.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440003',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<PayoutRetrieveResponse> {
     return this._client.get(path`/v1/payouts/${id}`, options);
@@ -23,6 +45,14 @@ export class Payouts extends APIResource {
 
   /**
    * Lists payouts for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const payoutListResponse of client.payouts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: PayoutListParams | null | undefined = {},
