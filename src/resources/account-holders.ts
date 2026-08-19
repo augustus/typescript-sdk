@@ -9,6 +9,28 @@ import { path } from '../internal/utils/path';
 export class AccountHolders extends APIResource {
   /**
    * Creates a new account holder and starts asynchronous processing.
+   *
+   * @example
+   * ```ts
+   * const accountHolder = await client.accountHolders.create({
+   *   account_program_id:
+   *     '550e8400-e29b-41d4-a716-446655440002',
+   *   beneficiary_data: {
+   *     country_of_citizenship: 'US',
+   *     date_of_birth: '1990-01-15',
+   *     identification: { type: 'ssn', value: '123-45-6789' },
+   *     legal_name: 'Jordan Rivera',
+   *     residential_address: {
+   *       city: 'San Francisco',
+   *       country: 'US',
+   *       postal_code: '94103',
+   *       state: 'CA',
+   *       street_line_1: '548 Market St',
+   *     },
+   *   },
+   *   holder_type: 'natural_person',
+   * });
+   * ```
    */
   create(body: AccountHolderCreateParams, options?: RequestOptions): APIPromise<AccountHolderCreateResponse> {
     return this._client.post('/v1/account_holders', { body, ...options });
@@ -16,6 +38,13 @@ export class AccountHolders extends APIResource {
 
   /**
    * Retrieves an account holder by ID.
+   *
+   * @example
+   * ```ts
+   * const accountHolder = await client.accountHolders.retrieve(
+   *   '68e0a1b2c3d4e5f60718293a',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<AccountHolderRetrieveResponse> {
     return this._client.get(path`/v1/account_holders/${id}`, options);
@@ -23,6 +52,28 @@ export class AccountHolders extends APIResource {
 
   /**
    * Replaces the beneficiary details of an existing account holder.
+   *
+   * @example
+   * ```ts
+   * const accountHolder = await client.accountHolders.update(
+   *   '68e0a1b2c3d4e5f60718293a',
+   *   {
+   *     beneficiary_data: {
+   *       country_of_citizenship: 'US',
+   *       date_of_birth: '1990-01-15',
+   *       identification: { type: 'ssn', value: '123-45-6789' },
+   *       legal_name: 'Jordan Rivera',
+   *       residential_address: {
+   *         city: 'San Francisco',
+   *         country: 'US',
+   *         postal_code: '94103',
+   *         state: 'CA',
+   *         street_line_1: '548 Market St',
+   *       },
+   *     },
+   *   },
+   * );
+   * ```
    */
   update(
     id: string,
@@ -34,6 +85,14 @@ export class AccountHolders extends APIResource {
 
   /**
    * Lists account holders for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const accountHolderListResponse of client.accountHolders.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: AccountHolderListParams | null | undefined = {},

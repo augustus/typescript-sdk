@@ -11,15 +11,15 @@ describe('resource payouts', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.payouts.create({
-      amount: 'amount',
+      amount: '100.50',
       currency: 'EUR',
       destination: {
-        account_holder_name: 'account_holder_name',
-        iban: 'iban',
+        account_holder_name: 'Acme Sandbox Ltd.',
+        iban: 'DE89370400440532013000',
         type: 'iban',
       },
-      reference: 'reference',
-      source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      reference: 'INV-2026-0042',
+      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -33,24 +33,24 @@ describe('resource payouts', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.payouts.create({
-      amount: 'amount',
+      amount: '100.50',
       currency: 'EUR',
       destination: {
-        account_holder_name: 'account_holder_name',
-        iban: 'iban',
+        account_holder_name: 'Acme Sandbox Ltd.',
+        iban: 'DE89370400440532013000',
         type: 'iban',
-        bic: 'bic',
+        bic: 'COBADEFFXXX',
       },
-      reference: 'reference',
-      source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      metadata: { foo: 'string' },
+      reference: 'INV-2026-0042',
+      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+      metadata: { invoice_id: 'INV-2026-0042' },
       rail: 'sepa_instant',
     });
   });
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.payouts.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.payouts.retrieve('550e8400-e29b-41d4-a716-446655440003');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -78,7 +78,7 @@ describe('resource payouts', () => {
     await expect(
       client.payouts.list(
         {
-          created_at: { gte: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z' },
+          created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
           currencies: ['EUR'],
           cursor: 'cursor',
           limit: 1,

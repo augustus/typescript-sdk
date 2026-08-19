@@ -9,6 +9,15 @@ import { path } from '../internal/utils/path';
 export class Conversions extends APIResource {
   /**
    * Creates and executes a conversion.
+   *
+   * @example
+   * ```ts
+   * const conversion = await client.conversions.create({
+   *   source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+   *   source_amount: '100.50',
+   *   target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
+   * });
+   * ```
    */
   create(body: ConversionCreateParams, options?: RequestOptions): APIPromise<ConversionCreateResponse> {
     return this._client.post('/v1/conversions', { body, ...options });
@@ -16,6 +25,13 @@ export class Conversions extends APIResource {
 
   /**
    * Retrieves a conversion by ID.
+   *
+   * @example
+   * ```ts
+   * const conversion = await client.conversions.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440006',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<ConversionRetrieveResponse> {
     return this._client.get(path`/v1/conversions/${id}`, options);
@@ -23,6 +39,14 @@ export class Conversions extends APIResource {
 
   /**
    * Returns a paginated list of conversions.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const conversionListResponse of client.conversions.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: ConversionListParams | null | undefined = {},

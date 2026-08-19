@@ -11,9 +11,9 @@ describe('resource conversions', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.conversions.create({
-      source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      source_amount: '321669910225',
-      target_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+      source_amount: '100.50',
+      target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -27,16 +27,16 @@ describe('resource conversions', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.conversions.create({
-      source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      source_amount: '321669910225',
-      target_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      metadata: { foo: 'string' },
+      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+      source_amount: '100.50',
+      target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
+      metadata: { invoice_id: 'INV-2026-0042' },
     });
   });
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.conversions.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.conversions.retrieve('550e8400-e29b-41d4-a716-446655440006');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -65,7 +65,7 @@ describe('resource conversions', () => {
       client.conversions.list(
         {
           cursor: 'cursor',
-          limit: 2,
+          limit: 1,
           source_currency: 'EUR',
           status: 'pending',
           target_currency: 'EUR',

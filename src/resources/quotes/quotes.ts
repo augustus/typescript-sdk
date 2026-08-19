@@ -88,11 +88,6 @@ export interface QuoteRetrieveResponse {
    * ISO 8601 UTC timestamp when the quote was last updated.
    */
   updated_at: string;
-
-  /**
-   * Execution venue (e.g. "kraken").
-   */
-  venue: string;
 }
 
 Quotes.Indicative = Indicative;
