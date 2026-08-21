@@ -123,7 +123,7 @@ export interface AccountProgramRetrieveBalanceResponse {
   id: string;
 
   /**
-   * Total available balance as a string decimal (e.g. "100.50").
+   * Available balance as a string decimal (e.g. "100.50").
    */
   amount: string;
 
@@ -133,7 +133,7 @@ export interface AccountProgramRetrieveBalanceResponse {
   as_of: string;
 
   /**
-   * ISO 4217 currency code for the balance.
+   * ISO 4217 currency code.
    */
   currency: 'EUR' | 'GBP' | 'USD';
 

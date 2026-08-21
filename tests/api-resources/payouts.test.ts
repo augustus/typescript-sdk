@@ -11,15 +11,29 @@ describe('resource payouts', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.payouts.create({
+      account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
-      currency: 'EUR',
-      destination: {
-        account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
+      counterparty: {
+        financial_address: {
+          account_holder_name: 'Acme Sandbox Ltd.',
+          bic: 'COBADEFFXXX',
+          iban: 'DE89370400440532013000',
+          type: 'iban',
+        },
+        physical_address: {
+          city: 'city',
+          country_code: 'DE',
+          line_1: 'line_1',
+          line_2: 'line_2',
+          postal_code: 'postal_code',
+          state: 'state',
+        },
       },
-      reference: 'INV-2026-0042',
-      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+      counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
+      currency: 'EUR',
+      metadata: { invoice_id: 'INV-2026-0042' },
+      rail: 'sepa',
+      unstructured_remittance_information: 'INV-2026-0042',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -33,18 +47,29 @@ describe('resource payouts', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.payouts.create({
+      account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
-      currency: 'EUR',
-      destination: {
-        account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
-        bic: 'COBADEFFXXX',
+      counterparty: {
+        financial_address: {
+          account_holder_name: 'Acme Sandbox Ltd.',
+          bic: 'COBADEFFXXX',
+          iban: 'DE89370400440532013000',
+          type: 'iban',
+        },
+        physical_address: {
+          city: 'city',
+          country_code: 'DE',
+          line_1: 'line_1',
+          line_2: 'line_2',
+          postal_code: 'postal_code',
+          state: 'state',
+        },
       },
-      reference: 'INV-2026-0042',
-      source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+      counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
+      currency: 'EUR',
       metadata: { invoice_id: 'INV-2026-0042' },
-      rail: 'sepa_instant',
+      rail: 'sepa',
+      unstructured_remittance_information: 'INV-2026-0042',
     });
   });
 
@@ -82,7 +107,7 @@ describe('resource payouts', () => {
           currencies: ['EUR'],
           cursor: 'cursor',
           limit: 1,
-          status: 'pending',
+          status: 'initiated',
         },
         { path: '/_stainless_unknown_path' },
       ),

@@ -7,38 +7,37 @@ const client = new Augustus({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource transactions', () => {
+describe('resource payouts', () => {
   // Mock server tests are disabled
-  test.skip('retrieve', async () => {
-    const responsePromise = client.transactions.retrieve('550e8400-e29b-41d4-a716-44665544000d');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('list: only required params', async () => {
-    const responsePromise = client.transactions.list({ account_id: '550e8400-e29b-41d4-a716-446655440001' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('list: required and optional params', async () => {
-    const response = await client.transactions.list({
-      account_id: '550e8400-e29b-41d4-a716-446655440001',
-      booked_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
-      cursor: 'cursor',
-      limit: 1,
+  test.skip('reject: only required params', async () => {
+    const responsePromise = client.simulations.payouts.reject('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      reason: 'invalid_routing_number',
     });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('reject: required and optional params', async () => {
+    const response = await client.simulations.payouts.reject('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      reason: 'invalid_routing_number',
+    });
+  });
+
+  // Mock server tests are disabled
+  test.skip('send', async () => {
+    const responsePromise = client.simulations.payouts.send('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 });

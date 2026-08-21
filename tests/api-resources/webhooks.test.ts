@@ -13,7 +13,7 @@ describe('resource webhooks', () => {
   test.skip('unwrap', () => {
     const key = 'whsec_c2VjcmV0Cg==';
     const payload =
-      '{"id":"550e8400-e29b-41d4-a716-446655440008","api_version":"2026-05-01","date":"2026-01-15T10:30:00Z","payload":{"id":"550e8400-e29b-41d4-a716-446655440003","amount":"100.50","created_at":"2026-01-15T10:30:00Z","currency":"EUR","destination":{"account_holder_name":"Acme Sandbox Ltd.","bic":"COBADEFFXXX","iban":"DE89370400440532013000","type":"iban"},"failure":{"code":"account_closed","message":"message","retry":true},"metadata":{"invoice_id":"INV-2026-0042"},"reference":"INV-2026-0042","source_account_id":"550e8400-e29b-41d4-a716-44665544000b","status":"pending","type":"payout","updated_at":"2026-01-15T10:35:00Z"},"type":"payout.created"}';
+      '{"id":"550e8400-e29b-41d4-a716-446655440008","api_version":"2026-05-01","date":"2026-01-15T10:30:00Z","payload":{"id":"550e8400-e29b-41d4-a716-446655440003","account_id":"550e8400-e29b-41d4-a716-446655440001","amount":"100.50","counterparty_id":"550e8400-e29b-41d4-a716-446655440000","currency":"EUR","failure":{"code":"account_closed","message":"message","retry":true},"initiated_at":"2026-01-15T10:30:00Z","metadata":{"invoice_id":"INV-2026-0042"},"rail":"sepa","sent_at":"2026-01-15T10:35:00Z","status":"initiated","tx_hash":null,"type":"payout","unstructured_remittance_information":"INV-2026-0042"},"type":"payout.created"}';
     const msgID = '1';
     const timestamp = new Date();
     const wh = new Webhook('whsec_c2VjcmV0Cg==');

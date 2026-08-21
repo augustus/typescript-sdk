@@ -52,6 +52,9 @@ export namespace APIVersionListResponse {
      */
     sunset_at: string | null;
 
+    /**
+     * Resource type discriminator.
+     */
     type: 'api_version';
   }
 }

@@ -13,15 +13,29 @@ export class Payouts extends APIResource {
    * @example
    * ```ts
    * const payout = await client.payouts.create({
+   *   account_id: '550e8400-e29b-41d4-a716-44665544000b',
    *   amount: '100.50',
-   *   currency: 'EUR',
-   *   destination: {
-   *     account_holder_name: 'Acme Sandbox Ltd.',
-   *     iban: 'DE89370400440532013000',
-   *     type: 'iban',
+   *   counterparty: {
+   *     financial_address: {
+   *       account_holder_name: 'Acme Sandbox Ltd.',
+   *       bic: 'COBADEFFXXX',
+   *       iban: 'DE89370400440532013000',
+   *       type: 'iban',
+   *     },
+   *     physical_address: {
+   *       city: 'city',
+   *       country_code: 'DE',
+   *       line_1: 'line_1',
+   *       line_2: 'line_2',
+   *       postal_code: 'postal_code',
+   *       state: 'state',
+   *     },
    *   },
-   *   reference: 'INV-2026-0042',
-   *   source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
+   *   counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
+   *   currency: 'EUR',
+   *   metadata: { invoice_id: 'INV-2026-0042' },
+   *   rail: 'sepa',
+   *   unstructured_remittance_information: 'INV-2026-0042',
    * });
    * ```
    */
@@ -71,28 +85,24 @@ export interface PayoutCreateResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutCreateResponse.IbanFinancialAddress
-    | PayoutCreateResponse.SortCodeFinancialAddress
-    | PayoutCreateResponse.AbaFinancialAddress
-    | PayoutCreateResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -100,24 +110,55 @@ export interface PayoutCreateResponse {
   failure: PayoutCreateResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
-   * Current status of the payout.
+   * Current status of the payout. `initiated`: the payout has been initiated,
+   * `submitted`: the payout was submitted to the rail, `sent`: the payout was
+   * accepted and sent on the rail, `failed`: the payout failed after initiation or
+   * submission, `returned`: the payout is returned, after it was sent.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -125,103 +166,13 @@ export interface PayoutCreateResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutCreateResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -234,6 +185,7 @@ export namespace PayoutCreateResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -264,28 +216,24 @@ export interface PayoutRetrieveResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutRetrieveResponse.IbanFinancialAddress
-    | PayoutRetrieveResponse.SortCodeFinancialAddress
-    | PayoutRetrieveResponse.AbaFinancialAddress
-    | PayoutRetrieveResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -293,24 +241,55 @@ export interface PayoutRetrieveResponse {
   failure: PayoutRetrieveResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
-   * Current status of the payout.
+   * Current status of the payout. `initiated`: the payout has been initiated,
+   * `submitted`: the payout was submitted to the rail, `sent`: the payout was
+   * accepted and sent on the rail, `failed`: the payout failed after initiation or
+   * submission, `returned`: the payout is returned, after it was sent.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -318,103 +297,13 @@ export interface PayoutRetrieveResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutRetrieveResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -427,6 +316,7 @@ export namespace PayoutRetrieveResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -457,28 +347,24 @@ export interface PayoutListResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutListResponse.IbanFinancialAddress
-    | PayoutListResponse.SortCodeFinancialAddress
-    | PayoutListResponse.AbaFinancialAddress
-    | PayoutListResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -486,24 +372,55 @@ export interface PayoutListResponse {
   failure: PayoutListResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
-   * Current status of the payout.
+   * Current status of the payout. `initiated`: the payout has been initiated,
+   * `submitted`: the payout was submitted to the rail, `sent`: the payout was
+   * accepted and sent on the rail, `failed`: the payout failed after initiation or
+   * submission, `returned`: the payout is returned, after it was sent.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -511,103 +428,13 @@ export interface PayoutListResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutListResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -620,6 +447,7 @@ export namespace PayoutListResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -645,135 +473,466 @@ export namespace PayoutListResponse {
 
 export interface PayoutCreateParams {
   /**
+   * ID of the account to debit.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * Currency for the payout.
+   * Counterparty that receives the money. Either the `counterparty_id` or the
+   * `counterparty` object must be provided. When providing the `counterparty`
+   * object, a new counterparty is created automatically.
+   */
+  counterparty: PayoutCreateParams.Counterparty | null;
+
+  /**
+   * ID of the counterparty that receives the money. Either the `counterparty_id` or
+   * the `counterparty` object must be provided. When providing the `counterparty`
+   * object, a new counterparty is created automatically.
+   */
+  counterparty_id: string | null;
+
+  /**
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * Bank account or crypto wallet to send funds to.
-   */
-  destination:
-    | PayoutCreateParams.Iban
-    | PayoutCreateParams.SortCodeFinancialAddress
-    | PayoutCreateParams.AbaFinancialAddress
-    | PayoutCreateParams.CryptoWalletFinancialAddress;
-
-  /**
-   * Payment reference.
-   */
-  reference: string;
-
-  /**
-   * ID of the account to debit.
-   */
-  source_account_id: string;
-
-  /**
    * Key-value pairs stored with the payout.
    */
-  metadata?: { [key: string]: string };
+  metadata: { [key: string]: string } | null;
 
   /**
-   * Payment rail. It is enforced when provided, otherwise auto-selected.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  rail?: 'sepa_instant' | 'sepa' | 'faster_payments';
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
+
+  /**
+   * Unstructured remittance information attached to the transfer. This appears on
+   * the counterparty's bank statement. Not supported by blockchain rails.
+   */
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutCreateParams {
-  export interface Iban {
+  /**
+   * Counterparty that receives the money. Either the `counterparty_id` or the
+   * `counterparty` object must be provided. When providing the `counterparty`
+   * object, a new counterparty is created automatically.
+   */
+  export interface Counterparty {
     /**
-     * Name of the account holder.
+     * Financial address of the counterparty.
      */
-    account_holder_name: string;
+    financial_address:
+      | Counterparty.IbanFinancialAddress
+      | Counterparty.SortCodeFinancialAddress
+      | Counterparty.AbaFinancialAddress
+      | Counterparty.CryptoWalletFinancialAddress;
 
     /**
-     * International Bank Account Number.
+     * Physical address of the counterparty.
      */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-
-    /**
-     * Bank Identifier Code.
-     */
-    bic?: string;
+    physical_address: Counterparty.PhysicalAddress | null;
   }
 
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
+  export namespace Counterparty {
+    export interface IbanFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank Identifier Code, or null if not provided.
+       */
+      bic: string | null;
+
+      /**
+       * International Bank Account Number.
+       */
+      iban: string;
+
+      /**
+       * Discriminator for IBAN financial address.
+       */
+      type: 'iban';
+    }
+
+    export interface SortCodeFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * UK account number (8 digits).
+       */
+      account_number: string;
+
+      /**
+       * UK sort code (6 digits).
+       */
+      sort_code: string;
+
+      /**
+       * Discriminator for UK sort code financial address.
+       */
+      type: 'sort_code';
+    }
+
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
+    export interface CryptoWalletFinancialAddress {
+      /**
+       * Wallet address on the specified blockchain.
+       */
+      address: string;
+
+      /**
+       * Blockchain network for the crypto wallet.
+       */
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
+
+      /**
+       * Discriminator for crypto wallet financial address.
+       */
+      type: 'crypto_wallet';
+    }
 
     /**
-     * UK account number (8 digits).
+     * Physical address of the counterparty.
      */
-    account_number: string;
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
 
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
 
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
+      /**
+       * Primary street address.
+       */
+      line_1: string;
 
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
-    /**
-     * Bank account number.
-     */
-    account_number: string;
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
 
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state: string | null;
+    }
   }
 }
 
@@ -789,7 +948,7 @@ export interface PayoutListParams extends CursorPageParams {
   /**
    * Filter by payout status.
    */
-  status?: 'pending' | 'paid' | 'failed';
+  status?: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 }
 
 export namespace PayoutListParams {
