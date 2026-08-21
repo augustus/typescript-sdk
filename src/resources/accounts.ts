@@ -138,7 +138,7 @@ export interface AccountCreateResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -289,7 +289,7 @@ export interface AccountRetrieveResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -440,7 +440,7 @@ export interface AccountListResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -591,7 +591,7 @@ export interface AccountCloseResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -742,7 +742,7 @@ export interface AccountFreezeResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -878,7 +878,7 @@ export interface AccountRetrieveBalanceResponse {
   account_id: string;
 
   /**
-   * Available balance amount as a decimal string.
+   * Available balance as a string decimal (e.g. "100.50").
    */
   amount: string;
 
@@ -888,7 +888,7 @@ export interface AccountRetrieveBalanceResponse {
   as_of: string;
 
   /**
-   * ISO 4217 currency code for the balance.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -920,7 +920,7 @@ export interface AccountUnfreezeResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 

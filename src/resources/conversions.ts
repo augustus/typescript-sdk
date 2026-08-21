@@ -8,11 +8,12 @@ import { path } from '../internal/utils/path';
 
 export class Conversions extends APIResource {
   /**
-   * Creates and executes a conversion.
+   * Starts a conversion.
    *
    * @example
    * ```ts
    * const conversion = await client.conversions.create({
+   *   metadata: { invoice_id: 'INV-2026-0042' },
    *   source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
    *   source_amount: '100.50',
    *   target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
@@ -78,19 +79,9 @@ export interface ConversionCreateResponse {
   created_at: string;
 
   /**
-   * Failure details when status is failed, otherwise null.
-   */
-  failure: ConversionCreateResponse.Failure | null;
-
-  /**
    * Key-value pairs stored with the conversion.
    */
   metadata: { [key: string]: string };
-
-  /**
-   * ID of the associated quote, or null.
-   */
-  quote_id: string | null;
 
   /**
    * ID of the source account, or null.
@@ -98,14 +89,9 @@ export interface ConversionCreateResponse {
   source_account_id: string | null;
 
   /**
-   * Source amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
-
-  /**
-   * Source currency code.
-   */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -118,9 +104,9 @@ export interface ConversionCreateResponse {
   target_account_id: string | null;
 
   /**
-   * Target currency code.
+   * Amount as a string decimal (e.g. "100.50").
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_amount: string;
 
   /**
    * Resource type discriminator.
@@ -131,18 +117,6 @@ export interface ConversionCreateResponse {
    * ISO 8601 UTC timestamp when the conversion was last updated.
    */
   updated_at: string;
-}
-
-export namespace ConversionCreateResponse {
-  /**
-   * Failure details when status is failed, otherwise null.
-   */
-  export interface Failure {
-    /**
-     * Human-readable description of the failure.
-     */
-    message: string;
-  }
 }
 
 export interface ConversionRetrieveResponse {
@@ -162,19 +136,9 @@ export interface ConversionRetrieveResponse {
   created_at: string;
 
   /**
-   * Failure details when status is failed, otherwise null.
-   */
-  failure: ConversionRetrieveResponse.Failure | null;
-
-  /**
    * Key-value pairs stored with the conversion.
    */
   metadata: { [key: string]: string };
-
-  /**
-   * ID of the associated quote, or null.
-   */
-  quote_id: string | null;
 
   /**
    * ID of the source account, or null.
@@ -182,14 +146,9 @@ export interface ConversionRetrieveResponse {
   source_account_id: string | null;
 
   /**
-   * Source amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
-
-  /**
-   * Source currency code.
-   */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -202,9 +161,9 @@ export interface ConversionRetrieveResponse {
   target_account_id: string | null;
 
   /**
-   * Target currency code.
+   * Amount as a string decimal (e.g. "100.50").
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_amount: string;
 
   /**
    * Resource type discriminator.
@@ -215,18 +174,6 @@ export interface ConversionRetrieveResponse {
    * ISO 8601 UTC timestamp when the conversion was last updated.
    */
   updated_at: string;
-}
-
-export namespace ConversionRetrieveResponse {
-  /**
-   * Failure details when status is failed, otherwise null.
-   */
-  export interface Failure {
-    /**
-     * Human-readable description of the failure.
-     */
-    message: string;
-  }
 }
 
 export interface ConversionListResponse {
@@ -246,19 +193,9 @@ export interface ConversionListResponse {
   created_at: string;
 
   /**
-   * Failure details when status is failed, otherwise null.
-   */
-  failure: ConversionListResponse.Failure | null;
-
-  /**
    * Key-value pairs stored with the conversion.
    */
   metadata: { [key: string]: string };
-
-  /**
-   * ID of the associated quote, or null.
-   */
-  quote_id: string | null;
 
   /**
    * ID of the source account, or null.
@@ -266,14 +203,9 @@ export interface ConversionListResponse {
   source_account_id: string | null;
 
   /**
-   * Source amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
-
-  /**
-   * Source currency code.
-   */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Current status of the conversion.
@@ -286,9 +218,9 @@ export interface ConversionListResponse {
   target_account_id: string | null;
 
   /**
-   * Target currency code.
+   * Amount as a string decimal (e.g. "100.50").
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  target_amount: string;
 
   /**
    * Resource type discriminator.
@@ -301,26 +233,19 @@ export interface ConversionListResponse {
   updated_at: string;
 }
 
-export namespace ConversionListResponse {
-  /**
-   * Failure details when status is failed, otherwise null.
-   */
-  export interface Failure {
-    /**
-     * Human-readable description of the failure.
-     */
-    message: string;
-  }
-}
-
 export interface ConversionCreateParams {
+  /**
+   * Key-value pairs stored with the conversion.
+   */
+  metadata: { [key: string]: string } | null;
+
   /**
    * ID of the source account to debit.
    */
   source_account_id: string;
 
   /**
-   * Amount to convert as a string decimal (e.g. "100.50").
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
 
@@ -328,11 +253,6 @@ export interface ConversionCreateParams {
    * ID of the target account to credit.
    */
   target_account_id: string;
-
-  /**
-   * Key-value pairs stored with the conversion.
-   */
-  metadata?: { [key: string]: string };
 }
 
 export interface ConversionListParams extends CursorPageParams {

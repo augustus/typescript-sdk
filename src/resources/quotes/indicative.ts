@@ -33,22 +33,22 @@ export interface IndicativeRetrieveResponse {
   rate: string;
 
   /**
-   * Source amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
 
   /**
-   * Source currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
-   * Target amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   target_amount: string;
 
   /**
-   * Target currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 }
@@ -72,17 +72,17 @@ export namespace IndicativeRetrieveResponse {
 
 export interface IndicativeRetrieveParams {
   /**
-   * Source currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
-   * Target currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
   /**
-   * Source amount as a string decimal. Defaults to 1 unit if omitted.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount?: string;
 }

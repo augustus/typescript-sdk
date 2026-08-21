@@ -42,12 +42,15 @@ export namespace ScopeListResponse {
       | 'account_programs:read'
       | 'account_holders:read'
       | 'account_holders:write'
+      | 'counterparties:read'
+      | 'counterparties:write'
       | 'webhook_subscriptions:read'
       | 'webhook_subscriptions:write'
       | 'events:read'
       | 'webhook_deliveries:read'
       | 'webhook_deliveries:write'
-      | 'transactions:read';
+      | 'transactions:read'
+      | 'simulations:write';
 
     /**
      * Action category.
@@ -74,6 +77,9 @@ export namespace ScopeListResponse {
      */
     resource: string;
 
+    /**
+     * Resource type discriminator.
+     */
     type: 'scope';
   }
 }

@@ -34,55 +34,45 @@ export interface DepositRetrieveResponse {
   id: string;
 
   /**
+   * ID of the account that was credited with the deposit.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * Reference visible on the bank statement, or null when not applicable.
+   * ID of the counterparty that sent the money, or null when not known.
    */
-  bank_statement_reference: string | null;
+  counterparty_id: string | null;
 
   /**
-   * ISO 8601 UTC timestamp when the deposit was created.
-   */
-  created_at: string;
-
-  /**
-   * Supported fiat or crypto currency code for the deposit amount.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * ID of the merchant account that received the deposit.
-   */
-  destination_account_id: string;
-
-  /**
-   * Payment rail or blockchain used for the deposit, or null when unknown.
+   * Payment scheme or blockchain used for the deposit, or null when unknown.
    */
   rail:
+    | 'sepa'
     | 'sepa_instant'
     | 'faster_payments'
-    | 'sepa'
-    | 'elixir'
-    | 'express_elixir'
-    | 'sek_account_to_account'
-    | 'sumclearing'
-    | 'straksclearing'
     | 'swift'
     | 'internal'
     | 'target'
     | 'ach'
     | 'fedwire'
-    | 'btc'
-    | 'btc_testnet4'
-    | 'eth'
-    | 'eth_sepolia'
-    | 'sol'
-    | 'sol_devnet'
-    | 'matic'
-    | 'matic_amoy'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
     | null;
 
   /**
@@ -91,21 +81,18 @@ export interface DepositRetrieveResponse {
   returns: Array<string>;
 
   /**
-   * Counterparty bank account or crypto wallet that sent the funds.
+   * ISO 8601 UTC timestamp when the deposit was settled.
    */
-  source:
-    | DepositRetrieveResponse.Iban
-    | DepositRetrieveResponse.UkSortCode
-    | DepositRetrieveResponse.Aba
-    | DepositRetrieveResponse.Wallet;
+  settled_at: string;
 
   /**
    * Current status of the deposit.
    */
-  status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  status: 'settled';
 
   /**
-   * Transaction hash for crypto deposits, or null when not known.
+   * Transaction hash for crypto deposits, or null when not known. Only blockchain
+   * rails support this field.
    */
   tx_hash: string | null;
 
@@ -115,102 +102,10 @@ export interface DepositRetrieveResponse {
   type: 'deposit';
 
   /**
-   * ISO 8601 UTC timestamp when the deposit was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
-}
-
-export namespace DepositRetrieveResponse {
-  export interface Iban {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN source.
-     */
-    type: 'iban';
-  }
-
-  export interface UkSortCode {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code source.
-     */
-    type: 'sort_code';
-  }
-
-  export interface Aba {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire source.
-     */
-    type: 'aba';
-  }
-
-  export interface Wallet {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet source.
-     */
-    type: 'crypto_wallet';
-  }
+  unstructured_remittance_information: string | null;
 }
 
 export interface DepositListResponse {
@@ -220,55 +115,45 @@ export interface DepositListResponse {
   id: string;
 
   /**
+   * ID of the account that was credited with the deposit.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * Reference visible on the bank statement, or null when not applicable.
+   * ID of the counterparty that sent the money, or null when not known.
    */
-  bank_statement_reference: string | null;
+  counterparty_id: string | null;
 
   /**
-   * ISO 8601 UTC timestamp when the deposit was created.
-   */
-  created_at: string;
-
-  /**
-   * Supported fiat or crypto currency code for the deposit amount.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * ID of the merchant account that received the deposit.
-   */
-  destination_account_id: string;
-
-  /**
-   * Payment rail or blockchain used for the deposit, or null when unknown.
+   * Payment scheme or blockchain used for the deposit, or null when unknown.
    */
   rail:
+    | 'sepa'
     | 'sepa_instant'
     | 'faster_payments'
-    | 'sepa'
-    | 'elixir'
-    | 'express_elixir'
-    | 'sek_account_to_account'
-    | 'sumclearing'
-    | 'straksclearing'
     | 'swift'
     | 'internal'
     | 'target'
     | 'ach'
     | 'fedwire'
-    | 'btc'
-    | 'btc_testnet4'
-    | 'eth'
-    | 'eth_sepolia'
-    | 'sol'
-    | 'sol_devnet'
-    | 'matic'
-    | 'matic_amoy'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
     | null;
 
   /**
@@ -277,21 +162,18 @@ export interface DepositListResponse {
   returns: Array<string>;
 
   /**
-   * Counterparty bank account or crypto wallet that sent the funds.
+   * ISO 8601 UTC timestamp when the deposit was settled.
    */
-  source:
-    | DepositListResponse.Iban
-    | DepositListResponse.UkSortCode
-    | DepositListResponse.Aba
-    | DepositListResponse.Wallet;
+  settled_at: string;
 
   /**
    * Current status of the deposit.
    */
-  status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  status: 'settled';
 
   /**
-   * Transaction hash for crypto deposits, or null when not known.
+   * Transaction hash for crypto deposits, or null when not known. Only blockchain
+   * rails support this field.
    */
   tx_hash: string | null;
 
@@ -301,123 +183,26 @@ export interface DepositListResponse {
   type: 'deposit';
 
   /**
-   * ISO 8601 UTC timestamp when the deposit was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
-}
-
-export namespace DepositListResponse {
-  export interface Iban {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN source.
-     */
-    type: 'iban';
-  }
-
-  export interface UkSortCode {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code source.
-     */
-    type: 'sort_code';
-  }
-
-  export interface Aba {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire source.
-     */
-    type: 'aba';
-  }
-
-  export interface Wallet {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet source.
-     */
-    type: 'crypto_wallet';
-  }
+  unstructured_remittance_information: string | null;
 }
 
 export interface DepositListParams extends CursorPageParams {
-  created_at?: DepositListParams.CreatedAt;
-
-  /**
-   * Filter by deposit status.
-   */
-  status?: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+  settled_at?: DepositListParams.SettledAt;
 }
 
 export namespace DepositListParams {
-  export interface CreatedAt {
+  export interface SettledAt {
     /**
-     * Include deposits whose created_at is greater than or equal to this ISO 8601
+     * Include deposits whose settled_at is greater than or equal to this ISO 8601
      * timestamp.
      */
     gte?: string;
 
     /**
-     * Include deposits whose created_at is less than or equal to this ISO 8601
+     * Include deposits whose settled_at is less than or equal to this ISO 8601
      * timestamp.
      */
     lte?: string;

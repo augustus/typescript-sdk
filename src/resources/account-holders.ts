@@ -22,10 +22,11 @@ export class AccountHolders extends APIResource {
    *     legal_name: 'Jordan Rivera',
    *     residential_address: {
    *       city: 'San Francisco',
-   *       country: 'US',
+   *       country_code: 'US',
+   *       line_1: '548 Market St',
+   *       line_2: 'Apartment 4B',
    *       postal_code: '94103',
    *       state: 'CA',
-   *       street_line_1: '548 Market St',
    *     },
    *   },
    *   holder_type: 'natural_person',
@@ -65,10 +66,11 @@ export class AccountHolders extends APIResource {
    *       legal_name: 'Jordan Rivera',
    *       residential_address: {
    *         city: 'San Francisco',
-   *         country: 'US',
+   *         country_code: 'US',
+   *         line_1: '548 Market St',
+   *         line_2: 'Apartment 4B',
    *         postal_code: '94103',
    *         state: 'CA',
-   *         street_line_1: '548 Market St',
    *       },
    *     },
    *   },
@@ -117,9 +119,9 @@ export interface AccountHolderCreateResponse {
    * Beneficiary details used to create this account holder.
    */
   beneficiary_data:
-    | AccountHolderCreateResponse.UsBeneficiaryDataResponse
-    | AccountHolderCreateResponse.NonUsBeneficiaryDataResponse
-    | AccountHolderCreateResponse.BusinessBeneficiaryDataResponse;
+    | AccountHolderCreateResponse.V1UsBeneficiaryDataResponse
+    | AccountHolderCreateResponse.V1NonUsBeneficiaryDataResponse
+    | AccountHolderCreateResponse.V1BusinessBeneficiaryDataResponse;
 
   /**
    * ISO 8601 UTC timestamp when the account holder was created.
@@ -143,7 +145,7 @@ export interface AccountHolderCreateResponse {
 }
 
 export namespace AccountHolderCreateResponse {
-  export interface UsBeneficiaryDataResponse {
+  export interface V1UsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -159,8 +161,8 @@ export namespace AccountHolderCreateResponse {
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
     identification:
-      | UsBeneficiaryDataResponse.SsnIdentification
-      | UsBeneficiaryDataResponse.ItinIdentification;
+      | V1UsBeneficiaryDataResponse.V1SsnIdentification
+      | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -171,33 +173,43 @@ export namespace AccountHolderCreateResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryDataResponse {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryDataResponse {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -205,31 +217,21 @@ export namespace AccountHolderCreateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -481,23 +483,28 @@ export namespace AccountHolderCreateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryDataResponse {
+  export interface V1NonUsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -760,7 +767,7 @@ export namespace AccountHolderCreateResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryDataResponse.Identification;
+    identification: V1NonUsBeneficiaryDataResponse.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -771,11 +778,11 @@ export namespace AccountHolderCreateResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryDataResponse {
+  export namespace V1NonUsBeneficiaryDataResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -785,16 +792,26 @@ export namespace AccountHolderCreateResponse {
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -802,31 +819,21 @@ export namespace AccountHolderCreateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -1078,29 +1085,34 @@ export namespace AccountHolderCreateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryDataResponse {
+  export interface V1BusinessBeneficiaryDataResponse {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-      | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
     >;
 
     /**
@@ -1108,8 +1120,8 @@ export namespace AccountHolderCreateResponse {
      * the business.
      */
     control_person:
-      | BusinessBeneficiaryDataResponse.UnionMember0
-      | BusinessBeneficiaryDataResponse.UnionMember1;
+      | V1BusinessBeneficiaryDataResponse.UnionMember0
+      | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -1380,23 +1392,23 @@ export namespace AccountHolderCreateResponse {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryDataResponse.EinIdentification
-      | BusinessBeneficiaryDataResponse.SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -1409,8 +1421,8 @@ export namespace AccountHolderCreateResponse {
     year_of_incorporation: number;
   }
 
-  export namespace BusinessBeneficiaryDataResponse {
-    export interface UsBeneficiaryDataResponse {
+  export namespace V1BusinessBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -1426,8 +1438,8 @@ export namespace AccountHolderCreateResponse {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -1438,33 +1450,43 @@ export namespace AccountHolderCreateResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -1472,31 +1494,21 @@ export namespace AccountHolderCreateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -1748,23 +1760,28 @@ export namespace AccountHolderCreateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -2027,7 +2044,7 @@ export namespace AccountHolderCreateResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -2038,11 +2055,11 @@ export namespace AccountHolderCreateResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -2052,16 +2069,26 @@ export namespace AccountHolderCreateResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -2069,31 +2096,21 @@ export namespace AccountHolderCreateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -2345,19 +2362,24 @@ export namespace AccountHolderCreateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -2376,7 +2398,7 @@ export namespace AccountHolderCreateResponse {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -2386,9 +2408,7 @@ export namespace AccountHolderCreateResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember0.UsResidentialAddressResponse
-        | UnionMember0.NonUsResidentialAddressResponse;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -2398,28 +2418,38 @@ export namespace AccountHolderCreateResponse {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -2427,31 +2457,21 @@ export namespace AccountHolderCreateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -2703,19 +2723,24 @@ export namespace AccountHolderCreateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -2992,9 +3017,7 @@ export namespace AccountHolderCreateResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember1.UsResidentialAddressResponse
-        | UnionMember1.NonUsResidentialAddressResponse;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -3013,16 +3036,26 @@ export namespace AccountHolderCreateResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -3030,31 +3063,21 @@ export namespace AccountHolderCreateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -3306,32 +3329,47 @@ export namespace AccountHolderCreateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -3339,31 +3377,21 @@ export namespace AccountHolderCreateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -3615,31 +3643,46 @@ export namespace AccountHolderCreateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -3647,31 +3690,21 @@ export namespace AccountHolderCreateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -3923,28 +3956,33 @@ export namespace AccountHolderCreateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
@@ -3962,9 +4000,9 @@ export interface AccountHolderRetrieveResponse {
    * Beneficiary details used to create this account holder.
    */
   beneficiary_data:
-    | AccountHolderRetrieveResponse.UsBeneficiaryDataResponse
-    | AccountHolderRetrieveResponse.NonUsBeneficiaryDataResponse
-    | AccountHolderRetrieveResponse.BusinessBeneficiaryDataResponse;
+    | AccountHolderRetrieveResponse.V1UsBeneficiaryDataResponse
+    | AccountHolderRetrieveResponse.V1NonUsBeneficiaryDataResponse
+    | AccountHolderRetrieveResponse.V1BusinessBeneficiaryDataResponse;
 
   /**
    * ISO 8601 UTC timestamp when the account holder was created.
@@ -3988,7 +4026,7 @@ export interface AccountHolderRetrieveResponse {
 }
 
 export namespace AccountHolderRetrieveResponse {
-  export interface UsBeneficiaryDataResponse {
+  export interface V1UsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -4004,8 +4042,8 @@ export namespace AccountHolderRetrieveResponse {
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
     identification:
-      | UsBeneficiaryDataResponse.SsnIdentification
-      | UsBeneficiaryDataResponse.ItinIdentification;
+      | V1UsBeneficiaryDataResponse.V1SsnIdentification
+      | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -4016,33 +4054,43 @@ export namespace AccountHolderRetrieveResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryDataResponse {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryDataResponse {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -4050,31 +4098,21 @@ export namespace AccountHolderRetrieveResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -4326,23 +4364,28 @@ export namespace AccountHolderRetrieveResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryDataResponse {
+  export interface V1NonUsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -4605,7 +4648,7 @@ export namespace AccountHolderRetrieveResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryDataResponse.Identification;
+    identification: V1NonUsBeneficiaryDataResponse.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -4616,11 +4659,11 @@ export namespace AccountHolderRetrieveResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryDataResponse {
+  export namespace V1NonUsBeneficiaryDataResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -4630,16 +4673,26 @@ export namespace AccountHolderRetrieveResponse {
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -4647,31 +4700,21 @@ export namespace AccountHolderRetrieveResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -4923,29 +4966,34 @@ export namespace AccountHolderRetrieveResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryDataResponse {
+  export interface V1BusinessBeneficiaryDataResponse {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-      | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
     >;
 
     /**
@@ -4953,8 +5001,8 @@ export namespace AccountHolderRetrieveResponse {
      * the business.
      */
     control_person:
-      | BusinessBeneficiaryDataResponse.UnionMember0
-      | BusinessBeneficiaryDataResponse.UnionMember1;
+      | V1BusinessBeneficiaryDataResponse.UnionMember0
+      | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -5225,23 +5273,23 @@ export namespace AccountHolderRetrieveResponse {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryDataResponse.EinIdentification
-      | BusinessBeneficiaryDataResponse.SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -5254,8 +5302,8 @@ export namespace AccountHolderRetrieveResponse {
     year_of_incorporation: number;
   }
 
-  export namespace BusinessBeneficiaryDataResponse {
-    export interface UsBeneficiaryDataResponse {
+  export namespace V1BusinessBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -5271,8 +5319,8 @@ export namespace AccountHolderRetrieveResponse {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -5283,33 +5331,43 @@ export namespace AccountHolderRetrieveResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -5317,31 +5375,21 @@ export namespace AccountHolderRetrieveResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -5593,23 +5641,28 @@ export namespace AccountHolderRetrieveResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -5872,7 +5925,7 @@ export namespace AccountHolderRetrieveResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -5883,11 +5936,11 @@ export namespace AccountHolderRetrieveResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -5897,16 +5950,26 @@ export namespace AccountHolderRetrieveResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -5914,31 +5977,21 @@ export namespace AccountHolderRetrieveResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -6190,19 +6243,24 @@ export namespace AccountHolderRetrieveResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -6221,7 +6279,7 @@ export namespace AccountHolderRetrieveResponse {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -6231,9 +6289,7 @@ export namespace AccountHolderRetrieveResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember0.UsResidentialAddressResponse
-        | UnionMember0.NonUsResidentialAddressResponse;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -6243,28 +6299,38 @@ export namespace AccountHolderRetrieveResponse {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -6272,31 +6338,21 @@ export namespace AccountHolderRetrieveResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -6548,19 +6604,24 @@ export namespace AccountHolderRetrieveResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -6837,9 +6898,7 @@ export namespace AccountHolderRetrieveResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember1.UsResidentialAddressResponse
-        | UnionMember1.NonUsResidentialAddressResponse;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -6858,16 +6917,26 @@ export namespace AccountHolderRetrieveResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -6875,31 +6944,21 @@ export namespace AccountHolderRetrieveResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -7151,32 +7210,47 @@ export namespace AccountHolderRetrieveResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -7184,31 +7258,21 @@ export namespace AccountHolderRetrieveResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -7460,31 +7524,46 @@ export namespace AccountHolderRetrieveResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -7492,31 +7571,21 @@ export namespace AccountHolderRetrieveResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -7768,28 +7837,33 @@ export namespace AccountHolderRetrieveResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
@@ -7807,9 +7881,9 @@ export interface AccountHolderUpdateResponse {
    * Beneficiary details used to create this account holder.
    */
   beneficiary_data:
-    | AccountHolderUpdateResponse.UsBeneficiaryDataResponse
-    | AccountHolderUpdateResponse.NonUsBeneficiaryDataResponse
-    | AccountHolderUpdateResponse.BusinessBeneficiaryDataResponse;
+    | AccountHolderUpdateResponse.V1UsBeneficiaryDataResponse
+    | AccountHolderUpdateResponse.V1NonUsBeneficiaryDataResponse
+    | AccountHolderUpdateResponse.V1BusinessBeneficiaryDataResponse;
 
   /**
    * ISO 8601 UTC timestamp when the account holder was created.
@@ -7833,7 +7907,7 @@ export interface AccountHolderUpdateResponse {
 }
 
 export namespace AccountHolderUpdateResponse {
-  export interface UsBeneficiaryDataResponse {
+  export interface V1UsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -7849,8 +7923,8 @@ export namespace AccountHolderUpdateResponse {
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
     identification:
-      | UsBeneficiaryDataResponse.SsnIdentification
-      | UsBeneficiaryDataResponse.ItinIdentification;
+      | V1UsBeneficiaryDataResponse.V1SsnIdentification
+      | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -7861,33 +7935,43 @@ export namespace AccountHolderUpdateResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryDataResponse {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryDataResponse {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -7895,31 +7979,21 @@ export namespace AccountHolderUpdateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -8171,23 +8245,28 @@ export namespace AccountHolderUpdateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryDataResponse {
+  export interface V1NonUsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -8450,7 +8529,7 @@ export namespace AccountHolderUpdateResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryDataResponse.Identification;
+    identification: V1NonUsBeneficiaryDataResponse.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -8461,11 +8540,11 @@ export namespace AccountHolderUpdateResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryDataResponse {
+  export namespace V1NonUsBeneficiaryDataResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -8475,16 +8554,26 @@ export namespace AccountHolderUpdateResponse {
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -8492,31 +8581,21 @@ export namespace AccountHolderUpdateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -8768,29 +8847,34 @@ export namespace AccountHolderUpdateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryDataResponse {
+  export interface V1BusinessBeneficiaryDataResponse {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-      | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
     >;
 
     /**
@@ -8798,8 +8882,8 @@ export namespace AccountHolderUpdateResponse {
      * the business.
      */
     control_person:
-      | BusinessBeneficiaryDataResponse.UnionMember0
-      | BusinessBeneficiaryDataResponse.UnionMember1;
+      | V1BusinessBeneficiaryDataResponse.UnionMember0
+      | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -9070,23 +9154,23 @@ export namespace AccountHolderUpdateResponse {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryDataResponse.EinIdentification
-      | BusinessBeneficiaryDataResponse.SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -9099,8 +9183,8 @@ export namespace AccountHolderUpdateResponse {
     year_of_incorporation: number;
   }
 
-  export namespace BusinessBeneficiaryDataResponse {
-    export interface UsBeneficiaryDataResponse {
+  export namespace V1BusinessBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -9116,8 +9200,8 @@ export namespace AccountHolderUpdateResponse {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -9128,33 +9212,43 @@ export namespace AccountHolderUpdateResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -9162,31 +9256,21 @@ export namespace AccountHolderUpdateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -9438,23 +9522,28 @@ export namespace AccountHolderUpdateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -9717,7 +9806,7 @@ export namespace AccountHolderUpdateResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -9728,11 +9817,11 @@ export namespace AccountHolderUpdateResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -9742,16 +9831,26 @@ export namespace AccountHolderUpdateResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -9759,31 +9858,21 @@ export namespace AccountHolderUpdateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -10035,19 +10124,24 @@ export namespace AccountHolderUpdateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -10066,7 +10160,7 @@ export namespace AccountHolderUpdateResponse {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -10076,9 +10170,7 @@ export namespace AccountHolderUpdateResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember0.UsResidentialAddressResponse
-        | UnionMember0.NonUsResidentialAddressResponse;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -10088,28 +10180,38 @@ export namespace AccountHolderUpdateResponse {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -10117,31 +10219,21 @@ export namespace AccountHolderUpdateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -10393,19 +10485,24 @@ export namespace AccountHolderUpdateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -10682,9 +10779,7 @@ export namespace AccountHolderUpdateResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember1.UsResidentialAddressResponse
-        | UnionMember1.NonUsResidentialAddressResponse;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -10703,16 +10798,26 @@ export namespace AccountHolderUpdateResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -10720,31 +10825,21 @@ export namespace AccountHolderUpdateResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -10996,32 +11091,47 @@ export namespace AccountHolderUpdateResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -11029,31 +11139,21 @@ export namespace AccountHolderUpdateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -11305,31 +11405,46 @@ export namespace AccountHolderUpdateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -11337,31 +11452,21 @@ export namespace AccountHolderUpdateResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -11613,28 +11718,33 @@ export namespace AccountHolderUpdateResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
@@ -11652,9 +11762,9 @@ export interface AccountHolderListResponse {
    * Beneficiary details used to create this account holder.
    */
   beneficiary_data:
-    | AccountHolderListResponse.UsBeneficiaryDataResponse
-    | AccountHolderListResponse.NonUsBeneficiaryDataResponse
-    | AccountHolderListResponse.BusinessBeneficiaryDataResponse;
+    | AccountHolderListResponse.V1UsBeneficiaryDataResponse
+    | AccountHolderListResponse.V1NonUsBeneficiaryDataResponse
+    | AccountHolderListResponse.V1BusinessBeneficiaryDataResponse;
 
   /**
    * ISO 8601 UTC timestamp when the account holder was created.
@@ -11678,7 +11788,7 @@ export interface AccountHolderListResponse {
 }
 
 export namespace AccountHolderListResponse {
-  export interface UsBeneficiaryDataResponse {
+  export interface V1UsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -11694,8 +11804,8 @@ export namespace AccountHolderListResponse {
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
     identification:
-      | UsBeneficiaryDataResponse.SsnIdentification
-      | UsBeneficiaryDataResponse.ItinIdentification;
+      | V1UsBeneficiaryDataResponse.V1SsnIdentification
+      | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -11706,33 +11816,43 @@ export namespace AccountHolderListResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryDataResponse {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryDataResponse {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -11740,31 +11860,21 @@ export namespace AccountHolderListResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -12016,23 +12126,28 @@ export namespace AccountHolderListResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryDataResponse {
+  export interface V1NonUsBeneficiaryDataResponse {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -12295,7 +12410,7 @@ export namespace AccountHolderListResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryDataResponse.Identification;
+    identification: V1NonUsBeneficiaryDataResponse.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -12306,11 +12421,11 @@ export namespace AccountHolderListResponse {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-      | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryDataResponse {
+  export namespace V1NonUsBeneficiaryDataResponse {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -12320,16 +12435,26 @@ export namespace AccountHolderListResponse {
       value: string;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -12337,31 +12462,21 @@ export namespace AccountHolderListResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -12613,29 +12728,34 @@ export namespace AccountHolderListResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryDataResponse {
+  export interface V1BusinessBeneficiaryDataResponse {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-      | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+      | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
     >;
 
     /**
@@ -12643,8 +12763,8 @@ export namespace AccountHolderListResponse {
      * the business.
      */
     control_person:
-      | BusinessBeneficiaryDataResponse.UnionMember0
-      | BusinessBeneficiaryDataResponse.UnionMember1;
+      | V1BusinessBeneficiaryDataResponse.UnionMember0
+      | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -12915,23 +13035,23 @@ export namespace AccountHolderListResponse {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-      | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+      | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+      | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryDataResponse.EinIdentification
-      | BusinessBeneficiaryDataResponse.SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -12944,8 +13064,8 @@ export namespace AccountHolderListResponse {
     year_of_incorporation: number;
   }
 
-  export namespace BusinessBeneficiaryDataResponse {
-    export interface UsBeneficiaryDataResponse {
+  export namespace V1BusinessBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -12961,8 +13081,8 @@ export namespace AccountHolderListResponse {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -12973,33 +13093,43 @@ export namespace AccountHolderListResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -13007,31 +13137,21 @@ export namespace AccountHolderListResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -13283,23 +13403,28 @@ export namespace AccountHolderListResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -13562,7 +13687,7 @@ export namespace AccountHolderListResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -13573,11 +13698,11 @@ export namespace AccountHolderListResponse {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -13587,16 +13712,26 @@ export namespace AccountHolderListResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -13604,31 +13739,21 @@ export namespace AccountHolderListResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -13880,19 +14005,24 @@ export namespace AccountHolderListResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -13911,7 +14041,7 @@ export namespace AccountHolderListResponse {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -13921,9 +14051,7 @@ export namespace AccountHolderListResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember0.UsResidentialAddressResponse
-        | UnionMember0.NonUsResidentialAddressResponse;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -13933,28 +14061,38 @@ export namespace AccountHolderListResponse {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -13962,31 +14100,21 @@ export namespace AccountHolderListResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -14238,19 +14366,24 @@ export namespace AccountHolderListResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
@@ -14527,9 +14660,7 @@ export namespace AccountHolderListResponse {
       /**
        * Residential address of the account holder.
        */
-      residential_address:
-        | UnionMember1.UsResidentialAddressResponse
-        | UnionMember1.NonUsResidentialAddressResponse;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -14548,16 +14679,26 @@ export namespace AccountHolderListResponse {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -14565,31 +14706,21 @@ export namespace AccountHolderListResponse {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -14841,32 +14972,47 @@ export namespace AccountHolderListResponse {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -14874,31 +15020,21 @@ export namespace AccountHolderListResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -15150,31 +15286,46 @@ export namespace AccountHolderListResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface UsResidentialAddressResponse {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -15182,31 +15333,21 @@ export namespace AccountHolderListResponse {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
     }
 
-    export interface NonUsResidentialAddressResponse {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -15458,28 +15599,33 @@ export namespace AccountHolderListResponse {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2: string | null;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
@@ -15497,9 +15643,9 @@ export interface AccountHolderCreateParams {
    * Personal information of the account holder.
    */
   beneficiary_data:
-    | AccountHolderCreateParams.UsBeneficiaryData
-    | AccountHolderCreateParams.NonUsBeneficiaryData
-    | AccountHolderCreateParams.BusinessBeneficiaryData;
+    | AccountHolderCreateParams.V1UsBeneficiaryData
+    | AccountHolderCreateParams.V1NonUsBeneficiaryData
+    | AccountHolderCreateParams.V1BusinessBeneficiaryData;
 
   /**
    * Type of the account holder.
@@ -15508,7 +15654,7 @@ export interface AccountHolderCreateParams {
 }
 
 export namespace AccountHolderCreateParams {
-  export interface UsBeneficiaryData {
+  export interface V1UsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -15523,7 +15669,7 @@ export namespace AccountHolderCreateParams {
      * Government-issued identification with type: "ssn" (Social Security Number,
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
-    identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
+    identification: V1UsBeneficiaryData.V1SsnIdentification | V1UsBeneficiaryData.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -15533,32 +15679,44 @@ export namespace AccountHolderCreateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
+    residential_address:
+      | V1UsBeneficiaryData.V1UsResidentialAddress
+      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryData {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryData {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -15566,31 +15724,21 @@ export namespace AccountHolderCreateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -15842,23 +15990,28 @@ export namespace AccountHolderCreateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryData {
+  export interface V1NonUsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -16121,7 +16274,7 @@ export namespace AccountHolderCreateParams {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryData.Identification;
+    identification: V1NonUsBeneficiaryData.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -16132,11 +16285,11 @@ export namespace AccountHolderCreateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryData.UsResidentialAddress
-      | NonUsBeneficiaryData.NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddress
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryData {
+  export namespace V1NonUsBeneficiaryData {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -16146,16 +16299,26 @@ export namespace AccountHolderCreateParams {
       value: string;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -16163,31 +16326,21 @@ export namespace AccountHolderCreateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -16439,35 +16592,40 @@ export namespace AccountHolderCreateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryData {
+  export interface V1BusinessBeneficiaryData {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      BusinessBeneficiaryData.UsBeneficiaryData | BusinessBeneficiaryData.NonUsBeneficiaryData
+      V1BusinessBeneficiaryData.V1UsBeneficiaryData | V1BusinessBeneficiaryData.V1NonUsBeneficiaryData
     >;
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
      * the business.
      */
-    control_person: BusinessBeneficiaryData.UnionMember0 | BusinessBeneficiaryData.UnionMember1;
+    control_person: V1BusinessBeneficiaryData.UnionMember0 | V1BusinessBeneficiaryData.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -16725,6 +16883,11 @@ export namespace AccountHolderCreateParams {
       | 'XK';
 
     /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as: string | null;
+
+    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
@@ -16733,23 +16896,23 @@ export namespace AccountHolderCreateParams {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryData.UsResidentialAddress
-      | BusinessBeneficiaryData.NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddress
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryData.UsResidentialAddress
-      | BusinessBeneficiaryData.NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddress
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryData.EinIdentification
-      | BusinessBeneficiaryData.SsnIdentification;
+      | V1BusinessBeneficiaryData.V1EinIdentification
+      | V1BusinessBeneficiaryData.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -16760,15 +16923,10 @@ export namespace AccountHolderCreateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
-
-    /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as?: string;
   }
 
-  export namespace BusinessBeneficiaryData {
-    export interface UsBeneficiaryData {
+  export namespace V1BusinessBeneficiaryData {
+    export interface V1UsBeneficiaryData {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -16783,7 +16941,7 @@ export namespace AccountHolderCreateParams {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
+      identification: V1UsBeneficiaryData.V1SsnIdentification | V1UsBeneficiaryData.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -16793,32 +16951,44 @@ export namespace AccountHolderCreateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
+      residential_address:
+        | V1UsBeneficiaryData.V1UsResidentialAddress
+        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryData {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryData {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -16826,31 +16996,21 @@ export namespace AccountHolderCreateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -17102,23 +17262,28 @@ export namespace AccountHolderCreateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryData {
+    export interface V1NonUsBeneficiaryData {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -17381,7 +17546,7 @@ export namespace AccountHolderCreateParams {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryData.Identification;
+      identification: V1NonUsBeneficiaryData.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -17392,11 +17557,11 @@ export namespace AccountHolderCreateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryData.UsResidentialAddress
-        | NonUsBeneficiaryData.NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddress
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryData {
+    export namespace V1NonUsBeneficiaryData {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -17406,16 +17571,26 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -17423,31 +17598,21 @@ export namespace AccountHolderCreateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -17699,19 +17864,24 @@ export namespace AccountHolderCreateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
@@ -17730,7 +17900,7 @@ export namespace AccountHolderCreateParams {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -17740,7 +17910,7 @@ export namespace AccountHolderCreateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember0.UsResidentialAddress | UnionMember0.NonUsResidentialAddress;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -17750,28 +17920,38 @@ export namespace AccountHolderCreateParams {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -17779,31 +17959,21 @@ export namespace AccountHolderCreateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -18055,19 +18225,24 @@ export namespace AccountHolderCreateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
@@ -18344,7 +18519,7 @@ export namespace AccountHolderCreateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember1.UsResidentialAddress | UnionMember1.NonUsResidentialAddress;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -18363,16 +18538,26 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -18380,31 +18565,21 @@ export namespace AccountHolderCreateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -18656,32 +18831,47 @@ export namespace AccountHolderCreateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -18689,31 +18879,21 @@ export namespace AccountHolderCreateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -18965,31 +19145,46 @@ export namespace AccountHolderCreateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -18997,31 +19192,21 @@ export namespace AccountHolderCreateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -19273,28 +19458,33 @@ export namespace AccountHolderCreateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
@@ -19307,13 +19497,13 @@ export interface AccountHolderUpdateParams {
    * New beneficiary details replacing the current values.
    */
   beneficiary_data:
-    | AccountHolderUpdateParams.UsBeneficiaryData
-    | AccountHolderUpdateParams.NonUsBeneficiaryData
-    | AccountHolderUpdateParams.BusinessBeneficiaryData;
+    | AccountHolderUpdateParams.V1UsBeneficiaryData
+    | AccountHolderUpdateParams.V1NonUsBeneficiaryData
+    | AccountHolderUpdateParams.V1BusinessBeneficiaryData;
 }
 
 export namespace AccountHolderUpdateParams {
-  export interface UsBeneficiaryData {
+  export interface V1UsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -19328,7 +19518,7 @@ export namespace AccountHolderUpdateParams {
      * Government-issued identification with type: "ssn" (Social Security Number,
      * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
      */
-    identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
+    identification: V1UsBeneficiaryData.V1SsnIdentification | V1UsBeneficiaryData.V1ItinIdentification;
 
     /**
      * Full legal name of the account holder.
@@ -19338,32 +19528,44 @@ export namespace AccountHolderUpdateParams {
     /**
      * Residential address of the account holder.
      */
-    residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
+    residential_address:
+      | V1UsBeneficiaryData.V1UsResidentialAddress
+      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
   }
 
-  export namespace UsBeneficiaryData {
-    export interface SsnIdentification {
+  export namespace V1UsBeneficiaryData {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;
     }
 
-    export interface ItinIdentification {
+    export interface V1ItinIdentification {
       type: 'itin';
 
       value: string;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -19371,31 +19573,21 @@ export namespace AccountHolderUpdateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -19647,23 +19839,28 @@ export namespace AccountHolderUpdateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
   }
 
-  export interface NonUsBeneficiaryData {
+  export interface V1NonUsBeneficiaryData {
     /**
      * ISO 3166-1 alpha-2 country code of citizenship.
      */
@@ -19926,7 +20123,7 @@ export namespace AccountHolderUpdateParams {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
-    identification: NonUsBeneficiaryData.Identification;
+    identification: V1NonUsBeneficiaryData.Identification;
 
     /**
      * Full legal name of the account holder.
@@ -19937,11 +20134,11 @@ export namespace AccountHolderUpdateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | NonUsBeneficiaryData.UsResidentialAddress
-      | NonUsBeneficiaryData.NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddress
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
   }
 
-  export namespace NonUsBeneficiaryData {
+  export namespace V1NonUsBeneficiaryData {
     /**
      * Government-issued identification with type: "id" (generic government-issued ID).
      */
@@ -19951,16 +20148,26 @@ export namespace AccountHolderUpdateParams {
       value: string;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -19968,31 +20175,21 @@ export namespace AccountHolderUpdateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -20244,35 +20441,40 @@ export namespace AccountHolderUpdateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
   }
 
-  export interface BusinessBeneficiaryData {
+  export interface V1BusinessBeneficiaryData {
     /**
      * Beneficial owners of the business. At least one required.
      */
     beneficial_owners: Array<
-      BusinessBeneficiaryData.UsBeneficiaryData | BusinessBeneficiaryData.NonUsBeneficiaryData
+      V1BusinessBeneficiaryData.V1UsBeneficiaryData | V1BusinessBeneficiaryData.V1NonUsBeneficiaryData
     >;
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
      * the business.
      */
-    control_person: BusinessBeneficiaryData.UnionMember0 | BusinessBeneficiaryData.UnionMember1;
+    control_person: V1BusinessBeneficiaryData.UnionMember0 | V1BusinessBeneficiaryData.UnionMember1;
 
     /**
      * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -20530,6 +20732,11 @@ export namespace AccountHolderUpdateParams {
       | 'XK';
 
     /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as: string | null;
+
+    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
@@ -20538,23 +20745,23 @@ export namespace AccountHolderUpdateParams {
      * Physical operating address of the business.
      */
     physical_address:
-      | BusinessBeneficiaryData.UsResidentialAddress
-      | BusinessBeneficiaryData.NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddress
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | BusinessBeneficiaryData.UsResidentialAddress
-      | BusinessBeneficiaryData.NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddress
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
      * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
      */
     registration_number:
-      | BusinessBeneficiaryData.EinIdentification
-      | BusinessBeneficiaryData.SsnIdentification;
+      | V1BusinessBeneficiaryData.V1EinIdentification
+      | V1BusinessBeneficiaryData.V1SsnIdentification;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -20565,15 +20772,10 @@ export namespace AccountHolderUpdateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
-
-    /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as?: string;
   }
 
-  export namespace BusinessBeneficiaryData {
-    export interface UsBeneficiaryData {
+  export namespace V1BusinessBeneficiaryData {
+    export interface V1UsBeneficiaryData {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -20588,7 +20790,7 @@ export namespace AccountHolderUpdateParams {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UsBeneficiaryData.SsnIdentification | UsBeneficiaryData.ItinIdentification;
+      identification: V1UsBeneficiaryData.V1SsnIdentification | V1UsBeneficiaryData.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -20598,32 +20800,44 @@ export namespace AccountHolderUpdateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UsBeneficiaryData.UsResidentialAddress | UsBeneficiaryData.NonUsResidentialAddress;
+      residential_address:
+        | V1UsBeneficiaryData.V1UsResidentialAddress
+        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryData {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryData {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -20631,31 +20845,21 @@ export namespace AccountHolderUpdateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -20907,23 +21111,28 @@ export namespace AccountHolderUpdateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryData {
+    export interface V1NonUsBeneficiaryData {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -21186,7 +21395,7 @@ export namespace AccountHolderUpdateParams {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryData.Identification;
+      identification: V1NonUsBeneficiaryData.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -21197,11 +21406,11 @@ export namespace AccountHolderUpdateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | NonUsBeneficiaryData.UsResidentialAddress
-        | NonUsBeneficiaryData.NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddress
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryData {
+    export namespace V1NonUsBeneficiaryData {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -21211,16 +21420,26 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -21228,31 +21447,21 @@ export namespace AccountHolderUpdateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -21504,19 +21713,24 @@ export namespace AccountHolderUpdateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
@@ -21535,7 +21749,7 @@ export namespace AccountHolderUpdateParams {
        * Government-issued identification with type: "ssn" (Social Security Number,
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
-      identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+      identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -21545,7 +21759,7 @@ export namespace AccountHolderUpdateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember0.UsResidentialAddress | UnionMember0.NonUsResidentialAddress;
+      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -21555,28 +21769,38 @@ export namespace AccountHolderUpdateParams {
     }
 
     export namespace UnionMember0 {
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -21584,31 +21808,21 @@ export namespace AccountHolderUpdateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -21860,19 +22074,24 @@ export namespace AccountHolderUpdateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
@@ -22149,7 +22368,7 @@ export namespace AccountHolderUpdateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember1.UsResidentialAddress | UnionMember1.NonUsResidentialAddress;
+      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -22168,16 +22387,26 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface UsResidentialAddress {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -22185,31 +22414,21 @@ export namespace AccountHolderUpdateParams {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
       }
 
-      export interface NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -22461,32 +22680,47 @@ export namespace AccountHolderUpdateParams {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2?: string;
+        state: string | null;
       }
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -22494,31 +22728,21 @@ export namespace AccountHolderUpdateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -22770,31 +22994,46 @@ export namespace AccountHolderUpdateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
 
-    export interface UsResidentialAddress {
+    export interface V1UsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country: 'US';
+      country_code: 'US';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
 
       /**
        * Postal or ZIP code.
@@ -22802,31 +23041,21 @@ export namespace AccountHolderUpdateParams {
       postal_code: string;
 
       /**
-       * Two-letter state code.
+       * State, province, or region.
        */
       state: string;
-
-      /**
-       * Primary street address.
-       */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
     }
 
-    export interface NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddress {
       /**
-       * City name.
+       * City or locality.
        */
       city: string;
 
       /**
        * ISO 3166-1 alpha-2 country code.
        */
-      country:
+      country_code:
         | 'AF'
         | 'AL'
         | 'DZ'
@@ -23078,28 +23307,33 @@ export namespace AccountHolderUpdateParams {
         | 'XK';
 
       /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2: string | null;
+
+      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * Primary street address.
+       * State, province, or region, or null if not recorded.
        */
-      street_line_1: string;
-
-      /**
-       * Secondary street address (apartment, suite, etc.).
-       */
-      street_line_2?: string;
+      state: string | null;
     }
 
-    export interface EinIdentification {
+    export interface V1EinIdentification {
       type: 'ein';
 
       value: string;
     }
 
-    export interface SsnIdentification {
+    export interface V1SsnIdentification {
       type: 'ssn';
 
       value: string;

@@ -38,10 +38,9 @@ describe('resource deposits', () => {
     await expect(
       client.deposits.list(
         {
-          created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
           cursor: 'cursor',
           limit: 1,
-          status: 'received',
+          settled_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
         },
         { path: '/_stainless_unknown_path' },
       ),
