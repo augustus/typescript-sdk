@@ -11,18 +11,19 @@ describe('resource accountHolders', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.accountHolders.create({
-      account_program_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      account_program_id: '550e8400-e29b-41d4-a716-446655440002',
       beneficiary_data: {
         country_of_citizenship: 'US',
-        date_of_birth: '2019-12-27',
-        identification: { type: 'ssn', value: '732-66-9102' },
-        legal_name: 'x',
+        date_of_birth: '1990-01-15',
+        identification: { type: 'ssn', value: '123-45-6789' },
+        legal_name: 'Jordan Rivera',
         residential_address: {
-          city: 'x',
-          country: 'US',
-          postal_code: 'x',
-          state: 'xx',
-          street_line_1: 'x',
+          city: 'San Francisco',
+          country_code: 'US',
+          line_1: '548 Market St',
+          line_2: 'Apartment 4B',
+          postal_code: '94103',
+          state: 'CA',
         },
       },
       holder_type: 'natural_person',
@@ -39,19 +40,19 @@ describe('resource accountHolders', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.accountHolders.create({
-      account_program_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      account_program_id: '550e8400-e29b-41d4-a716-446655440002',
       beneficiary_data: {
         country_of_citizenship: 'US',
-        date_of_birth: '2019-12-27',
-        identification: { type: 'ssn', value: '732-66-9102' },
-        legal_name: 'x',
+        date_of_birth: '1990-01-15',
+        identification: { type: 'ssn', value: '123-45-6789' },
+        legal_name: 'Jordan Rivera',
         residential_address: {
-          city: 'x',
-          country: 'US',
-          postal_code: 'x',
-          state: 'xx',
-          street_line_1: 'x',
-          street_line_2: 'street_line_2',
+          city: 'San Francisco',
+          country_code: 'US',
+          line_1: '548 Market St',
+          line_2: 'Apartment 4B',
+          postal_code: '94103',
+          state: 'CA',
         },
       },
       holder_type: 'natural_person',
@@ -60,7 +61,7 @@ describe('resource accountHolders', () => {
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.accountHolders.retrieve('E1CB97d8EBbDbaAae6d9B1ca');
+    const responsePromise = client.accountHolders.retrieve('68e0a1b2c3d4e5f60718293a');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -72,18 +73,19 @@ describe('resource accountHolders', () => {
 
   // Mock server tests are disabled
   test.skip('update: only required params', async () => {
-    const responsePromise = client.accountHolders.update('E1CB97d8EBbDbaAae6d9B1ca', {
+    const responsePromise = client.accountHolders.update('68e0a1b2c3d4e5f60718293a', {
       beneficiary_data: {
         country_of_citizenship: 'US',
-        date_of_birth: '2019-12-27',
-        identification: { type: 'ssn', value: '732-66-9102' },
-        legal_name: 'x',
+        date_of_birth: '1990-01-15',
+        identification: { type: 'ssn', value: '123-45-6789' },
+        legal_name: 'Jordan Rivera',
         residential_address: {
-          city: 'x',
-          country: 'US',
-          postal_code: 'x',
-          state: 'xx',
-          street_line_1: 'x',
+          city: 'San Francisco',
+          country_code: 'US',
+          line_1: '548 Market St',
+          line_2: 'Apartment 4B',
+          postal_code: '94103',
+          state: 'CA',
         },
       },
     });
@@ -98,19 +100,19 @@ describe('resource accountHolders', () => {
 
   // Mock server tests are disabled
   test.skip('update: required and optional params', async () => {
-    const response = await client.accountHolders.update('E1CB97d8EBbDbaAae6d9B1ca', {
+    const response = await client.accountHolders.update('68e0a1b2c3d4e5f60718293a', {
       beneficiary_data: {
         country_of_citizenship: 'US',
-        date_of_birth: '2019-12-27',
-        identification: { type: 'ssn', value: '732-66-9102' },
-        legal_name: 'x',
+        date_of_birth: '1990-01-15',
+        identification: { type: 'ssn', value: '123-45-6789' },
+        legal_name: 'Jordan Rivera',
         residential_address: {
-          city: 'x',
-          country: 'US',
-          postal_code: 'x',
-          state: 'xx',
-          street_line_1: 'x',
-          street_line_2: 'street_line_2',
+          city: 'San Francisco',
+          country_code: 'US',
+          line_1: '548 Market St',
+          line_2: 'Apartment 4B',
+          postal_code: '94103',
+          state: 'CA',
         },
       },
     });

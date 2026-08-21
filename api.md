@@ -49,6 +49,30 @@ Methods:
 - <code title="get /v1/deposits/{id}">client.deposits.<a href="./src/resources/deposits.ts">retrieve</a>(id) -> DepositRetrieveResponse</code>
 - <code title="get /v1/deposits">client.deposits.<a href="./src/resources/deposits.ts">list</a>({ ...params }) -> DepositListResponsesCursorPage</code>
 
+# Simulations
+
+## Deposits
+
+Types:
+
+- <code><a href="./src/resources/simulations/deposits.ts">DepositCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/deposits">client.simulations.deposits.<a href="./src/resources/simulations/deposits.ts">create</a>({ ...params }) -> DepositCreateResponse</code>
+
+## Payouts
+
+Types:
+
+- <code><a href="./src/resources/simulations/payouts.ts">PayoutRejectResponse</a></code>
+- <code><a href="./src/resources/simulations/payouts.ts">PayoutSendResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/payouts/{id}/reject">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">reject</a>(id, { ...params }) -> PayoutRejectResponse</code>
+- <code title="post /v1/simulations/payouts/{id}/send">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">send</a>(id) -> PayoutSendResponse</code>
+
 # Transactions
 
 Types:
@@ -146,6 +170,22 @@ Methods:
 - <code title="get /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">retrieve</a>(id) -> AccountHolderRetrieveResponse</code>
 - <code title="post /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">update</a>(id, { ...params }) -> AccountHolderUpdateResponse</code>
 - <code title="get /v1/account_holders">client.accountHolders.<a href="./src/resources/account-holders.ts">list</a>({ ...params }) -> AccountHolderListResponsesCursorPage</code>
+
+# Counterparties
+
+Types:
+
+- <code><a href="./src/resources/counterparties.ts">CounterpartyCreateResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyRetrieveResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyUpdateResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyListResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">create</a>({ ...params }) -> CounterpartyCreateResponse</code>
+- <code title="get /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">retrieve</a>(id) -> CounterpartyRetrieveResponse</code>
+- <code title="post /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">update</a>(id, { ...params }) -> CounterpartyUpdateResponse</code>
+- <code title="get /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">list</a>({ ...params }) -> CounterpartyListResponsesCursorPage</code>
 
 # Returns
 

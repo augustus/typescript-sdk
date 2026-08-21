@@ -45,12 +45,12 @@ export interface QuoteRetrieveResponse {
   funding_status: 'pending' | 'sent' | 'completed' | 'failed' | 'on_hold';
 
   /**
-   * Source amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   source_amount: string;
 
   /**
-   * Source currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
@@ -70,12 +70,12 @@ export interface QuoteRetrieveResponse {
     | 'failed';
 
   /**
-   * Target amount as a string decimal.
+   * Amount as a string decimal (e.g. "100.50").
    */
   target_amount: string;
 
   /**
-   * Target currency code.
+   * Currency code (ISO 4217 or crypto).
    */
   target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
 
@@ -88,11 +88,6 @@ export interface QuoteRetrieveResponse {
    * ISO 8601 UTC timestamp when the quote was last updated.
    */
   updated_at: string;
-
-  /**
-   * Execution venue (e.g. "kraken").
-   */
-  venue: string;
 }
 
 Quotes.Indicative = Indicative;

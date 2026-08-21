@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource quotes', () => {
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.quotes.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.quotes.retrieve('550e8400-e29b-41d4-a716-446655440007');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
