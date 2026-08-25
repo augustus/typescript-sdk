@@ -16,7 +16,6 @@ export class Accounts extends APIResource {
    *   account_holder_id: '68e0a1b2c3d4e5f60718293a',
    *   account_program_id:
    *     '550e8400-e29b-41d4-a716-446655440002',
-   *   account_type: 'virtual_account',
    * });
    * ```
    */
@@ -121,11 +120,6 @@ export interface AccountCreateResponse {
    * Unique identifier of the account.
    */
   id: string;
-
-  /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -274,11 +268,6 @@ export interface AccountRetrieveResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -423,11 +412,6 @@ export interface AccountListResponse {
    * Unique identifier of the account.
    */
   id: string;
-
-  /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -576,11 +560,6 @@ export interface AccountCloseResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -725,11 +704,6 @@ export interface AccountFreezeResponse {
    * Unique identifier of the account.
    */
   id: string;
-
-  /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
 
   /**
    * Asset type of the account.
@@ -905,11 +879,6 @@ export interface AccountUnfreezeResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -1059,11 +1028,6 @@ export interface AccountCreateParams {
    * ID of the account program to create the account under.
    */
   account_program_id: string;
-
-  /**
-   * Type of account. Currently only virtual account.
-   */
-  account_type: 'virtual_account';
 }
 
 export interface AccountListParams extends CursorPageParams {
@@ -1081,7 +1045,7 @@ export interface AccountListParams extends CursorPageParams {
   /**
    * ID of the account program to list virtual accounts for.
    */
-  parent_id?: string;
+  account_program_id?: string;
 
   /**
    * Filter by account status.

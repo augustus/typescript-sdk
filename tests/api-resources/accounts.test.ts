@@ -13,7 +13,6 @@ describe('resource accounts', () => {
     const responsePromise = client.accounts.create({
       account_holder_id: '68e0a1b2c3d4e5f60718293a',
       account_program_id: '550e8400-e29b-41d4-a716-446655440002',
-      account_type: 'virtual_account',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -29,7 +28,6 @@ describe('resource accounts', () => {
     const response = await client.accounts.create({
       account_holder_id: '68e0a1b2c3d4e5f60718293a',
       account_program_id: '550e8400-e29b-41d4-a716-446655440002',
-      account_type: 'virtual_account',
     });
   });
 
@@ -65,9 +63,9 @@ describe('resource accounts', () => {
         {
           account_holder_name: 'x',
           account_number: 'x',
+          account_program_id: '550e8400-e29b-41d4-a716-446655440002',
           cursor: 'cursor',
           limit: 1,
-          parent_id: '550e8400-e29b-41d4-a716-446655440002',
           status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
