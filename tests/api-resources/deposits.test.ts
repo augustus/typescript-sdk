@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource deposits', () => {
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.deposits.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.deposits.retrieve('550e8400-e29b-41d4-a716-446655440004');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -38,10 +38,9 @@ describe('resource deposits', () => {
     await expect(
       client.deposits.list(
         {
-          created_at: { gte: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z' },
           cursor: 'cursor',
           limit: 1,
-          status: 'received',
+          settled_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
         },
         { path: '/_stainless_unknown_path' },
       ),

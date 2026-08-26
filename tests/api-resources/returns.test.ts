@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource returns', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.returns.create({ deposit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const responsePromise = client.returns.create({ deposit_id: '550e8400-e29b-41d4-a716-446655440004' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,15 +22,12 @@ describe('resource returns', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.returns.create({
-      deposit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      rail: 'sepa_instant',
-    });
+    const response = await client.returns.create({ deposit_id: '550e8400-e29b-41d4-a716-446655440004' });
   });
 
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.returns.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.returns.retrieve('550e8400-e29b-41d4-a716-446655440005');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,11 +55,11 @@ describe('resource returns', () => {
     await expect(
       client.returns.list(
         {
-          created_at: { gte: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z' },
+          created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
           cursor: 'cursor',
-          deposit_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          limit: 2,
-          status: 'pending',
+          deposit_id: '550e8400-e29b-41d4-a716-446655440004',
+          limit: 1,
+          status: 'initiated',
         },
         { path: '/_stainless_unknown_path' },
       ),

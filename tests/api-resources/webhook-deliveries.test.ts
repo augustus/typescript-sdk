@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource webhookDeliveries', () => {
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.webhookDeliveries.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.webhookDeliveries.retrieve('550e8400-e29b-41d4-a716-44665544000a');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -38,12 +38,12 @@ describe('resource webhookDeliveries', () => {
     await expect(
       client.webhookDeliveries.list(
         {
-          created_at: { gte: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z' },
+          created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
           cursor: 'cursor',
-          event_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-          limit: 2,
+          event_id: '550e8400-e29b-41d4-a716-446655440008',
+          limit: 1,
           status: 'pending',
-          subscription_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+          subscription_id: '550e8400-e29b-41d4-a716-446655440009',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -52,7 +52,7 @@ describe('resource webhookDeliveries', () => {
 
   // Mock server tests are disabled
   test.skip('redeliver', async () => {
-    const responsePromise = client.webhookDeliveries.redeliver('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.webhookDeliveries.redeliver('550e8400-e29b-41d4-a716-44665544000a');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
