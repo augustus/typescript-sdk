@@ -762,7 +762,7 @@ export namespace ReturnInitiatedWebhookEvent {
     /**
      * Current status of the return.
      */
-    status: 'initiated' | 'sent' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
      * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -906,7 +906,7 @@ export namespace ReturnPaidWebhookEvent {
     /**
      * Current status of the return.
      */
-    status: 'initiated' | 'sent' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
      * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -1050,7 +1050,7 @@ export namespace ReturnFailedWebhookEvent {
     /**
      * Current status of the return.
      */
-    status: 'initiated' | 'sent' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
      * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -1194,7 +1194,7 @@ export namespace ReturnReturnedWebhookEvent {
     /**
      * Current status of the return.
      */
-    status: 'initiated' | 'sent' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
      * Transaction hash for crypto returns, or null when not known. Only blockchain
