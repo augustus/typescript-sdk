@@ -13,7 +13,6 @@ describe('resource counterparties', () => {
     const responsePromise = client.counterparties.create({
       financial_address: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
       },
@@ -32,9 +31,9 @@ describe('resource counterparties', () => {
     const response = await client.counterparties.create({
       financial_address: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
+        bic: 'COBADEFFXXX',
       },
       date_of_birth: '2019-12-27',
       is_self_owned: true,

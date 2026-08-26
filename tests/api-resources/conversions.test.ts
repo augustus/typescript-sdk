@@ -11,7 +11,6 @@ describe('resource conversions', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.conversions.create({
-      metadata: { invoice_id: 'INV-2026-0042' },
       source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
       source_amount: '100.50',
       target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
@@ -28,10 +27,10 @@ describe('resource conversions', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.conversions.create({
-      metadata: { invoice_id: 'INV-2026-0042' },
       source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
       source_amount: '100.50',
       target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
+      metadata: { invoice_id: 'INV-2026-0042' },
     });
   });
 

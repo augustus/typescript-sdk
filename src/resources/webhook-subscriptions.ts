@@ -49,10 +49,6 @@ export class WebhookSubscriptions extends APIResource {
    * const webhookSubscription =
    *   await client.webhookSubscriptions.update(
    *     '550e8400-e29b-41d4-a716-446655440009',
-   *     {
-   *       events: ['payout.paid'],
-   *       url: 'https://sandbox.example.com/webhooks/augustus',
-   *     },
    *   );
    * ```
    */
@@ -436,9 +432,10 @@ export interface WebhookSubscriptionCreateParams {
 
 export interface WebhookSubscriptionUpdateParams {
   /**
-   * New event types, or null to keep the current events. Use ["*"] for all events.
+   * New event types. Omit or send null to keep the current events. Use ["*"] for all
+   * events.
    */
-  events: Array<
+  events?: Array<
     | 'payout.created'
     | 'payout.initiated'
     | 'payout.paid'
@@ -457,9 +454,9 @@ export interface WebhookSubscriptionUpdateParams {
   > | null;
 
   /**
-   * The new HTTPS URL, or null to keep the current URL.
+   * The new HTTPS URL. Omit or send null to keep the current URL.
    */
-  url: string | null;
+  url?: string | null;
 }
 
 export interface WebhookSubscriptionListParams extends CursorPageParams {}

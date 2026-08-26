@@ -15,27 +15,7 @@ export class Payouts extends APIResource {
    * const payout = await client.payouts.create({
    *   account_id: '550e8400-e29b-41d4-a716-44665544000b',
    *   amount: '100.50',
-   *   counterparty: {
-   *     financial_address: {
-   *       account_holder_name: 'Acme Sandbox Ltd.',
-   *       bic: 'COBADEFFXXX',
-   *       iban: 'DE89370400440532013000',
-   *       type: 'iban',
-   *     },
-   *     physical_address: {
-   *       city: 'city',
-   *       country_code: 'DE',
-   *       line_1: 'line_1',
-   *       line_2: 'line_2',
-   *       postal_code: 'postal_code',
-   *       state: 'state',
-   *     },
-   *   },
-   *   counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
    *   currency: 'EUR',
-   *   metadata: { invoice_id: 'INV-2026-0042' },
-   *   rail: 'sepa',
-   *   unstructured_remittance_information: 'INV-2026-0042',
    * });
    * ```
    */
@@ -483,33 +463,33 @@ export interface PayoutCreateParams {
   amount: string;
 
   /**
+   * Currency code (ISO 4217 or crypto).
+   */
+  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+  /**
    * Counterparty that receives the money. Either the `counterparty_id` or the
    * `counterparty` object must be provided. When providing the `counterparty`
    * object, a new counterparty is created automatically.
    */
-  counterparty: PayoutCreateParams.Counterparty | null;
+  counterparty?: PayoutCreateParams.Counterparty | null;
 
   /**
    * ID of the counterparty that receives the money. Either the `counterparty_id` or
    * the `counterparty` object must be provided. When providing the `counterparty`
    * object, a new counterparty is created automatically.
    */
-  counterparty_id: string | null;
-
-  /**
-   * Currency code (ISO 4217 or crypto).
-   */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+  counterparty_id?: string | null;
 
   /**
    * Key-value pairs stored with the payout.
    */
-  metadata: { [key: string]: string } | null;
+  metadata?: { [key: string]: string } | null;
 
   /**
    * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  rail:
+  rail?:
     | 'sepa'
     | 'sepa_instant'
     | 'faster_payments'
@@ -532,7 +512,7 @@ export interface PayoutCreateParams {
    * Unstructured remittance information attached to the transfer. This appears on
    * the counterparty's bank statement. Not supported by blockchain rails.
    */
-  unstructured_remittance_information: string | null;
+  unstructured_remittance_information?: string | null;
 }
 
 export namespace PayoutCreateParams {
@@ -546,7 +526,7 @@ export namespace PayoutCreateParams {
      * Financial address of the counterparty.
      */
     financial_address:
-      | Counterparty.IbanFinancialAddress
+      | Counterparty.IbanFinancialAddressRequest
       | Counterparty.SortCodeFinancialAddress
       | Counterparty.AbaFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
@@ -554,20 +534,15 @@ export namespace PayoutCreateParams {
     /**
      * Physical address of the counterparty.
      */
-    physical_address: Counterparty.PhysicalAddress | null;
+    physical_address?: Counterparty.PhysicalAddress | null;
   }
 
   export namespace Counterparty {
-    export interface IbanFinancialAddress {
+    export interface IbanFinancialAddressRequest {
       /**
        * Name of the account holder.
        */
       account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
 
       /**
        * International Bank Account Number.
@@ -578,6 +553,11 @@ export namespace PayoutCreateParams {
        * Discriminator for IBAN financial address.
        */
       type: 'iban';
+
+      /**
+       * Bank Identifier Code. Optional; omit or send null if not provided.
+       */
+      bic?: string | null;
     }
 
     export interface SortCodeFinancialAddress {
@@ -919,19 +899,19 @@ export namespace PayoutCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 }

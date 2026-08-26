@@ -1753,7 +1753,7 @@ export interface CounterpartyCreateParams {
    * Financial address of the counterparty.
    */
   financial_address:
-    | CounterpartyCreateParams.IbanFinancialAddress
+    | CounterpartyCreateParams.IbanFinancialAddressRequest
     | CounterpartyCreateParams.SortCodeFinancialAddress
     | CounterpartyCreateParams.AbaFinancialAddress
     | CounterpartyCreateParams.CryptoWalletFinancialAddress;
@@ -1781,16 +1781,11 @@ export interface CounterpartyCreateParams {
 }
 
 export namespace CounterpartyCreateParams {
-  export interface IbanFinancialAddress {
+  export interface IbanFinancialAddressRequest {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
 
     /**
      * International Bank Account Number.
@@ -1801,6 +1796,11 @@ export namespace CounterpartyCreateParams {
      * Discriminator for IBAN financial address.
      */
     type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
   }
 
   export interface SortCodeFinancialAddress {

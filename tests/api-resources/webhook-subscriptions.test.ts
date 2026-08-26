@@ -44,11 +44,8 @@ describe('resource webhookSubscriptions', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('update: only required params', async () => {
-    const responsePromise = client.webhookSubscriptions.update('550e8400-e29b-41d4-a716-446655440009', {
-      events: ['payout.paid'],
-      url: 'https://sandbox.example.com/webhooks/augustus',
-    });
+  test.skip('update', async () => {
+    const responsePromise = client.webhookSubscriptions.update('550e8400-e29b-41d4-a716-446655440009', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -56,14 +53,6 @@ describe('resource webhookSubscriptions', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('update: required and optional params', async () => {
-    const response = await client.webhookSubscriptions.update('550e8400-e29b-41d4-a716-446655440009', {
-      events: ['payout.paid'],
-      url: 'https://sandbox.example.com/webhooks/augustus',
-    });
   });
 
   // Mock server tests are disabled

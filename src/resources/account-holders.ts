@@ -24,7 +24,6 @@ export class AccountHolders extends APIResource {
    *       city: 'San Francisco',
    *       country_code: 'US',
    *       line_1: '548 Market St',
-   *       line_2: 'Apartment 4B',
    *       postal_code: '94103',
    *       state: 'CA',
    *     },
@@ -68,7 +67,6 @@ export class AccountHolders extends APIResource {
    *         city: 'San Francisco',
    *         country_code: 'US',
    *         line_1: '548 Market St',
-   *         line_2: 'Apartment 4B',
    *         postal_code: '94103',
    *         state: 'CA',
    *       },
@@ -15680,8 +15678,8 @@ export namespace AccountHolderCreateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | V1UsBeneficiaryData.V1UsResidentialAddress
-      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1UsBeneficiaryData {
@@ -15697,7 +15695,7 @@ export namespace AccountHolderCreateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -15714,11 +15712,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -15727,9 +15720,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -15995,19 +15993,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -16285,8 +16283,8 @@ export namespace AccountHolderCreateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | V1NonUsBeneficiaryData.V1UsResidentialAddress
-      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1NonUsBeneficiaryData {
@@ -16299,7 +16297,7 @@ export namespace AccountHolderCreateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -16316,11 +16314,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -16329,9 +16322,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -16597,19 +16595,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -16883,11 +16881,6 @@ export namespace AccountHolderCreateParams {
       | 'XK';
 
     /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as: string | null;
-
-    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
@@ -16896,15 +16889,15 @@ export namespace AccountHolderCreateParams {
      * Physical operating address of the business.
      */
     physical_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
@@ -16923,6 +16916,11 @@ export namespace AccountHolderCreateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
+
+    /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as?: string | null;
   }
 
   export namespace V1BusinessBeneficiaryData {
@@ -16952,8 +16950,8 @@ export namespace AccountHolderCreateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | V1UsBeneficiaryData.V1UsResidentialAddress
-        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1UsBeneficiaryData {
@@ -16969,7 +16967,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -16986,11 +16984,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -16999,9 +16992,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17267,19 +17265,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -17557,8 +17555,8 @@ export namespace AccountHolderCreateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | V1NonUsBeneficiaryData.V1UsResidentialAddress
-        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1NonUsBeneficiaryData {
@@ -17571,7 +17569,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17588,11 +17586,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -17601,9 +17594,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17869,19 +17867,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -17910,7 +17908,9 @@ export namespace AccountHolderCreateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember0.V1UsResidentialAddressRequest
+        | UnionMember0.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -17932,7 +17932,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17949,11 +17949,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -17962,9 +17957,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18230,19 +18230,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -18519,7 +18519,9 @@ export namespace AccountHolderCreateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember1.V1UsResidentialAddressRequest
+        | UnionMember1.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -18538,7 +18540,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18555,11 +18557,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -18568,9 +18565,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18836,23 +18838,23 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -18869,11 +18871,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -18882,9 +18879,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19150,22 +19152,22 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19182,11 +19184,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -19195,9 +19192,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19463,19 +19465,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
     export interface V1EinIdentification {
@@ -19529,8 +19531,8 @@ export namespace AccountHolderUpdateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | V1UsBeneficiaryData.V1UsResidentialAddress
-      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1UsBeneficiaryData {
@@ -19546,7 +19548,7 @@ export namespace AccountHolderUpdateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19563,11 +19565,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -19576,9 +19573,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19844,19 +19846,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -20134,8 +20136,8 @@ export namespace AccountHolderUpdateParams {
      * Residential address of the account holder.
      */
     residential_address:
-      | V1NonUsBeneficiaryData.V1UsResidentialAddress
-      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1NonUsBeneficiaryData {
@@ -20148,7 +20150,7 @@ export namespace AccountHolderUpdateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -20165,11 +20167,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -20178,9 +20175,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -20446,19 +20448,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -20732,11 +20734,6 @@ export namespace AccountHolderUpdateParams {
       | 'XK';
 
     /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as: string | null;
-
-    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
@@ -20745,15 +20742,15 @@ export namespace AccountHolderUpdateParams {
      * Physical operating address of the business.
      */
     physical_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Registered legal address of the business.
      */
     registered_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
@@ -20772,6 +20769,11 @@ export namespace AccountHolderUpdateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
+
+    /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as?: string | null;
   }
 
   export namespace V1BusinessBeneficiaryData {
@@ -20801,8 +20803,8 @@ export namespace AccountHolderUpdateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | V1UsBeneficiaryData.V1UsResidentialAddress
-        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1UsBeneficiaryData {
@@ -20818,7 +20820,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -20835,11 +20837,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -20848,9 +20845,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21116,19 +21118,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -21406,8 +21408,8 @@ export namespace AccountHolderUpdateParams {
        * Residential address of the account holder.
        */
       residential_address:
-        | V1NonUsBeneficiaryData.V1UsResidentialAddress
-        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1NonUsBeneficiaryData {
@@ -21420,7 +21422,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21437,11 +21439,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -21450,9 +21447,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21718,19 +21720,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -21759,7 +21761,9 @@ export namespace AccountHolderUpdateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember0.V1UsResidentialAddressRequest
+        | UnionMember0.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -21781,7 +21785,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21798,11 +21802,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -21811,9 +21810,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22079,19 +22083,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -22368,7 +22372,9 @@ export namespace AccountHolderUpdateParams {
       /**
        * Residential address of the account holder.
        */
-      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember1.V1UsResidentialAddressRequest
+        | UnionMember1.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -22387,7 +22393,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22404,11 +22410,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -22417,9 +22418,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22685,23 +22691,23 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -22718,11 +22724,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -22731,9 +22732,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -22999,22 +23005,22 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -23031,11 +23037,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -23044,9 +23045,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -23312,19 +23318,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
     export interface V1EinIdentification {

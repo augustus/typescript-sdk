@@ -103,7 +103,7 @@ export namespace DepositCreateParams {
      * Financial address of the counterparty.
      */
     financial_address:
-      | Counterparty.IbanFinancialAddress
+      | Counterparty.IbanFinancialAddressRequest
       | Counterparty.SortCodeFinancialAddress
       | Counterparty.AbaFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
@@ -111,20 +111,15 @@ export namespace DepositCreateParams {
     /**
      * Physical address of the counterparty.
      */
-    physical_address: Counterparty.PhysicalAddress | null;
+    physical_address?: Counterparty.PhysicalAddress | null;
   }
 
   export namespace Counterparty {
-    export interface IbanFinancialAddress {
+    export interface IbanFinancialAddressRequest {
       /**
        * Name of the account holder.
        */
       account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
 
       /**
        * International Bank Account Number.
@@ -135,6 +130,11 @@ export namespace DepositCreateParams {
        * Discriminator for IBAN financial address.
        */
       type: 'iban';
+
+      /**
+       * Bank Identifier Code. Optional; omit or send null if not provided.
+       */
+      bic?: string | null;
     }
 
     export interface SortCodeFinancialAddress {
