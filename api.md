@@ -179,6 +179,7 @@ Types:
 - <code><a href="./src/resources/counterparties.ts">CounterpartyRetrieveResponse</a></code>
 - <code><a href="./src/resources/counterparties.ts">CounterpartyUpdateResponse</a></code>
 - <code><a href="./src/resources/counterparties.ts">CounterpartyListResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyBlockResponse</a></code>
 
 Methods:
 
@@ -186,6 +187,7 @@ Methods:
 - <code title="get /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">retrieve</a>(id) -> CounterpartyRetrieveResponse</code>
 - <code title="post /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">update</a>(id, { ...params }) -> CounterpartyUpdateResponse</code>
 - <code title="get /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">list</a>({ ...params }) -> CounterpartyListResponsesCursorPage</code>
+- <code title="post /v1/counterparties/{id}/block">client.counterparties.<a href="./src/resources/counterparties.ts">block</a>(id) -> CounterpartyBlockResponse</code>
 
 # Returns
 

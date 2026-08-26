@@ -10,10 +10,7 @@ const client = new Augustus({
 describe('resource returns', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.returns.create({
-      deposit_id: '550e8400-e29b-41d4-a716-446655440004',
-      rail: 'sepa',
-    });
+    const responsePromise = client.returns.create({ deposit_id: '550e8400-e29b-41d4-a716-446655440004' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -25,10 +22,7 @@ describe('resource returns', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.returns.create({
-      deposit_id: '550e8400-e29b-41d4-a716-446655440004',
-      rail: 'sepa',
-    });
+    const response = await client.returns.create({ deposit_id: '550e8400-e29b-41d4-a716-446655440004' });
   });
 
   // Mock server tests are disabled

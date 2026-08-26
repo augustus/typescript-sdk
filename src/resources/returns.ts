@@ -14,7 +14,6 @@ export class Returns extends APIResource {
    * ```ts
    * const _return = await client.returns.create({
    *   deposit_id: '550e8400-e29b-41d4-a716-446655440004',
-   *   rail: 'sepa',
    * });
    * ```
    */
@@ -118,7 +117,7 @@ export interface ReturnCreateResponse {
   /**
    * Current status of the return.
    */
-  status: 'initiated' | 'sent' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
    * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -230,7 +229,7 @@ export interface ReturnRetrieveResponse {
   /**
    * Current status of the return.
    */
-  status: 'initiated' | 'sent' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
    * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -342,7 +341,7 @@ export interface ReturnListResponse {
   /**
    * Current status of the return.
    */
-  status: 'initiated' | 'sent' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
    * Transaction hash for crypto returns, or null when not known. Only blockchain
@@ -398,12 +397,6 @@ export interface ReturnCreateParams {
    * Deposit to return funds from.
    */
   deposit_id: string;
-
-  /**
-   * Payment scheme or blockchain used for the return, or null to let the platform
-   * choose.
-   */
-  rail: 'sepa' | 'sepa_instant' | 'faster_payments' | null;
 }
 
 export interface ReturnListParams extends CursorPageParams {
@@ -417,7 +410,7 @@ export interface ReturnListParams extends CursorPageParams {
   /**
    * Filter by return status.
    */
-  status?: 'initiated' | 'sent' | 'failed' | 'returned';
+  status?: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 }
 
 export namespace ReturnListParams {
