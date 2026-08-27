@@ -15,7 +15,10 @@ export class Payouts extends APIResource {
    * const payout = await client.payouts.create({
    *   account_id: '550e8400-e29b-41d4-a716-44665544000b',
    *   amount: '100.50',
-   *   currency: 'EUR',
+   *   destination: {
+   *     counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     type: 'counterparty',
+   *   },
    * });
    * ```
    */
@@ -463,50 +466,22 @@ export interface PayoutCreateParams {
   amount: string;
 
   /**
-   * Currency code (ISO 4217 or crypto).
+   * Where and how to send the payout: a saved counterparty or an inline financial
+   * address. Currency and rail are bundled with the destination so only valid
+   * combinations are accepted.
    */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Counterparty that receives the money. Either the `counterparty_id` or the
-   * `counterparty` object must be provided. When providing the `counterparty`
-   * object, a new counterparty is created automatically.
-   */
-  counterparty?: PayoutCreateParams.Counterparty | null;
-
-  /**
-   * ID of the counterparty that receives the money. Either the `counterparty_id` or
-   * the `counterparty` object must be provided. When providing the `counterparty`
-   * object, a new counterparty is created automatically.
-   */
-  counterparty_id?: string | null;
+  destination:
+    | PayoutCreateParams.SavedCounterpartyDestination
+    | PayoutCreateParams.IbanEurDestination
+    | PayoutCreateParams.IbanUsdDestination
+    | PayoutCreateParams.SortCodeDestination
+    | PayoutCreateParams.AbaDestination
+    | PayoutCreateParams.CryptoWalletDestination;
 
   /**
    * Key-value pairs stored with the payout.
    */
   metadata?: { [key: string]: string } | null;
-
-  /**
-   * Payment scheme or blockchain used for the payout, or null when unknown.
-   */
-  rail?:
-    | 'sepa'
-    | 'sepa_instant'
-    | 'faster_payments'
-    | 'swift'
-    | 'internal'
-    | 'target'
-    | 'ach'
-    | 'fedwire'
-    | 'bitcoin'
-    | 'bitcoin_testnet4'
-    | 'ethereum'
-    | 'ethereum_sepolia'
-    | 'solana'
-    | 'solana_devnet'
-    | 'polygon'
-    | 'polygon_amoy'
-    | null;
 
   /**
    * Unstructured remittance information attached to the transfer. This appears on
@@ -516,121 +491,1362 @@ export interface PayoutCreateParams {
 }
 
 export namespace PayoutCreateParams {
-  /**
-   * Counterparty that receives the money. Either the `counterparty_id` or the
-   * `counterparty` object must be provided. When providing the `counterparty`
-   * object, a new counterparty is created automatically.
-   */
-  export interface Counterparty {
+  export interface SavedCounterpartyDestination {
     /**
-     * Financial address of the counterparty.
+     * ID of the saved counterparty to pay.
      */
-    financial_address:
-      | Counterparty.IbanFinancialAddressRequest
-      | Counterparty.SortCodeFinancialAddress
-      | Counterparty.AbaFinancialAddress
-      | Counterparty.CryptoWalletFinancialAddress;
+    counterparty_id: string;
 
     /**
-     * Physical address of the counterparty.
+     * Discriminator for paying a saved counterparty.
      */
-    physical_address?: Counterparty.PhysicalAddress | null;
+    type: 'counterparty';
+
+    /**
+     * Validated against the resolved counterparty; must be specified when the
+     * counterparty is reachable on more than one rail.
+     */
+    rail?: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift';
   }
 
-  export namespace Counterparty {
-    export interface IbanFinancialAddressRequest {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN financial address.
-       */
-      type: 'iban';
-
-      /**
-       * Bank Identifier Code. Optional; omit or send null if not provided.
-       */
-      bic?: string | null;
-    }
-
-    export interface SortCodeFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code financial address.
-       */
-      type: 'sort_code';
-    }
-
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
-    export interface CryptoWalletFinancialAddress {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet financial address.
-       */
-      type: 'crypto_wallet';
-    }
+  export interface IbanEurDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
 
     /**
-     * Physical address of the counterparty.
+     * Currency of the payout. Settles in EUR.
+     */
+    currency: 'EUR';
+
+    /**
+     * International Bank Account Number.
+     */
+    iban: string;
+
+    /**
+     * Discriminator for IBAN financial address.
+     */
+    type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: IbanEurDestination.PhysicalAddress | null;
+
+    /**
+     * When omitted, Augustus sends via SEPA Instant where available and falls back to
+     * SEPA Credit Transfer.
+     */
+    rail?: 'sepa' | 'sepa_instant';
+  }
+
+  export namespace IbanEurDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface IbanUsdDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Currency of the payout. Settles in USD over SWIFT.
+     */
+    currency: 'USD';
+
+    /**
+     * International Bank Account Number.
+     */
+    iban: string;
+
+    /**
+     * Discriminator for IBAN financial address.
+     */
+    type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: IbanUsdDestination.PhysicalAddress | null;
+
+    /**
+     * Selected automatically for this destination when omitted.
+     */
+    rail?: 'swift';
+  }
+
+  export namespace IbanUsdDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface SortCodeDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * UK account number (8 digits).
+     */
+    account_number: string;
+
+    /**
+     * Currency of the payout. Sort code destinations settle in GBP.
+     */
+    currency: 'GBP';
+
+    /**
+     * UK sort code (6 digits).
+     */
+    sort_code: string;
+
+    /**
+     * Discriminator for UK sort code financial address.
+     */
+    type: 'sort_code';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: SortCodeDestination.PhysicalAddress | null;
+
+    /**
+     * Selected automatically for this destination when omitted.
+     */
+    rail?: 'faster_payments';
+  }
+
+  export namespace SortCodeDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface AbaDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Currency of the payout. ABA destinations settle in USD.
+     */
+    currency: 'USD';
+
+    /**
+     * ABA accounts are reachable on more than one rail, so the rail must be specified.
+     */
+    rail: 'ach' | 'fedwire';
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: AbaDestination.PhysicalAddress | null;
+  }
+
+  export namespace AbaDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface CryptoWalletDestination {
+    /**
+     * Wallet address on the specified blockchain.
+     */
+    address: string;
+
+    /**
+     * Blockchain network of the destination wallet.
+     */
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
+
+    /**
+     * Currency debited from the source account. The wallet always settles USDC
+     * on-chain; a non-USDC currency triggers auto-conversion.
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Discriminator for a crypto wallet destination.
+     */
+    type: 'crypto_wallet';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: CryptoWalletDestination.PhysicalAddress | null;
+  }
+
+  export namespace CryptoWalletDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
      */
     export interface PhysicalAddress {
       /**
