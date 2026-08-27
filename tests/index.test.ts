@@ -481,27 +481,7 @@ describe('idempotency', () => {
       {
         account_id: '550e8400-e29b-41d4-a716-44665544000b',
         amount: '100.50',
-        counterparty: {
-          financial_address: {
-            account_holder_name: 'Acme Sandbox Ltd.',
-            bic: 'COBADEFFXXX',
-            iban: 'DE89370400440532013000',
-            type: 'iban',
-          },
-          physical_address: {
-            city: 'city',
-            country_code: 'DE',
-            line_1: 'line_1',
-            line_2: 'line_2',
-            postal_code: 'postal_code',
-            state: 'state',
-          },
-        },
-        counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
         currency: 'EUR',
-        metadata: { invoice_id: 'INV-2026-0042' },
-        rail: 'sepa',
-        unstructured_remittance_information: 'INV-2026-0042',
       },
       { idempotencyKey: 'my-idempotency-key' },
     );

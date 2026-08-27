@@ -13,7 +13,6 @@ export class Conversions extends APIResource {
    * @example
    * ```ts
    * const conversion = await client.conversions.create({
-   *   metadata: { invoice_id: 'INV-2026-0042' },
    *   source_account_id: '550e8400-e29b-41d4-a716-44665544000b',
    *   source_amount: '100.50',
    *   target_account_id: '550e8400-e29b-41d4-a716-44665544000c',
@@ -235,11 +234,6 @@ export interface ConversionListResponse {
 
 export interface ConversionCreateParams {
   /**
-   * Key-value pairs stored with the conversion.
-   */
-  metadata: { [key: string]: string } | null;
-
-  /**
    * ID of the source account to debit.
    */
   source_account_id: string;
@@ -253,6 +247,11 @@ export interface ConversionCreateParams {
    * ID of the target account to credit.
    */
   target_account_id: string;
+
+  /**
+   * Key-value pairs stored with the conversion.
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface ConversionListParams extends CursorPageParams {
