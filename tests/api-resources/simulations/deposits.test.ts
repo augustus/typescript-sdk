@@ -46,7 +46,7 @@ describe('resource deposits', () => {
           state: 'state',
         },
       },
-      rail: 'sepa_instant',
+      rail: 'sepa',
       unstructured_remittance_information: 'x',
     });
   });
