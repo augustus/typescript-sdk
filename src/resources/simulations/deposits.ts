@@ -40,9 +40,9 @@ export interface DepositCreateResponse {
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * Payment rail used for the simulated deposit.
+   * Payment rail the simulated deposit arrived on, or null when not known.
    */
-  rail: 'sepa_instant' | 'sepa_credit_transfer' | 't2' | 'ach' | 'fedwire' | 'faster_payments' | null;
+  rail: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift' | null;
 
   /**
    * Whether the simulation submission was successful.
@@ -85,7 +85,7 @@ export interface DepositCreateParams {
   /**
    * Payment rail the simulated deposit arrives on.
    */
-  rail?: 'sepa_instant' | 'sepa_credit_transfer' | 't2' | 'ach' | 'fedwire' | 'faster_payments';
+  rail?: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift';
 
   /**
    * Unstructured remittance information attached to the transfer. Not all rails

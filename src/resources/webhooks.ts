@@ -1664,7 +1664,10 @@ export namespace AccountHolderActiveWebhookEvent {
     id: string;
 
     /**
-     * Beneficiary details used to create this account holder.
+     * Beneficiary details used to create this account holder. Which shape is returned
+     * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+     * individual** for any other country, **Business** when `holder_type` is
+     * `business`.
      */
     beneficiary_data:
       | Payload.V1UsBeneficiaryDataResponse
@@ -1718,7 +1721,9 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -2323,7 +2328,9 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -2665,7 +2672,8 @@ export namespace AccountHolderActiveWebhookEvent {
 
       /**
        * Individual with primary responsibility for controlling, managing, or directing
-       * the business.
+       * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+       * the control person's own `country_of_citizenship`.
        */
       control_person:
         | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -2937,14 +2945,18 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_business_name: string;
 
       /**
-       * Physical operating address of the business.
+       * Physical operating address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       physical_address:
         | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
         | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
-       * Registered legal address of the business.
+       * Registered legal address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       registered_address:
         | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -2995,7 +3007,9 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
           | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -3600,7 +3614,9 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
           | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -3954,7 +3970,9 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -4563,7 +4581,9 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
@@ -5577,7 +5597,10 @@ export namespace AccountHolderClosedWebhookEvent {
     id: string;
 
     /**
-     * Beneficiary details used to create this account holder.
+     * Beneficiary details used to create this account holder. Which shape is returned
+     * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+     * individual** for any other country, **Business** when `holder_type` is
+     * `business`.
      */
     beneficiary_data:
       | Payload.V1UsBeneficiaryDataResponse
@@ -5631,7 +5654,9 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -6236,7 +6261,9 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -6578,7 +6605,8 @@ export namespace AccountHolderClosedWebhookEvent {
 
       /**
        * Individual with primary responsibility for controlling, managing, or directing
-       * the business.
+       * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+       * the control person's own `country_of_citizenship`.
        */
       control_person:
         | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -6850,14 +6878,18 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_business_name: string;
 
       /**
-       * Physical operating address of the business.
+       * Physical operating address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       physical_address:
         | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
         | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
-       * Registered legal address of the business.
+       * Registered legal address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       registered_address:
         | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -6908,7 +6940,9 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
           | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -7513,7 +7547,9 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
           | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -7867,7 +7903,9 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -8476,7 +8514,9 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
