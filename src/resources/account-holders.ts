@@ -24,7 +24,6 @@ export class AccountHolders extends APIResource {
    *       city: 'San Francisco',
    *       country_code: 'US',
    *       line_1: '548 Market St',
-   *       line_2: 'Apartment 4B',
    *       postal_code: '94103',
    *       state: 'CA',
    *     },
@@ -68,7 +67,6 @@ export class AccountHolders extends APIResource {
    *         city: 'San Francisco',
    *         country_code: 'US',
    *         line_1: '548 Market St',
-   *         line_2: 'Apartment 4B',
    *         postal_code: '94103',
    *         state: 'CA',
    *       },
@@ -116,7 +114,10 @@ export interface AccountHolderCreateResponse {
   id: string;
 
   /**
-   * Beneficiary details used to create this account holder.
+   * Beneficiary details used to create this account holder. Which shape is returned
+   * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+   * individual** for any other country, **Business** when `holder_type` is
+   * `business`.
    */
   beneficiary_data:
     | AccountHolderCreateResponse.V1UsBeneficiaryDataResponse
@@ -170,7 +171,9 @@ export namespace AccountHolderCreateResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -775,7 +778,9 @@ export namespace AccountHolderCreateResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -1117,7 +1122,8 @@ export namespace AccountHolderCreateResponse {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person:
       | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -1389,14 +1395,18 @@ export namespace AccountHolderCreateResponse {
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
       | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -1447,7 +1457,9 @@ export namespace AccountHolderCreateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -2052,7 +2064,9 @@ export namespace AccountHolderCreateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -2406,7 +2420,9 @@ export namespace AccountHolderCreateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -3015,7 +3031,9 @@ export namespace AccountHolderCreateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
@@ -3997,7 +4015,10 @@ export interface AccountHolderRetrieveResponse {
   id: string;
 
   /**
-   * Beneficiary details used to create this account holder.
+   * Beneficiary details used to create this account holder. Which shape is returned
+   * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+   * individual** for any other country, **Business** when `holder_type` is
+   * `business`.
    */
   beneficiary_data:
     | AccountHolderRetrieveResponse.V1UsBeneficiaryDataResponse
@@ -4051,7 +4072,9 @@ export namespace AccountHolderRetrieveResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -4656,7 +4679,9 @@ export namespace AccountHolderRetrieveResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -4998,7 +5023,8 @@ export namespace AccountHolderRetrieveResponse {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person:
       | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -5270,14 +5296,18 @@ export namespace AccountHolderRetrieveResponse {
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
       | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -5328,7 +5358,9 @@ export namespace AccountHolderRetrieveResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -5933,7 +5965,9 @@ export namespace AccountHolderRetrieveResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -6287,7 +6321,9 @@ export namespace AccountHolderRetrieveResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -6896,7 +6932,9 @@ export namespace AccountHolderRetrieveResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
@@ -7878,7 +7916,10 @@ export interface AccountHolderUpdateResponse {
   id: string;
 
   /**
-   * Beneficiary details used to create this account holder.
+   * Beneficiary details used to create this account holder. Which shape is returned
+   * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+   * individual** for any other country, **Business** when `holder_type` is
+   * `business`.
    */
   beneficiary_data:
     | AccountHolderUpdateResponse.V1UsBeneficiaryDataResponse
@@ -7932,7 +7973,9 @@ export namespace AccountHolderUpdateResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -8537,7 +8580,9 @@ export namespace AccountHolderUpdateResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -8879,7 +8924,8 @@ export namespace AccountHolderUpdateResponse {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person:
       | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -9151,14 +9197,18 @@ export namespace AccountHolderUpdateResponse {
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
       | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -9209,7 +9259,9 @@ export namespace AccountHolderUpdateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -9814,7 +9866,9 @@ export namespace AccountHolderUpdateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -10168,7 +10222,9 @@ export namespace AccountHolderUpdateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -10777,7 +10833,9 @@ export namespace AccountHolderUpdateResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
@@ -11759,7 +11817,10 @@ export interface AccountHolderListResponse {
   id: string;
 
   /**
-   * Beneficiary details used to create this account holder.
+   * Beneficiary details used to create this account holder. Which shape is returned
+   * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+   * individual** for any other country, **Business** when `holder_type` is
+   * `business`.
    */
   beneficiary_data:
     | AccountHolderListResponse.V1UsBeneficiaryDataResponse
@@ -11813,7 +11874,9 @@ export namespace AccountHolderListResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -12418,7 +12481,9 @@ export namespace AccountHolderListResponse {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
       | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -12760,7 +12825,8 @@ export namespace AccountHolderListResponse {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person:
       | V1BusinessBeneficiaryDataResponse.UnionMember0
@@ -13032,14 +13098,18 @@ export namespace AccountHolderListResponse {
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
       | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
       | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
@@ -13090,7 +13160,9 @@ export namespace AccountHolderListResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -13695,7 +13767,9 @@ export namespace AccountHolderListResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
         | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
@@ -14049,7 +14123,9 @@ export namespace AccountHolderListResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
@@ -14658,7 +14734,9 @@ export namespace AccountHolderListResponse {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
@@ -15640,7 +15718,10 @@ export interface AccountHolderCreateParams {
   account_program_id: string;
 
   /**
-   * Personal information of the account holder.
+   * Personal information of the account holder. The shape you send follows
+   * `country_of_citizenship`: use **US individual** when it is `US`, and **Non-US
+   * individual** for any other country. Use **Business** when `holder_type` is
+   * `business`.
    */
   beneficiary_data:
     | AccountHolderCreateParams.V1UsBeneficiaryData
@@ -15677,11 +15758,13 @@ export namespace AccountHolderCreateParams {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
-      | V1UsBeneficiaryData.V1UsResidentialAddress
-      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1UsBeneficiaryData {
@@ -15697,7 +15780,7 @@ export namespace AccountHolderCreateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -15714,11 +15797,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -15727,9 +15805,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -15995,19 +16078,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -16282,11 +16365,13 @@ export namespace AccountHolderCreateParams {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
-      | V1NonUsBeneficiaryData.V1UsResidentialAddress
-      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1NonUsBeneficiaryData {
@@ -16299,7 +16384,7 @@ export namespace AccountHolderCreateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -16316,11 +16401,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -16329,9 +16409,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -16597,19 +16682,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -16623,7 +16708,8 @@ export namespace AccountHolderCreateParams {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person: V1BusinessBeneficiaryData.UnionMember0 | V1BusinessBeneficiaryData.UnionMember1;
 
@@ -16883,28 +16969,27 @@ export namespace AccountHolderCreateParams {
       | 'XK';
 
     /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as: string | null;
-
-    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
@@ -16923,6 +17008,11 @@ export namespace AccountHolderCreateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
+
+    /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as?: string | null;
   }
 
   export namespace V1BusinessBeneficiaryData {
@@ -16949,11 +17039,13 @@ export namespace AccountHolderCreateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | V1UsBeneficiaryData.V1UsResidentialAddress
-        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1UsBeneficiaryData {
@@ -16969,7 +17061,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -16986,11 +17078,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -16999,9 +17086,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17267,19 +17359,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -17554,11 +17646,13 @@ export namespace AccountHolderCreateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | V1NonUsBeneficiaryData.V1UsResidentialAddress
-        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1NonUsBeneficiaryData {
@@ -17571,7 +17665,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17588,11 +17682,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -17601,9 +17690,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17869,19 +17963,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -17908,9 +18002,13 @@ export namespace AccountHolderCreateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
-      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember0.V1UsResidentialAddressRequest
+        | UnionMember0.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -17932,7 +18030,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -17949,11 +18047,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -17962,9 +18055,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18230,19 +18328,19 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -18517,9 +18615,13 @@ export namespace AccountHolderCreateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
-      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember1.V1UsResidentialAddressRequest
+        | UnionMember1.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -18538,7 +18640,7 @@ export namespace AccountHolderCreateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18555,11 +18657,6 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -18568,9 +18665,14 @@ export namespace AccountHolderCreateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -18836,23 +18938,23 @@ export namespace AccountHolderCreateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -18869,11 +18971,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -18882,9 +18979,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19150,22 +19252,22 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19182,11 +19284,6 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -19195,9 +19292,14 @@ export namespace AccountHolderCreateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19463,19 +19565,19 @@ export namespace AccountHolderCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
     export interface V1EinIdentification {
@@ -19494,7 +19596,10 @@ export namespace AccountHolderCreateParams {
 
 export interface AccountHolderUpdateParams {
   /**
-   * New beneficiary details replacing the current values.
+   * New beneficiary details replacing the current values. The shape must match the
+   * existing account holder's `holder_type`: use **Business** for a business holder;
+   * otherwise use **US individual** when `country_of_citizenship` is `US`, and
+   * **Non-US individual** for any other country.
    */
   beneficiary_data:
     | AccountHolderUpdateParams.V1UsBeneficiaryData
@@ -19526,11 +19631,13 @@ export namespace AccountHolderUpdateParams {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
-      | V1UsBeneficiaryData.V1UsResidentialAddress
-      | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1UsBeneficiaryData {
@@ -19546,7 +19653,7 @@ export namespace AccountHolderUpdateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19563,11 +19670,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -19576,9 +19678,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -19844,19 +19951,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -20131,11 +20238,13 @@ export namespace AccountHolderUpdateParams {
     legal_name: string;
 
     /**
-     * Residential address of the account holder.
+     * Residential address of the account holder. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     residential_address:
-      | V1NonUsBeneficiaryData.V1UsResidentialAddress
-      | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+      | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+      | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
   }
 
   export namespace V1NonUsBeneficiaryData {
@@ -20148,7 +20257,7 @@ export namespace AccountHolderUpdateParams {
       value: string;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -20165,11 +20274,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -20178,9 +20282,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -20446,19 +20555,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
   }
 
@@ -20472,7 +20581,8 @@ export namespace AccountHolderUpdateParams {
 
     /**
      * Individual with primary responsibility for controlling, managing, or directing
-     * the business.
+     * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+     * the control person's own `country_of_citizenship`.
      */
     control_person: V1BusinessBeneficiaryData.UnionMember0 | V1BusinessBeneficiaryData.UnionMember1;
 
@@ -20732,28 +20842,27 @@ export namespace AccountHolderUpdateParams {
       | 'XK';
 
     /**
-     * Trade name the business operates under, if different from the legal name.
-     */
-    doing_business_as: string | null;
-
-    /**
      * Full legal name of the business.
      */
     legal_business_name: string;
 
     /**
-     * Physical operating address of the business.
+     * Physical operating address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     physical_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
-     * Registered legal address of the business.
+     * Registered legal address of the business. **US address** requires
+     * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+     * other country and allows `state` to be null.
      */
     registered_address:
-      | V1BusinessBeneficiaryData.V1UsResidentialAddress
-      | V1BusinessBeneficiaryData.V1NonUsResidentialAddress;
+      | V1BusinessBeneficiaryData.V1UsResidentialAddressRequest
+      | V1BusinessBeneficiaryData.V1NonUsResidentialAddressRequest;
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
@@ -20772,6 +20881,11 @@ export namespace AccountHolderUpdateParams {
      * Four-digit year the business was incorporated.
      */
     year_of_incorporation: number;
+
+    /**
+     * Trade name the business operates under, if different from the legal name.
+     */
+    doing_business_as?: string | null;
   }
 
   export namespace V1BusinessBeneficiaryData {
@@ -20798,11 +20912,13 @@ export namespace AccountHolderUpdateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | V1UsBeneficiaryData.V1UsResidentialAddress
-        | V1UsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1UsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1UsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1UsBeneficiaryData {
@@ -20818,7 +20934,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -20835,11 +20951,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -20848,9 +20959,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21116,19 +21232,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -21403,11 +21519,13 @@ export namespace AccountHolderUpdateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | V1NonUsBeneficiaryData.V1UsResidentialAddress
-        | V1NonUsBeneficiaryData.V1NonUsResidentialAddress;
+        | V1NonUsBeneficiaryData.V1UsResidentialAddressRequest
+        | V1NonUsBeneficiaryData.V1NonUsResidentialAddressRequest;
     }
 
     export namespace V1NonUsBeneficiaryData {
@@ -21420,7 +21538,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21437,11 +21555,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -21450,9 +21563,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21718,19 +21836,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -21757,9 +21875,13 @@ export namespace AccountHolderUpdateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
-      residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember0.V1UsResidentialAddressRequest
+        | UnionMember0.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -21781,7 +21903,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -21798,11 +21920,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -21811,9 +21928,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22079,19 +22201,19 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
@@ -22366,9 +22488,13 @@ export namespace AccountHolderUpdateParams {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
-      residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
+      residential_address:
+        | UnionMember1.V1UsResidentialAddressRequest
+        | UnionMember1.V1NonUsResidentialAddressRequest;
 
       /**
        * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -22387,7 +22513,7 @@ export namespace AccountHolderUpdateParams {
         value: string;
       }
 
-      export interface V1UsResidentialAddress {
+      export interface V1UsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22404,11 +22530,6 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
@@ -22417,9 +22538,14 @@ export namespace AccountHolderUpdateParams {
          * State, province, or region.
          */
         state: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
       }
 
-      export interface V1NonUsResidentialAddress {
+      export interface V1NonUsResidentialAddressRequest {
         /**
          * City or locality.
          */
@@ -22685,23 +22811,23 @@ export namespace AccountHolderUpdateParams {
         line_1: string;
 
         /**
-         * Secondary street address, or null if not recorded.
-         */
-        line_2: string | null;
-
-        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2?: string | null;
+
+        /**
          * State, province, or region, or null if not recorded.
          */
-        state: string | null;
+        state?: string | null;
       }
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -22718,11 +22844,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -22731,9 +22852,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -22999,22 +23125,22 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
-    export interface V1UsResidentialAddress {
+    export interface V1UsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -23031,11 +23157,6 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
@@ -23044,9 +23165,14 @@ export namespace AccountHolderUpdateParams {
        * State, province, or region.
        */
       state: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
     }
 
-    export interface V1NonUsResidentialAddress {
+    export interface V1NonUsResidentialAddressRequest {
       /**
        * City or locality.
        */
@@ -23312,19 +23438,19 @@ export namespace AccountHolderUpdateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
        * State, province, or region, or null if not recorded.
        */
-      state: string | null;
+      state?: string | null;
     }
 
     export interface V1EinIdentification {

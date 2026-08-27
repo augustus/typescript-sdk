@@ -33,9 +33,9 @@ describe('resource deposits', () => {
       counterparty: {
         financial_address: {
           account_holder_name: 'Acme Sandbox Ltd.',
-          bic: 'COBADEFFXXX',
           iban: 'DE89370400440532013000',
           type: 'iban',
+          bic: 'COBADEFFXXX',
         },
         physical_address: {
           city: 'city',
