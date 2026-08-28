@@ -118,12 +118,14 @@ export namespace PayoutCreatedWebhookEvent {
     sent_at: string | null;
 
     /**
-     * Current status of the payout. `initiated`: the payout has been initiated,
-     * `submitted`: the payout was submitted to the rail, `sent`: the payout was
-     * accepted and sent on the rail, `failed`: the payout failed after initiation or
-     * submission, `returned`: the payout is returned, after it was sent.
+     * Current status of the payout.
      */
     status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
 
     /**
      * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -281,12 +283,14 @@ export namespace PayoutInitiatedWebhookEvent {
     sent_at: string | null;
 
     /**
-     * Current status of the payout. `initiated`: the payout has been initiated,
-     * `submitted`: the payout was submitted to the rail, `sent`: the payout was
-     * accepted and sent on the rail, `failed`: the payout failed after initiation or
-     * submission, `returned`: the payout is returned, after it was sent.
+     * Current status of the payout.
      */
     status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
 
     /**
      * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -444,12 +448,14 @@ export namespace PayoutPaidWebhookEvent {
     sent_at: string | null;
 
     /**
-     * Current status of the payout. `initiated`: the payout has been initiated,
-     * `submitted`: the payout was submitted to the rail, `sent`: the payout was
-     * accepted and sent on the rail, `failed`: the payout failed after initiation or
-     * submission, `returned`: the payout is returned, after it was sent.
+     * Current status of the payout.
      */
     status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
 
     /**
      * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -607,12 +613,14 @@ export namespace PayoutFailedWebhookEvent {
     sent_at: string | null;
 
     /**
-     * Current status of the payout. `initiated`: the payout has been initiated,
-     * `submitted`: the payout was submitted to the rail, `sent`: the payout was
-     * accepted and sent on the rail, `failed`: the payout failed after initiation or
-     * submission, `returned`: the payout is returned, after it was sent.
+     * Current status of the payout.
      */
     status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
 
     /**
      * Transaction hash for crypto payouts, or null when not known. Only blockchain
