@@ -73,12 +73,18 @@ export interface CounterpartyCreateResponse {
   date_of_birth: string | null;
 
   /**
+   * Whether the counterparty is a business or an individual.
+   */
+  entity_type: 'business' | 'individual';
+
+  /**
    * Financial address of the counterparty.
    */
   financial_address:
     | CounterpartyCreateResponse.IbanFinancialAddress
     | CounterpartyCreateResponse.SortCodeFinancialAddress
     | CounterpartyCreateResponse.AbaFinancialAddress
+    | CounterpartyCreateResponse.BicFinancialAddress
     | CounterpartyCreateResponse.CryptoWalletFinancialAddress;
 
   /**
@@ -168,6 +174,34 @@ export namespace CounterpartyCreateResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -498,12 +532,18 @@ export interface CounterpartyRetrieveResponse {
   date_of_birth: string | null;
 
   /**
+   * Whether the counterparty is a business or an individual.
+   */
+  entity_type: 'business' | 'individual';
+
+  /**
    * Financial address of the counterparty.
    */
   financial_address:
     | CounterpartyRetrieveResponse.IbanFinancialAddress
     | CounterpartyRetrieveResponse.SortCodeFinancialAddress
     | CounterpartyRetrieveResponse.AbaFinancialAddress
+    | CounterpartyRetrieveResponse.BicFinancialAddress
     | CounterpartyRetrieveResponse.CryptoWalletFinancialAddress;
 
   /**
@@ -593,6 +633,34 @@ export namespace CounterpartyRetrieveResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -923,12 +991,18 @@ export interface CounterpartyUpdateResponse {
   date_of_birth: string | null;
 
   /**
+   * Whether the counterparty is a business or an individual.
+   */
+  entity_type: 'business' | 'individual';
+
+  /**
    * Financial address of the counterparty.
    */
   financial_address:
     | CounterpartyUpdateResponse.IbanFinancialAddress
     | CounterpartyUpdateResponse.SortCodeFinancialAddress
     | CounterpartyUpdateResponse.AbaFinancialAddress
+    | CounterpartyUpdateResponse.BicFinancialAddress
     | CounterpartyUpdateResponse.CryptoWalletFinancialAddress;
 
   /**
@@ -1018,6 +1092,34 @@ export namespace CounterpartyUpdateResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -1348,12 +1450,18 @@ export interface CounterpartyListResponse {
   date_of_birth: string | null;
 
   /**
+   * Whether the counterparty is a business or an individual.
+   */
+  entity_type: 'business' | 'individual';
+
+  /**
    * Financial address of the counterparty.
    */
   financial_address:
     | CounterpartyListResponse.IbanFinancialAddress
     | CounterpartyListResponse.SortCodeFinancialAddress
     | CounterpartyListResponse.AbaFinancialAddress
+    | CounterpartyListResponse.BicFinancialAddress
     | CounterpartyListResponse.CryptoWalletFinancialAddress;
 
   /**
@@ -1443,6 +1551,34 @@ export namespace CounterpartyListResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -1773,12 +1909,18 @@ export interface CounterpartyBlockResponse {
   date_of_birth: string | null;
 
   /**
+   * Whether the counterparty is a business or an individual.
+   */
+  entity_type: 'business' | 'individual';
+
+  /**
    * Financial address of the counterparty.
    */
   financial_address:
     | CounterpartyBlockResponse.IbanFinancialAddress
     | CounterpartyBlockResponse.SortCodeFinancialAddress
     | CounterpartyBlockResponse.AbaFinancialAddress
+    | CounterpartyBlockResponse.BicFinancialAddress
     | CounterpartyBlockResponse.CryptoWalletFinancialAddress;
 
   /**
@@ -1868,6 +2010,34 @@ export namespace CounterpartyBlockResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -2189,12 +2359,18 @@ export interface CounterpartyCreateParams {
     | CounterpartyCreateParams.IbanFinancialAddressRequest
     | CounterpartyCreateParams.SortCodeFinancialAddress
     | CounterpartyCreateParams.AbaFinancialAddress
+    | CounterpartyCreateParams.BicFinancialAddressRequest
     | CounterpartyCreateParams.CryptoWalletFinancialAddress;
 
   /**
    * Date of birth in YYYY-MM-DD format.
    */
   date_of_birth?: string;
+
+  /**
+   * Whether the counterparty is a business or an individual. Defaults to business.
+   */
+  entity_type?: 'business' | 'individual';
 
   /**
    * Whether the counterparty is self-owned. `false` if the counterparty is not owned
@@ -2278,6 +2454,34 @@ export namespace CounterpartyCreateParams {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddressRequest {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number (1-34 alphanumeric characters).
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia). Optional; omit or send null where the country has none.
+     */
+    local_bank_code?: string | null;
   }
 
   export interface CryptoWalletFinancialAddress {
@@ -2597,6 +2801,11 @@ export interface CounterpartyUpdateParams {
    * birth.
    */
   date_of_birth?: string | null;
+
+  /**
+   * New entity type. Omit to keep the current entity type.
+   */
+  entity_type?: 'business' | 'individual';
 
   /**
    * New ownership status. Omit to keep the current ownership status.
