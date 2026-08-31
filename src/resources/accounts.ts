@@ -144,6 +144,7 @@ export interface AccountCreateResponse {
     | AccountCreateResponse.IbanFinancialAddress
     | AccountCreateResponse.SortCodeFinancialAddress
     | AccountCreateResponse.AbaFinancialAddress
+    | AccountCreateResponse.BicFinancialAddress
     | AccountCreateResponse.CryptoWalletFinancialAddress
   >;
 
@@ -235,6 +236,34 @@ export namespace AccountCreateResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -290,6 +319,7 @@ export interface AccountRetrieveResponse {
     | AccountRetrieveResponse.IbanFinancialAddress
     | AccountRetrieveResponse.SortCodeFinancialAddress
     | AccountRetrieveResponse.AbaFinancialAddress
+    | AccountRetrieveResponse.BicFinancialAddress
     | AccountRetrieveResponse.CryptoWalletFinancialAddress
   >;
 
@@ -381,6 +411,34 @@ export namespace AccountRetrieveResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -436,6 +494,7 @@ export interface AccountListResponse {
     | AccountListResponse.IbanFinancialAddress
     | AccountListResponse.SortCodeFinancialAddress
     | AccountListResponse.AbaFinancialAddress
+    | AccountListResponse.BicFinancialAddress
     | AccountListResponse.CryptoWalletFinancialAddress
   >;
 
@@ -527,6 +586,34 @@ export namespace AccountListResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -582,6 +669,7 @@ export interface AccountCloseResponse {
     | AccountCloseResponse.IbanFinancialAddress
     | AccountCloseResponse.SortCodeFinancialAddress
     | AccountCloseResponse.AbaFinancialAddress
+    | AccountCloseResponse.BicFinancialAddress
     | AccountCloseResponse.CryptoWalletFinancialAddress
   >;
 
@@ -673,6 +761,34 @@ export namespace AccountCloseResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -728,6 +844,7 @@ export interface AccountFreezeResponse {
     | AccountFreezeResponse.IbanFinancialAddress
     | AccountFreezeResponse.SortCodeFinancialAddress
     | AccountFreezeResponse.AbaFinancialAddress
+    | AccountFreezeResponse.BicFinancialAddress
     | AccountFreezeResponse.CryptoWalletFinancialAddress
   >;
 
@@ -819,6 +936,34 @@ export namespace AccountFreezeResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -901,6 +1046,7 @@ export interface AccountUnfreezeResponse {
     | AccountUnfreezeResponse.IbanFinancialAddress
     | AccountUnfreezeResponse.SortCodeFinancialAddress
     | AccountUnfreezeResponse.AbaFinancialAddress
+    | AccountUnfreezeResponse.BicFinancialAddress
     | AccountUnfreezeResponse.CryptoWalletFinancialAddress
   >;
 
@@ -990,6 +1136,34 @@ export namespace AccountUnfreezeResponse {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
   }
 
   export interface CryptoWalletFinancialAddress {

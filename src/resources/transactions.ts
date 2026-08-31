@@ -123,6 +123,7 @@ export namespace TransactionRetrieveResponse {
       | Counterparty.IbanFinancialAddress
       | Counterparty.SortCodeFinancialAddress
       | Counterparty.AbaFinancialAddress
+      | Counterparty.BicFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
 
     /**
@@ -196,6 +197,34 @@ export namespace TransactionRetrieveResponse {
        * Discriminator for ABA wire financial address.
        */
       type: 'aba';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
     }
 
     export interface CryptoWalletFinancialAddress {
@@ -603,6 +632,7 @@ export namespace TransactionListResponse {
       | Counterparty.IbanFinancialAddress
       | Counterparty.SortCodeFinancialAddress
       | Counterparty.AbaFinancialAddress
+      | Counterparty.BicFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
 
     /**
@@ -676,6 +706,34 @@ export namespace TransactionListResponse {
        * Discriminator for ABA wire financial address.
        */
       type: 'aba';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
     }
 
     export interface CryptoWalletFinancialAddress {

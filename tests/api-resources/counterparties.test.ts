@@ -36,6 +36,7 @@ describe('resource counterparties', () => {
         bic: 'COBADEFFXXX',
       },
       date_of_birth: '2019-12-27',
+      entity_type: 'business',
       is_self_owned: true,
       name: 'name',
       physical_address: {

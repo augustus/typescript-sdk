@@ -106,6 +106,7 @@ export namespace DepositCreateParams {
       | Counterparty.IbanFinancialAddressRequest
       | Counterparty.SortCodeFinancialAddress
       | Counterparty.AbaFinancialAddress
+      | Counterparty.BicFinancialAddressRequest
       | Counterparty.CryptoWalletFinancialAddress;
 
     /**
@@ -179,6 +180,34 @@ export namespace DepositCreateParams {
        * Discriminator for ABA wire financial address.
        */
       type: 'aba';
+    }
+
+    export interface BicFinancialAddressRequest {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number (1-34 alphanumeric characters).
+       */
+      account_number: string;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia). Optional; omit or send null where the country has none.
+       */
+      local_bank_code?: string | null;
     }
 
     export interface CryptoWalletFinancialAddress {
