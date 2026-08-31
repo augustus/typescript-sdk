@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.22.0 (2026-08-31)
+
+Full Changelog: [v0.21.0...v0.22.0](https://github.com/augustus/typescript-sdk/compare/v0.21.0...v0.22.0)
+
+### Features
+
+* **api:** api update ([e9219c0](https://github.com/augustus/typescript-sdk/commit/e9219c09a267d4369798059da978f7a11e278286))
+* **api:** api update ([3ff99ad](https://github.com/augustus/typescript-sdk/commit/3ff99add650c2981993e8d6e97ccf13182457660))
+* **api:** api update ([fc7b0a6](https://github.com/augustus/typescript-sdk/commit/fc7b0a626588f988ce7dcfb7d8717239cb4a24e2))
+* **api:** api update ([bc6df7e](https://github.com/augustus/typescript-sdk/commit/bc6df7e0351496de5cb70da6a482bd7dbc07c2a3))
+* **api:** api update ([84c63fb](https://github.com/augustus/typescript-sdk/commit/84c63fb28f64063ebbfc413df1d1a4c1f5ef3d10))
+* **api:** api update ([79a62bd](https://github.com/augustus/typescript-sdk/commit/79a62bdb9b44c9862909a08a5dbb6c6cecd5557c))
+* **api:** api update ([386231e](https://github.com/augustus/typescript-sdk/commit/386231e2436431a59aea80967dda91416aa72609))
+* **api:** api update ([a8016bc](https://github.com/augustus/typescript-sdk/commit/a8016bcabe5586df3e2b0ecf7d4d2aa07724219a))
+
+
+### Chores
+
+* **internal:** codegen related update ([bd294a0](https://github.com/augustus/typescript-sdk/commit/bd294a0e247dddc270ff0d4d394d75ef25dbc714))
+
 ## 0.21.0 (2026-08-18)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/augustus/typescript-sdk/compare/v0.20.0...v0.21.0)
