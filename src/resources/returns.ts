@@ -9,6 +9,13 @@ import { path } from '../internal/utils/path';
 export class Returns extends APIResource {
   /**
    * Initiates a return of funds from a deposit to the source.
+   *
+   * @example
+   * ```ts
+   * const _return = await client.returns.create({
+   *   deposit_id: '550e8400-e29b-41d4-a716-446655440004',
+   * });
+   * ```
    */
   create(body: ReturnCreateParams, options?: RequestOptions): APIPromise<ReturnCreateResponse> {
     return this._client.post('/v1/returns', { body, ...options });
@@ -16,6 +23,13 @@ export class Returns extends APIResource {
 
   /**
    * Retrieves a return by ID.
+   *
+   * @example
+   * ```ts
+   * const _return = await client.returns.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440005',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<ReturnRetrieveResponse> {
     return this._client.get(path`/v1/returns/${id}`, options);
@@ -23,6 +37,14 @@ export class Returns extends APIResource {
 
   /**
    * Lists deposit returns for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const returnListResponse of client.returns.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: ReturnListParams | null | undefined = {},
@@ -46,12 +68,7 @@ export interface ReturnCreateResponse {
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the return was created.
-   */
-  created_at: string;
-
-  /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -66,19 +83,52 @@ export interface ReturnCreateResponse {
   failure: ReturnCreateResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the return was initiated.
+   */
+  initiated_at: string;
+
+  /**
+   * Payment scheme or blockchain used for the return, or null when unknown.
+   */
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
+
+  /**
+   * ISO 8601 UTC timestamp when the return was sent.
+   */
+  sent_at: string | null;
+
+  /**
    * Current status of the return.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Type of the resource.
+   * Transaction hash for crypto returns, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
+
+  /**
+   * Resource type discriminator.
    */
   type: 'return';
-
-  /**
-   * ISO 8601 UTC timestamp when the return was last updated.
-   */
-  updated_at: string;
 }
 
 export namespace ReturnCreateResponse {
@@ -94,6 +144,7 @@ export namespace ReturnCreateResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -129,12 +180,7 @@ export interface ReturnRetrieveResponse {
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the return was created.
-   */
-  created_at: string;
-
-  /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -149,19 +195,52 @@ export interface ReturnRetrieveResponse {
   failure: ReturnRetrieveResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the return was initiated.
+   */
+  initiated_at: string;
+
+  /**
+   * Payment scheme or blockchain used for the return, or null when unknown.
+   */
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
+
+  /**
+   * ISO 8601 UTC timestamp when the return was sent.
+   */
+  sent_at: string | null;
+
+  /**
    * Current status of the return.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Type of the resource.
+   * Transaction hash for crypto returns, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
+
+  /**
+   * Resource type discriminator.
    */
   type: 'return';
-
-  /**
-   * ISO 8601 UTC timestamp when the return was last updated.
-   */
-  updated_at: string;
 }
 
 export namespace ReturnRetrieveResponse {
@@ -177,6 +256,7 @@ export namespace ReturnRetrieveResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -212,12 +292,7 @@ export interface ReturnListResponse {
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the return was created.
-   */
-  created_at: string;
-
-  /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -232,19 +307,52 @@ export interface ReturnListResponse {
   failure: ReturnListResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the return was initiated.
+   */
+  initiated_at: string;
+
+  /**
+   * Payment scheme or blockchain used for the return, or null when unknown.
+   */
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
+
+  /**
+   * ISO 8601 UTC timestamp when the return was sent.
+   */
+  sent_at: string | null;
+
+  /**
    * Current status of the return.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Type of the resource.
+   * Transaction hash for crypto returns, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
+
+  /**
+   * Resource type discriminator.
    */
   type: 'return';
-
-  /**
-   * ISO 8601 UTC timestamp when the return was last updated.
-   */
-  updated_at: string;
 }
 
 export namespace ReturnListResponse {
@@ -260,6 +368,7 @@ export namespace ReturnListResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -288,11 +397,6 @@ export interface ReturnCreateParams {
    * Deposit to return funds from.
    */
   deposit_id: string;
-
-  /**
-   * Payment rail when the deposit allows multiple schemes.
-   */
-  rail?: 'sepa_instant' | 'sepa' | 'faster_payments';
 }
 
 export interface ReturnListParams extends CursorPageParams {
@@ -304,9 +408,9 @@ export interface ReturnListParams extends CursorPageParams {
   deposit_id?: string;
 
   /**
-   * Current status of the return.
+   * Filter by return status.
    */
-  status?: 'pending' | 'paid' | 'failed' | 'returned';
+  status?: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 }
 
 export namespace ReturnListParams {

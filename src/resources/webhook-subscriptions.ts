@@ -9,6 +9,15 @@ import { path } from '../internal/utils/path';
 export class WebhookSubscriptions extends APIResource {
   /**
    * Creates a new webhook subscription.
+   *
+   * @example
+   * ```ts
+   * const webhookSubscription =
+   *   await client.webhookSubscriptions.create({
+   *     events: ['payout.paid'],
+   *     url: 'https://sandbox.example.com/webhooks/augustus',
+   *   });
+   * ```
    */
   create(
     body: WebhookSubscriptionCreateParams,
@@ -19,6 +28,14 @@ export class WebhookSubscriptions extends APIResource {
 
   /**
    * Retrieves a webhook subscription by ID.
+   *
+   * @example
+   * ```ts
+   * const webhookSubscription =
+   *   await client.webhookSubscriptions.retrieve(
+   *     '550e8400-e29b-41d4-a716-446655440009',
+   *   );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<WebhookSubscriptionRetrieveResponse> {
     return this._client.get(path`/v1/webhook_subscriptions/${id}`, options);
@@ -26,6 +43,14 @@ export class WebhookSubscriptions extends APIResource {
 
   /**
    * Updates the URL and/or subscribed events.
+   *
+   * @example
+   * ```ts
+   * const webhookSubscription =
+   *   await client.webhookSubscriptions.update(
+   *     '550e8400-e29b-41d4-a716-446655440009',
+   *   );
+   * ```
    */
   update(
     id: string,
@@ -37,6 +62,14 @@ export class WebhookSubscriptions extends APIResource {
 
   /**
    * Lists webhook subscriptions for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const webhookSubscriptionListResponse of client.webhookSubscriptions.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: WebhookSubscriptionListParams | null | undefined = {},
@@ -50,6 +83,14 @@ export class WebhookSubscriptions extends APIResource {
 
   /**
    * Permanently deletes a webhook subscription. This cannot be undone.
+   *
+   * @example
+   * ```ts
+   * const webhookSubscription =
+   *   await client.webhookSubscriptions.delete(
+   *     '550e8400-e29b-41d4-a716-446655440009',
+   *   );
+   * ```
    */
   delete(id: string, options?: RequestOptions): APIPromise<WebhookSubscriptionDeleteResponse> {
     return this._client.delete(path`/v1/webhook_subscriptions/${id}`, options);
@@ -61,6 +102,14 @@ export class WebhookSubscriptions extends APIResource {
    * and signature verification in any environment without creating a real business
    * event. Test-event failures do not affect the subscription's health counters or
    * trigger failure-notification emails.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.webhookSubscriptions.sendTestEvent(
+   *     '550e8400-e29b-41d4-a716-446655440009',
+   *   );
+   * ```
    */
   sendTestEvent(id: string, options?: RequestOptions): APIPromise<WebhookSubscriptionSendTestEventResponse> {
     return this._client.post(path`/v1/webhook_subscriptions/${id}/send_test_event`, options);
@@ -383,7 +432,8 @@ export interface WebhookSubscriptionCreateParams {
 
 export interface WebhookSubscriptionUpdateParams {
   /**
-   * Event types to subscribe to. Use ["*"] for all events.
+   * New event types. Omit or send null to keep the current events. Use ["*"] for all
+   * events.
    */
   events?: Array<
     | 'payout.created'
@@ -401,12 +451,12 @@ export interface WebhookSubscriptionUpdateParams {
     | 'account_holder.active'
     | 'account_holder.closed'
     | '*'
-  >;
+  > | null;
 
   /**
-   * The HTTPS URL where webhook events will be delivered.
+   * The new HTTPS URL. Omit or send null to keep the current URL.
    */
-  url?: string;
+  url?: string | null;
 }
 
 export interface WebhookSubscriptionListParams extends CursorPageParams {}

@@ -56,28 +56,24 @@ export namespace PayoutCreatedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account that was debited.
+     */
+    account_id: string;
+
+    /**
      * Amount as a string decimal (e.g. "100.50").
      */
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the payout was created.
+     * ID of the counterparty that receives the money.
      */
-    created_at: string;
+    counterparty_id: string;
 
     /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Bank account or crypto wallet the payout was sent to.
-     */
-    destination:
-      | Payload.IbanFinancialAddress
-      | Payload.SortCodeFinancialAddress
-      | Payload.AbaFinancialAddress
-      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -85,24 +81,57 @@ export namespace PayoutCreatedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the payout was initiated.
+     */
+    initiated_at: string;
+
+    /**
      * Key-value pairs stored with the payout.
      */
     metadata: { [key: string]: string };
 
     /**
-     * Payment reference.
+     * Payment scheme or blockchain used for the payout, or null when unknown.
      */
-    reference: string;
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
 
     /**
-     * ID of the account that was debited.
+     * ISO 8601 UTC timestamp when the payout was sent.
      */
-    source_account_id: string;
+    sent_at: string | null;
 
     /**
      * Current status of the payout.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
+
+    /**
+     * Transaction hash for crypto payouts, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
 
     /**
      * Resource type discriminator.
@@ -110,103 +139,13 @@ export namespace PayoutCreatedWebhookEvent {
     type: 'payout';
 
     /**
-     * ISO 8601 UTC timestamp when the payout was last updated.
+     * Unstructured remittance information attached to the transfer. Not all rails
+     * support this field.
      */
-    updated_at: string;
+    unstructured_remittance_information: string | null;
   }
 
   export namespace Payload {
-    export interface IbanFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN financial address.
-       */
-      type: 'iban';
-    }
-
-    export interface SortCodeFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code financial address.
-       */
-      type: 'sort_code';
-    }
-
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
-    export interface CryptoWalletFinancialAddress {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet financial address.
-       */
-      type: 'crypto_wallet';
-    }
-
     /**
      * Failure details when status is failed, otherwise null.
      */
@@ -219,6 +158,7 @@ export namespace PayoutCreatedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -281,28 +221,24 @@ export namespace PayoutInitiatedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account that was debited.
+     */
+    account_id: string;
+
+    /**
      * Amount as a string decimal (e.g. "100.50").
      */
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the payout was created.
+     * ID of the counterparty that receives the money.
      */
-    created_at: string;
+    counterparty_id: string;
 
     /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Bank account or crypto wallet the payout was sent to.
-     */
-    destination:
-      | Payload.IbanFinancialAddress
-      | Payload.SortCodeFinancialAddress
-      | Payload.AbaFinancialAddress
-      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -310,24 +246,57 @@ export namespace PayoutInitiatedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the payout was initiated.
+     */
+    initiated_at: string;
+
+    /**
      * Key-value pairs stored with the payout.
      */
     metadata: { [key: string]: string };
 
     /**
-     * Payment reference.
+     * Payment scheme or blockchain used for the payout, or null when unknown.
      */
-    reference: string;
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
 
     /**
-     * ID of the account that was debited.
+     * ISO 8601 UTC timestamp when the payout was sent.
      */
-    source_account_id: string;
+    sent_at: string | null;
 
     /**
      * Current status of the payout.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
+
+    /**
+     * Transaction hash for crypto payouts, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
 
     /**
      * Resource type discriminator.
@@ -335,103 +304,13 @@ export namespace PayoutInitiatedWebhookEvent {
     type: 'payout';
 
     /**
-     * ISO 8601 UTC timestamp when the payout was last updated.
+     * Unstructured remittance information attached to the transfer. Not all rails
+     * support this field.
      */
-    updated_at: string;
+    unstructured_remittance_information: string | null;
   }
 
   export namespace Payload {
-    export interface IbanFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN financial address.
-       */
-      type: 'iban';
-    }
-
-    export interface SortCodeFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code financial address.
-       */
-      type: 'sort_code';
-    }
-
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
-    export interface CryptoWalletFinancialAddress {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet financial address.
-       */
-      type: 'crypto_wallet';
-    }
-
     /**
      * Failure details when status is failed, otherwise null.
      */
@@ -444,6 +323,7 @@ export namespace PayoutInitiatedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -506,28 +386,24 @@ export namespace PayoutPaidWebhookEvent {
     id: string;
 
     /**
+     * ID of the account that was debited.
+     */
+    account_id: string;
+
+    /**
      * Amount as a string decimal (e.g. "100.50").
      */
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the payout was created.
+     * ID of the counterparty that receives the money.
      */
-    created_at: string;
+    counterparty_id: string;
 
     /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Bank account or crypto wallet the payout was sent to.
-     */
-    destination:
-      | Payload.IbanFinancialAddress
-      | Payload.SortCodeFinancialAddress
-      | Payload.AbaFinancialAddress
-      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -535,24 +411,57 @@ export namespace PayoutPaidWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the payout was initiated.
+     */
+    initiated_at: string;
+
+    /**
      * Key-value pairs stored with the payout.
      */
     metadata: { [key: string]: string };
 
     /**
-     * Payment reference.
+     * Payment scheme or blockchain used for the payout, or null when unknown.
      */
-    reference: string;
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
 
     /**
-     * ID of the account that was debited.
+     * ISO 8601 UTC timestamp when the payout was sent.
      */
-    source_account_id: string;
+    sent_at: string | null;
 
     /**
      * Current status of the payout.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
+
+    /**
+     * Transaction hash for crypto payouts, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
 
     /**
      * Resource type discriminator.
@@ -560,103 +469,13 @@ export namespace PayoutPaidWebhookEvent {
     type: 'payout';
 
     /**
-     * ISO 8601 UTC timestamp when the payout was last updated.
+     * Unstructured remittance information attached to the transfer. Not all rails
+     * support this field.
      */
-    updated_at: string;
+    unstructured_remittance_information: string | null;
   }
 
   export namespace Payload {
-    export interface IbanFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN financial address.
-       */
-      type: 'iban';
-    }
-
-    export interface SortCodeFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code financial address.
-       */
-      type: 'sort_code';
-    }
-
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
-    export interface CryptoWalletFinancialAddress {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet financial address.
-       */
-      type: 'crypto_wallet';
-    }
-
     /**
      * Failure details when status is failed, otherwise null.
      */
@@ -669,6 +488,7 @@ export namespace PayoutPaidWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -731,28 +551,24 @@ export namespace PayoutFailedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account that was debited.
+     */
+    account_id: string;
+
+    /**
      * Amount as a string decimal (e.g. "100.50").
      */
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the payout was created.
+     * ID of the counterparty that receives the money.
      */
-    created_at: string;
+    counterparty_id: string;
 
     /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Bank account or crypto wallet the payout was sent to.
-     */
-    destination:
-      | Payload.IbanFinancialAddress
-      | Payload.SortCodeFinancialAddress
-      | Payload.AbaFinancialAddress
-      | Payload.CryptoWalletFinancialAddress;
 
     /**
      * Failure details when status is failed, otherwise null.
@@ -760,24 +576,57 @@ export namespace PayoutFailedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the payout was initiated.
+     */
+    initiated_at: string;
+
+    /**
      * Key-value pairs stored with the payout.
      */
     metadata: { [key: string]: string };
 
     /**
-     * Payment reference.
+     * Payment scheme or blockchain used for the payout, or null when unknown.
      */
-    reference: string;
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
 
     /**
-     * ID of the account that was debited.
+     * ISO 8601 UTC timestamp when the payout was sent.
      */
-    source_account_id: string;
+    sent_at: string | null;
 
     /**
      * Current status of the payout.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Identifier used to track the payout through the payment network where supported.
+     */
+    tracking_id: string | null;
+
+    /**
+     * Transaction hash for crypto payouts, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
 
     /**
      * Resource type discriminator.
@@ -785,103 +634,13 @@ export namespace PayoutFailedWebhookEvent {
     type: 'payout';
 
     /**
-     * ISO 8601 UTC timestamp when the payout was last updated.
+     * Unstructured remittance information attached to the transfer. Not all rails
+     * support this field.
      */
-    updated_at: string;
+    unstructured_remittance_information: string | null;
   }
 
   export namespace Payload {
-    export interface IbanFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN financial address.
-       */
-      type: 'iban';
-    }
-
-    export interface SortCodeFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code financial address.
-       */
-      type: 'sort_code';
-    }
-
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
-    export interface CryptoWalletFinancialAddress {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet financial address.
-       */
-      type: 'crypto_wallet';
-    }
-
     /**
      * Failure details when status is failed, otherwise null.
      */
@@ -894,6 +653,7 @@ export namespace PayoutFailedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -961,12 +721,7 @@ export namespace ReturnInitiatedWebhookEvent {
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the return was created.
-     */
-    created_at: string;
-
-    /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -981,19 +736,52 @@ export namespace ReturnInitiatedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the return was initiated.
+     */
+    initiated_at: string;
+
+    /**
+     * Payment scheme or blockchain used for the return, or null when unknown.
+     */
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was sent.
+     */
+    sent_at: string | null;
+
+    /**
      * Current status of the return.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
-     * Type of the resource.
+     * Transaction hash for crypto returns, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
+
+    /**
+     * Resource type discriminator.
      */
     type: 'return';
-
-    /**
-     * ISO 8601 UTC timestamp when the return was last updated.
-     */
-    updated_at: string;
   }
 
   export namespace Payload {
@@ -1009,6 +797,7 @@ export namespace ReturnInitiatedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -1076,12 +865,7 @@ export namespace ReturnPaidWebhookEvent {
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the return was created.
-     */
-    created_at: string;
-
-    /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -1096,19 +880,52 @@ export namespace ReturnPaidWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the return was initiated.
+     */
+    initiated_at: string;
+
+    /**
+     * Payment scheme or blockchain used for the return, or null when unknown.
+     */
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was sent.
+     */
+    sent_at: string | null;
+
+    /**
      * Current status of the return.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
-     * Type of the resource.
+     * Transaction hash for crypto returns, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
+
+    /**
+     * Resource type discriminator.
      */
     type: 'return';
-
-    /**
-     * ISO 8601 UTC timestamp when the return was last updated.
-     */
-    updated_at: string;
   }
 
   export namespace Payload {
@@ -1124,6 +941,7 @@ export namespace ReturnPaidWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -1191,12 +1009,7 @@ export namespace ReturnFailedWebhookEvent {
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the return was created.
-     */
-    created_at: string;
-
-    /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -1211,19 +1024,52 @@ export namespace ReturnFailedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the return was initiated.
+     */
+    initiated_at: string;
+
+    /**
+     * Payment scheme or blockchain used for the return, or null when unknown.
+     */
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was sent.
+     */
+    sent_at: string | null;
+
+    /**
      * Current status of the return.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
-     * Type of the resource.
+     * Transaction hash for crypto returns, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
+
+    /**
+     * Resource type discriminator.
      */
     type: 'return';
-
-    /**
-     * ISO 8601 UTC timestamp when the return was last updated.
-     */
-    updated_at: string;
   }
 
   export namespace Payload {
@@ -1239,6 +1085,7 @@ export namespace ReturnFailedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -1306,12 +1153,7 @@ export namespace ReturnReturnedWebhookEvent {
     amount: string;
 
     /**
-     * ISO 8601 UTC timestamp when the return was created.
-     */
-    created_at: string;
-
-    /**
-     * Currency code (ISO 4217 currency code or crypto currency code).
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -1326,19 +1168,52 @@ export namespace ReturnReturnedWebhookEvent {
     failure: Payload.Failure | null;
 
     /**
+     * ISO 8601 UTC timestamp when the return was initiated.
+     */
+    initiated_at: string;
+
+    /**
+     * Payment scheme or blockchain used for the return, or null when unknown.
+     */
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was sent.
+     */
+    sent_at: string | null;
+
+    /**
      * Current status of the return.
      */
-    status: 'pending' | 'paid' | 'failed' | 'returned';
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
     /**
-     * Type of the resource.
+     * Transaction hash for crypto returns, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
+
+    /**
+     * Resource type discriminator.
      */
     type: 'return';
-
-    /**
-     * ISO 8601 UTC timestamp when the return was last updated.
-     */
-    updated_at: string;
   }
 
   export namespace Payload {
@@ -1354,6 +1229,7 @@ export namespace ReturnReturnedWebhookEvent {
         | 'account_blocked'
         | 'insufficient_funds'
         | 'invalid_account_format'
+        | 'invalid_routing_number'
         | 'invalid_instruction'
         | 'invalid_amount'
         | 'invalid_time'
@@ -1416,55 +1292,45 @@ export namespace DepositReceivedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account that was credited with the deposit.
+     */
+    account_id: string;
+
+    /**
      * Amount as a string decimal (e.g. "100.50").
      */
     amount: string;
 
     /**
-     * Reference visible on the bank statement, or null when not applicable.
+     * ID of the counterparty that sent the money, or null when not known.
      */
-    bank_statement_reference: string | null;
+    counterparty_id: string | null;
 
     /**
-     * ISO 8601 UTC timestamp when the deposit was created.
-     */
-    created_at: string;
-
-    /**
-     * Supported fiat or crypto currency code for the deposit amount.
+     * Currency code (ISO 4217 or crypto).
      */
     currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
     /**
-     * ID of the merchant account that received the deposit.
-     */
-    destination_account_id: string;
-
-    /**
-     * Payment rail or blockchain used for the deposit, or null when unknown.
+     * Payment scheme or blockchain used for the deposit, or null when unknown.
      */
     rail:
+      | 'sepa'
       | 'sepa_instant'
       | 'faster_payments'
-      | 'sepa'
-      | 'elixir'
-      | 'express_elixir'
-      | 'sek_account_to_account'
-      | 'sumclearing'
-      | 'straksclearing'
       | 'swift'
       | 'internal'
       | 'target'
       | 'ach'
       | 'fedwire'
-      | 'btc'
-      | 'btc_testnet4'
-      | 'eth'
-      | 'eth_sepolia'
-      | 'sol'
-      | 'sol_devnet'
-      | 'matic'
-      | 'matic_amoy'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
       | null;
 
     /**
@@ -1473,17 +1339,18 @@ export namespace DepositReceivedWebhookEvent {
     returns: Array<string>;
 
     /**
-     * Counterparty bank account or crypto wallet that sent the funds.
+     * ISO 8601 UTC timestamp when the deposit was settled.
      */
-    source: Payload.Iban | Payload.UkSortCode | Payload.Aba | Payload.Wallet;
+    settled_at: string;
 
     /**
      * Current status of the deposit.
      */
-    status: 'received' | 'in_return' | 'returned' | 'return_failed' | 'return_returned';
+    status: 'settled';
 
     /**
-     * Transaction hash for crypto deposits, or null when not known.
+     * Transaction hash for crypto deposits, or null when not known. Only blockchain
+     * rails support this field.
      */
     tx_hash: string | null;
 
@@ -1493,102 +1360,10 @@ export namespace DepositReceivedWebhookEvent {
     type: 'deposit';
 
     /**
-     * ISO 8601 UTC timestamp when the deposit was last updated.
+     * Unstructured remittance information attached to the transfer. Not all rails
+     * support this field.
      */
-    updated_at: string;
-  }
-
-  export namespace Payload {
-    export interface Iban {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank Identifier Code, or null if not provided.
-       */
-      bic: string | null;
-
-      /**
-       * International Bank Account Number.
-       */
-      iban: string;
-
-      /**
-       * Discriminator for IBAN source.
-       */
-      type: 'iban';
-    }
-
-    export interface UkSortCode {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * UK account number (8 digits).
-       */
-      account_number: string;
-
-      /**
-       * UK sort code (6 digits).
-       */
-      sort_code: string;
-
-      /**
-       * Discriminator for UK sort code source.
-       */
-      type: 'sort_code';
-    }
-
-    export interface Aba {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire source.
-       */
-      type: 'aba';
-    }
-
-    export interface Wallet {
-      /**
-       * Wallet address on the specified blockchain.
-       */
-      address: string;
-
-      /**
-       * Blockchain network for the crypto wallet.
-       */
-      blockchain:
-        | 'bitcoin'
-        | 'ethereum'
-        | 'solana'
-        | 'polygon'
-        | 'bitcoin_testnet4'
-        | 'ethereum_sepolia'
-        | 'solana_devnet'
-        | 'polygon_amoy';
-
-      /**
-       * Discriminator for crypto wallet source.
-       */
-      type: 'crypto_wallet';
-    }
+    unstructured_remittance_information: string | null;
   }
 }
 
@@ -1640,19 +1415,9 @@ export namespace ConversionCreatedWebhookEvent {
     created_at: string;
 
     /**
-     * Failure details when status is failed, otherwise null.
-     */
-    failure: Payload.Failure | null;
-
-    /**
      * Key-value pairs stored with the conversion.
      */
     metadata: { [key: string]: string };
-
-    /**
-     * ID of the associated quote, or null.
-     */
-    quote_id: string | null;
 
     /**
      * ID of the source account, or null.
@@ -1660,14 +1425,9 @@ export namespace ConversionCreatedWebhookEvent {
     source_account_id: string | null;
 
     /**
-     * Source amount as a string decimal.
+     * Amount as a string decimal (e.g. "100.50").
      */
     source_amount: string;
-
-    /**
-     * Source currency code.
-     */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
     /**
      * Current status of the conversion.
@@ -1680,9 +1440,9 @@ export namespace ConversionCreatedWebhookEvent {
     target_account_id: string | null;
 
     /**
-     * Target currency code.
+     * Amount as a string decimal (e.g. "100.50").
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_amount: string;
 
     /**
      * Resource type discriminator.
@@ -1693,18 +1453,6 @@ export namespace ConversionCreatedWebhookEvent {
      * ISO 8601 UTC timestamp when the conversion was last updated.
      */
     updated_at: string;
-  }
-
-  export namespace Payload {
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    export interface Failure {
-      /**
-       * Human-readable description of the failure.
-       */
-      message: string;
-    }
   }
 }
 
@@ -1756,19 +1504,9 @@ export namespace ConversionCompletedWebhookEvent {
     created_at: string;
 
     /**
-     * Failure details when status is failed, otherwise null.
-     */
-    failure: Payload.Failure | null;
-
-    /**
      * Key-value pairs stored with the conversion.
      */
     metadata: { [key: string]: string };
-
-    /**
-     * ID of the associated quote, or null.
-     */
-    quote_id: string | null;
 
     /**
      * ID of the source account, or null.
@@ -1776,14 +1514,9 @@ export namespace ConversionCompletedWebhookEvent {
     source_account_id: string | null;
 
     /**
-     * Source amount as a string decimal.
+     * Amount as a string decimal (e.g. "100.50").
      */
     source_amount: string;
-
-    /**
-     * Source currency code.
-     */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
     /**
      * Current status of the conversion.
@@ -1796,9 +1529,9 @@ export namespace ConversionCompletedWebhookEvent {
     target_account_id: string | null;
 
     /**
-     * Target currency code.
+     * Amount as a string decimal (e.g. "100.50").
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_amount: string;
 
     /**
      * Resource type discriminator.
@@ -1809,18 +1542,6 @@ export namespace ConversionCompletedWebhookEvent {
      * ISO 8601 UTC timestamp when the conversion was last updated.
      */
     updated_at: string;
-  }
-
-  export namespace Payload {
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    export interface Failure {
-      /**
-       * Human-readable description of the failure.
-       */
-      message: string;
-    }
   }
 }
 
@@ -1872,19 +1593,9 @@ export namespace ConversionFailedWebhookEvent {
     created_at: string;
 
     /**
-     * Failure details when status is failed, otherwise null.
-     */
-    failure: Payload.Failure | null;
-
-    /**
      * Key-value pairs stored with the conversion.
      */
     metadata: { [key: string]: string };
-
-    /**
-     * ID of the associated quote, or null.
-     */
-    quote_id: string | null;
 
     /**
      * ID of the source account, or null.
@@ -1892,14 +1603,9 @@ export namespace ConversionFailedWebhookEvent {
     source_account_id: string | null;
 
     /**
-     * Source amount as a string decimal.
+     * Amount as a string decimal (e.g. "100.50").
      */
     source_amount: string;
-
-    /**
-     * Source currency code.
-     */
-    source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
     /**
      * Current status of the conversion.
@@ -1912,9 +1618,9 @@ export namespace ConversionFailedWebhookEvent {
     target_account_id: string | null;
 
     /**
-     * Target currency code.
+     * Amount as a string decimal (e.g. "100.50").
      */
-    target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+    target_amount: string;
 
     /**
      * Resource type discriminator.
@@ -1925,18 +1631,6 @@ export namespace ConversionFailedWebhookEvent {
      * ISO 8601 UTC timestamp when the conversion was last updated.
      */
     updated_at: string;
-  }
-
-  export namespace Payload {
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    export interface Failure {
-      /**
-       * Human-readable description of the failure.
-       */
-      message: string;
-    }
   }
 }
 
@@ -1978,12 +1672,15 @@ export namespace AccountHolderActiveWebhookEvent {
     id: string;
 
     /**
-     * Beneficiary details used to create this account holder.
+     * Beneficiary details used to create this account holder. Which shape is returned
+     * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+     * individual** for any other country, **Business** when `holder_type` is
+     * `business`.
      */
     beneficiary_data:
-      | Payload.UsBeneficiaryDataResponse
-      | Payload.NonUsBeneficiaryDataResponse
-      | Payload.BusinessBeneficiaryDataResponse;
+      | Payload.V1UsBeneficiaryDataResponse
+      | Payload.V1NonUsBeneficiaryDataResponse
+      | Payload.V1BusinessBeneficiaryDataResponse;
 
     /**
      * ISO 8601 UTC timestamp when the account holder was created.
@@ -2007,7 +1704,7 @@ export namespace AccountHolderActiveWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UsBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -2023,8 +1720,8 @@ export namespace AccountHolderActiveWebhookEvent {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -2032,36 +1729,48 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -2069,31 +1778,21 @@ export namespace AccountHolderActiveWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -2345,23 +2044,28 @@ export namespace AccountHolderActiveWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -2624,7 +2328,7 @@ export namespace AccountHolderActiveWebhookEvent {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -2632,14 +2336,16 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -2649,16 +2355,26 @@ export namespace AccountHolderActiveWebhookEvent {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -2666,31 +2382,21 @@ export namespace AccountHolderActiveWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -2942,38 +2648,44 @@ export namespace AccountHolderActiveWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface BusinessBeneficiaryDataResponse {
+    export interface V1BusinessBeneficiaryDataResponse {
       /**
        * Beneficial owners of the business. At least one required.
        */
       beneficial_owners: Array<
-        | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-        | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+        | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+        | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
       >;
 
       /**
        * Individual with primary responsibility for controlling, managing, or directing
-       * the business.
+       * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+       * the control person's own `country_of_citizenship`.
        */
       control_person:
-        | BusinessBeneficiaryDataResponse.UnionMember0
-        | BusinessBeneficiaryDataResponse.UnionMember1;
+        | V1BusinessBeneficiaryDataResponse.UnionMember0
+        | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
       /**
        * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -3241,26 +2953,30 @@ export namespace AccountHolderActiveWebhookEvent {
       legal_business_name: string;
 
       /**
-       * Physical operating address of the business.
+       * Physical operating address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       physical_address:
-        | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-        | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
-       * Registered legal address of the business.
+       * Registered legal address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       registered_address:
-        | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-        | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
        * Business registration number: type "ein" (Employer Identification Number, format
        * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
        */
       registration_number:
-        | BusinessBeneficiaryDataResponse.EinIdentification
-        | BusinessBeneficiaryDataResponse.SsnIdentification;
+        | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
       /**
        * State or subdivision where the business is incorporated.
@@ -3273,8 +2989,8 @@ export namespace AccountHolderActiveWebhookEvent {
       year_of_incorporation: number;
     }
 
-    export namespace BusinessBeneficiaryDataResponse {
-      export interface UsBeneficiaryDataResponse {
+    export namespace V1BusinessBeneficiaryDataResponse {
+      export interface V1UsBeneficiaryDataResponse {
         /**
          * ISO 3166-1 alpha-2 country code of citizenship.
          */
@@ -3290,8 +3006,8 @@ export namespace AccountHolderActiveWebhookEvent {
          * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
          */
         identification:
-          | UsBeneficiaryDataResponse.SsnIdentification
-          | UsBeneficiaryDataResponse.ItinIdentification;
+          | V1UsBeneficiaryDataResponse.V1SsnIdentification
+          | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
         /**
          * Full legal name of the account holder.
@@ -3299,36 +3015,48 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
-          | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-          | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+          | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+          | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
       }
 
-      export namespace UsBeneficiaryDataResponse {
-        export interface SsnIdentification {
+      export namespace V1UsBeneficiaryDataResponse {
+        export interface V1SsnIdentification {
           type: 'ssn';
 
           value: string;
         }
 
-        export interface ItinIdentification {
+        export interface V1ItinIdentification {
           type: 'itin';
 
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -3336,31 +3064,21 @@ export namespace AccountHolderActiveWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -3612,23 +3330,28 @@ export namespace AccountHolderActiveWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
-      export interface NonUsBeneficiaryDataResponse {
+      export interface V1NonUsBeneficiaryDataResponse {
         /**
          * ISO 3166-1 alpha-2 country code of citizenship.
          */
@@ -3891,7 +3614,7 @@ export namespace AccountHolderActiveWebhookEvent {
         /**
          * Government-issued identification with type: "id" (generic government-issued ID).
          */
-        identification: NonUsBeneficiaryDataResponse.Identification;
+        identification: V1NonUsBeneficiaryDataResponse.Identification;
 
         /**
          * Full legal name of the account holder.
@@ -3899,14 +3622,16 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
-          | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-          | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+          | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+          | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
       }
 
-      export namespace NonUsBeneficiaryDataResponse {
+      export namespace V1NonUsBeneficiaryDataResponse {
         /**
          * Government-issued identification with type: "id" (generic government-issued ID).
          */
@@ -3916,16 +3641,26 @@ export namespace AccountHolderActiveWebhookEvent {
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -3933,31 +3668,21 @@ export namespace AccountHolderActiveWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -4209,19 +3934,24 @@ export namespace AccountHolderActiveWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
@@ -4240,7 +3970,7 @@ export namespace AccountHolderActiveWebhookEvent {
          * Government-issued identification with type: "ssn" (Social Security Number,
          * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
          */
-        identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+        identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
         /**
          * Full legal name of the account holder.
@@ -4248,11 +3978,11 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
-        residential_address:
-          | UnionMember0.UsResidentialAddressResponse
-          | UnionMember0.NonUsResidentialAddressResponse;
+        residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
         /**
          * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -4262,28 +3992,38 @@ export namespace AccountHolderActiveWebhookEvent {
       }
 
       export namespace UnionMember0 {
-        export interface SsnIdentification {
+        export interface V1SsnIdentification {
           type: 'ssn';
 
           value: string;
         }
 
-        export interface ItinIdentification {
+        export interface V1ItinIdentification {
           type: 'itin';
 
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -4291,31 +4031,21 @@ export namespace AccountHolderActiveWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -4567,19 +4297,24 @@ export namespace AccountHolderActiveWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
@@ -4854,11 +4589,11 @@ export namespace AccountHolderActiveWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
-        residential_address:
-          | UnionMember1.UsResidentialAddressResponse
-          | UnionMember1.NonUsResidentialAddressResponse;
+        residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
         /**
          * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -4877,16 +4612,26 @@ export namespace AccountHolderActiveWebhookEvent {
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -4894,31 +4639,21 @@ export namespace AccountHolderActiveWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -5170,32 +4905,47 @@ export namespace AccountHolderActiveWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -5203,31 +4953,21 @@ export namespace AccountHolderActiveWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -5479,31 +5219,46 @@ export namespace AccountHolderActiveWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -5511,31 +5266,21 @@ export namespace AccountHolderActiveWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -5787,28 +5532,33 @@ export namespace AccountHolderActiveWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
 
-      export interface EinIdentification {
+      export interface V1EinIdentification {
         type: 'ein';
 
         value: string;
       }
 
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
@@ -5855,12 +5605,15 @@ export namespace AccountHolderClosedWebhookEvent {
     id: string;
 
     /**
-     * Beneficiary details used to create this account holder.
+     * Beneficiary details used to create this account holder. Which shape is returned
+     * follows `country_of_citizenship`: **US individual** when it is `US`, **Non-US
+     * individual** for any other country, **Business** when `holder_type` is
+     * `business`.
      */
     beneficiary_data:
-      | Payload.UsBeneficiaryDataResponse
-      | Payload.NonUsBeneficiaryDataResponse
-      | Payload.BusinessBeneficiaryDataResponse;
+      | Payload.V1UsBeneficiaryDataResponse
+      | Payload.V1NonUsBeneficiaryDataResponse
+      | Payload.V1BusinessBeneficiaryDataResponse;
 
     /**
      * ISO 8601 UTC timestamp when the account holder was created.
@@ -5884,7 +5637,7 @@ export namespace AccountHolderClosedWebhookEvent {
   }
 
   export namespace Payload {
-    export interface UsBeneficiaryDataResponse {
+    export interface V1UsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -5900,8 +5653,8 @@ export namespace AccountHolderClosedWebhookEvent {
        * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
        */
       identification:
-        | UsBeneficiaryDataResponse.SsnIdentification
-        | UsBeneficiaryDataResponse.ItinIdentification;
+        | V1UsBeneficiaryDataResponse.V1SsnIdentification
+        | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
       /**
        * Full legal name of the account holder.
@@ -5909,36 +5662,48 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace UsBeneficiaryDataResponse {
-      export interface SsnIdentification {
+    export namespace V1UsBeneficiaryDataResponse {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;
       }
 
-      export interface ItinIdentification {
+      export interface V1ItinIdentification {
         type: 'itin';
 
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -5946,31 +5711,21 @@ export namespace AccountHolderClosedWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -6222,23 +5977,28 @@ export namespace AccountHolderClosedWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface NonUsBeneficiaryDataResponse {
+    export interface V1NonUsBeneficiaryDataResponse {
       /**
        * ISO 3166-1 alpha-2 country code of citizenship.
        */
@@ -6501,7 +6261,7 @@ export namespace AccountHolderClosedWebhookEvent {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
-      identification: NonUsBeneficiaryDataResponse.Identification;
+      identification: V1NonUsBeneficiaryDataResponse.Identification;
 
       /**
        * Full legal name of the account holder.
@@ -6509,14 +6269,16 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_name: string;
 
       /**
-       * Residential address of the account holder.
+       * Residential address of the account holder. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       residential_address:
-        | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-        | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
     }
 
-    export namespace NonUsBeneficiaryDataResponse {
+    export namespace V1NonUsBeneficiaryDataResponse {
       /**
        * Government-issued identification with type: "id" (generic government-issued ID).
        */
@@ -6526,16 +6288,26 @@ export namespace AccountHolderClosedWebhookEvent {
         value: string;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -6543,31 +6315,21 @@ export namespace AccountHolderClosedWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -6819,38 +6581,44 @@ export namespace AccountHolderClosedWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
     }
 
-    export interface BusinessBeneficiaryDataResponse {
+    export interface V1BusinessBeneficiaryDataResponse {
       /**
        * Beneficial owners of the business. At least one required.
        */
       beneficial_owners: Array<
-        | BusinessBeneficiaryDataResponse.UsBeneficiaryDataResponse
-        | BusinessBeneficiaryDataResponse.NonUsBeneficiaryDataResponse
+        | V1BusinessBeneficiaryDataResponse.V1UsBeneficiaryDataResponse
+        | V1BusinessBeneficiaryDataResponse.V1NonUsBeneficiaryDataResponse
       >;
 
       /**
        * Individual with primary responsibility for controlling, managing, or directing
-       * the business.
+       * the business. Follows the same US / non-US split as `beneficiary_data`, based on
+       * the control person's own `country_of_citizenship`.
        */
       control_person:
-        | BusinessBeneficiaryDataResponse.UnionMember0
-        | BusinessBeneficiaryDataResponse.UnionMember1;
+        | V1BusinessBeneficiaryDataResponse.UnionMember0
+        | V1BusinessBeneficiaryDataResponse.UnionMember1;
 
       /**
        * ISO 3166-1 alpha-2 country code where the business is incorporated.
@@ -7118,26 +6886,30 @@ export namespace AccountHolderClosedWebhookEvent {
       legal_business_name: string;
 
       /**
-       * Physical operating address of the business.
+       * Physical operating address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       physical_address:
-        | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-        | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
-       * Registered legal address of the business.
+       * Registered legal address of the business. **US address** requires
+       * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+       * other country and allows `state` to be null.
        */
       registered_address:
-        | BusinessBeneficiaryDataResponse.UsResidentialAddressResponse
-        | BusinessBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+        | V1BusinessBeneficiaryDataResponse.V1UsResidentialAddress
+        | V1BusinessBeneficiaryDataResponse.V1NonUsResidentialAddress;
 
       /**
        * Business registration number: type "ein" (Employer Identification Number, format
        * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
        */
       registration_number:
-        | BusinessBeneficiaryDataResponse.EinIdentification
-        | BusinessBeneficiaryDataResponse.SsnIdentification;
+        | V1BusinessBeneficiaryDataResponse.V1EinIdentification
+        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
 
       /**
        * State or subdivision where the business is incorporated.
@@ -7150,8 +6922,8 @@ export namespace AccountHolderClosedWebhookEvent {
       year_of_incorporation: number;
     }
 
-    export namespace BusinessBeneficiaryDataResponse {
-      export interface UsBeneficiaryDataResponse {
+    export namespace V1BusinessBeneficiaryDataResponse {
+      export interface V1UsBeneficiaryDataResponse {
         /**
          * ISO 3166-1 alpha-2 country code of citizenship.
          */
@@ -7167,8 +6939,8 @@ export namespace AccountHolderClosedWebhookEvent {
          * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
          */
         identification:
-          | UsBeneficiaryDataResponse.SsnIdentification
-          | UsBeneficiaryDataResponse.ItinIdentification;
+          | V1UsBeneficiaryDataResponse.V1SsnIdentification
+          | V1UsBeneficiaryDataResponse.V1ItinIdentification;
 
         /**
          * Full legal name of the account holder.
@@ -7176,36 +6948,48 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
-          | UsBeneficiaryDataResponse.UsResidentialAddressResponse
-          | UsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+          | V1UsBeneficiaryDataResponse.V1UsResidentialAddress
+          | V1UsBeneficiaryDataResponse.V1NonUsResidentialAddress;
       }
 
-      export namespace UsBeneficiaryDataResponse {
-        export interface SsnIdentification {
+      export namespace V1UsBeneficiaryDataResponse {
+        export interface V1SsnIdentification {
           type: 'ssn';
 
           value: string;
         }
 
-        export interface ItinIdentification {
+        export interface V1ItinIdentification {
           type: 'itin';
 
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -7213,31 +6997,21 @@ export namespace AccountHolderClosedWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -7489,23 +7263,28 @@ export namespace AccountHolderClosedWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
-      export interface NonUsBeneficiaryDataResponse {
+      export interface V1NonUsBeneficiaryDataResponse {
         /**
          * ISO 3166-1 alpha-2 country code of citizenship.
          */
@@ -7768,7 +7547,7 @@ export namespace AccountHolderClosedWebhookEvent {
         /**
          * Government-issued identification with type: "id" (generic government-issued ID).
          */
-        identification: NonUsBeneficiaryDataResponse.Identification;
+        identification: V1NonUsBeneficiaryDataResponse.Identification;
 
         /**
          * Full legal name of the account holder.
@@ -7776,14 +7555,16 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
         residential_address:
-          | NonUsBeneficiaryDataResponse.UsResidentialAddressResponse
-          | NonUsBeneficiaryDataResponse.NonUsResidentialAddressResponse;
+          | V1NonUsBeneficiaryDataResponse.V1UsResidentialAddress
+          | V1NonUsBeneficiaryDataResponse.V1NonUsResidentialAddress;
       }
 
-      export namespace NonUsBeneficiaryDataResponse {
+      export namespace V1NonUsBeneficiaryDataResponse {
         /**
          * Government-issued identification with type: "id" (generic government-issued ID).
          */
@@ -7793,16 +7574,26 @@ export namespace AccountHolderClosedWebhookEvent {
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -7810,31 +7601,21 @@ export namespace AccountHolderClosedWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -8086,19 +7867,24 @@ export namespace AccountHolderClosedWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
@@ -8117,7 +7903,7 @@ export namespace AccountHolderClosedWebhookEvent {
          * Government-issued identification with type: "ssn" (Social Security Number,
          * format ###-##-####) or "itin" (Individual Taxpayer ID, format 9##-##-####).
          */
-        identification: UnionMember0.SsnIdentification | UnionMember0.ItinIdentification;
+        identification: UnionMember0.V1SsnIdentification | UnionMember0.V1ItinIdentification;
 
         /**
          * Full legal name of the account holder.
@@ -8125,11 +7911,11 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
-        residential_address:
-          | UnionMember0.UsResidentialAddressResponse
-          | UnionMember0.NonUsResidentialAddressResponse;
+        residential_address: UnionMember0.V1UsResidentialAddress | UnionMember0.V1NonUsResidentialAddress;
 
         /**
          * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -8139,28 +7925,38 @@ export namespace AccountHolderClosedWebhookEvent {
       }
 
       export namespace UnionMember0 {
-        export interface SsnIdentification {
+        export interface V1SsnIdentification {
           type: 'ssn';
 
           value: string;
         }
 
-        export interface ItinIdentification {
+        export interface V1ItinIdentification {
           type: 'itin';
 
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -8168,31 +7964,21 @@ export namespace AccountHolderClosedWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -8444,19 +8230,24 @@ export namespace AccountHolderClosedWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
@@ -8731,11 +8522,11 @@ export namespace AccountHolderClosedWebhookEvent {
         legal_name: string;
 
         /**
-         * Residential address of the account holder.
+         * Residential address of the account holder. **US address** requires
+         * `country_code: US` and a two-letter `state`. **Non-US address** accepts any
+         * other country and allows `state` to be null.
          */
-        residential_address:
-          | UnionMember1.UsResidentialAddressResponse
-          | UnionMember1.NonUsResidentialAddressResponse;
+        residential_address: UnionMember1.V1UsResidentialAddress | UnionMember1.V1NonUsResidentialAddress;
 
         /**
          * Role of the control person at the business (e.g., "CEO", "President", "Managing
@@ -8754,16 +8545,26 @@ export namespace AccountHolderClosedWebhookEvent {
           value: string;
         }
 
-        export interface UsResidentialAddressResponse {
+        export interface V1UsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country: 'US';
+          country_code: 'US';
+
+          /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
 
           /**
            * Postal or ZIP code.
@@ -8771,31 +8572,21 @@ export namespace AccountHolderClosedWebhookEvent {
           postal_code: string;
 
           /**
-           * Two-letter state code.
+           * State, province, or region.
            */
           state: string;
-
-          /**
-           * Primary street address.
-           */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
         }
 
-        export interface NonUsResidentialAddressResponse {
+        export interface V1NonUsResidentialAddress {
           /**
-           * City name.
+           * City or locality.
            */
           city: string;
 
           /**
            * ISO 3166-1 alpha-2 country code.
            */
-          country:
+          country_code:
             | 'AF'
             | 'AL'
             | 'DZ'
@@ -9047,32 +8838,47 @@ export namespace AccountHolderClosedWebhookEvent {
             | 'XK';
 
           /**
+           * Primary street address.
+           */
+          line_1: string;
+
+          /**
+           * Secondary street address, or null if not recorded.
+           */
+          line_2: string | null;
+
+          /**
            * Postal or ZIP code.
            */
           postal_code: string;
 
           /**
-           * Primary street address.
+           * State, province, or region, or null if not recorded.
            */
-          street_line_1: string;
-
-          /**
-           * Secondary street address (apartment, suite, etc.).
-           */
-          street_line_2: string | null;
+          state: string | null;
         }
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -9080,31 +8886,21 @@ export namespace AccountHolderClosedWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -9356,31 +9152,46 @@ export namespace AccountHolderClosedWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
 
-      export interface UsResidentialAddressResponse {
+      export interface V1UsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country: 'US';
+        country_code: 'US';
+
+        /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
 
         /**
          * Postal or ZIP code.
@@ -9388,31 +9199,21 @@ export namespace AccountHolderClosedWebhookEvent {
         postal_code: string;
 
         /**
-         * Two-letter state code.
+         * State, province, or region.
          */
         state: string;
-
-        /**
-         * Primary street address.
-         */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
       }
 
-      export interface NonUsResidentialAddressResponse {
+      export interface V1NonUsResidentialAddress {
         /**
-         * City name.
+         * City or locality.
          */
         city: string;
 
         /**
          * ISO 3166-1 alpha-2 country code.
          */
-        country:
+        country_code:
           | 'AF'
           | 'AL'
           | 'DZ'
@@ -9664,28 +9465,33 @@ export namespace AccountHolderClosedWebhookEvent {
           | 'XK';
 
         /**
+         * Primary street address.
+         */
+        line_1: string;
+
+        /**
+         * Secondary street address, or null if not recorded.
+         */
+        line_2: string | null;
+
+        /**
          * Postal or ZIP code.
          */
         postal_code: string;
 
         /**
-         * Primary street address.
+         * State, province, or region, or null if not recorded.
          */
-        street_line_1: string;
-
-        /**
-         * Secondary street address (apartment, suite, etc.).
-         */
-        street_line_2: string | null;
+        state: string | null;
       }
 
-      export interface EinIdentification {
+      export interface V1EinIdentification {
         type: 'ein';
 
         value: string;
       }
 
-      export interface SsnIdentification {
+      export interface V1SsnIdentification {
         type: 'ssn';
 
         value: string;

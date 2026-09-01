@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource accountPrograms', () => {
   // Mock server tests are disabled
   test.skip('retrieve', async () => {
-    const responsePromise = client.accountPrograms.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.accountPrograms.retrieve('550e8400-e29b-41d4-a716-446655440002');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,13 +36,13 @@ describe('resource accountPrograms', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.accountPrograms.list({ cursor: 'cursor', limit: 2 }, { path: '/_stainless_unknown_path' }),
+      client.accountPrograms.list({ cursor: 'cursor', limit: 1 }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Augustus.NotFoundError);
   });
 
   // Mock server tests are disabled
   test.skip('retrieveBalance', async () => {
-    const responsePromise = client.accountPrograms.retrieveBalance('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+    const responsePromise = client.accountPrograms.retrieveBalance('550e8400-e29b-41d4-a716-446655440002');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

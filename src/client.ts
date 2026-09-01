@@ -64,6 +64,18 @@ import {
   Conversions,
 } from './resources/conversions';
 import {
+  Counterparties,
+  CounterpartyBlockResponse,
+  CounterpartyCreateParams,
+  CounterpartyCreateResponse,
+  CounterpartyListParams,
+  CounterpartyListResponse,
+  CounterpartyListResponsesCursorPage,
+  CounterpartyRetrieveResponse,
+  CounterpartyUpdateParams,
+  CounterpartyUpdateResponse,
+} from './resources/counterparties';
+import {
   DepositListParams,
   DepositListResponse,
   DepositListResponsesCursorPage,
@@ -144,6 +156,7 @@ import {
   Webhooks,
 } from './resources/webhooks';
 import { QuoteRetrieveResponse, Quotes } from './resources/quotes/quotes';
+import { Simulations } from './resources/simulations/simulations';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -936,12 +949,14 @@ export class Augustus {
   webhooks: API.Webhooks = new API.Webhooks(this);
   payouts: API.Payouts = new API.Payouts(this);
   deposits: API.Deposits = new API.Deposits(this);
+  simulations: API.Simulations = new API.Simulations(this);
   transactions: API.Transactions = new API.Transactions(this);
   conversions: API.Conversions = new API.Conversions(this);
   quotes: API.Quotes = new API.Quotes(this);
   accounts: API.Accounts = new API.Accounts(this);
   accountPrograms: API.AccountPrograms = new API.AccountPrograms(this);
   accountHolders: API.AccountHolders = new API.AccountHolders(this);
+  counterparties: API.Counterparties = new API.Counterparties(this);
   returns: API.Returns = new API.Returns(this);
   webhookSubscriptions: API.WebhookSubscriptions = new API.WebhookSubscriptions(this);
   events: API.Events = new API.Events(this);
@@ -954,12 +969,14 @@ export class Augustus {
 Augustus.Webhooks = Webhooks;
 Augustus.Payouts = Payouts;
 Augustus.Deposits = Deposits;
+Augustus.Simulations = Simulations;
 Augustus.Transactions = Transactions;
 Augustus.Conversions = Conversions;
 Augustus.Quotes = Quotes;
 Augustus.Accounts = Accounts;
 Augustus.AccountPrograms = AccountPrograms;
 Augustus.AccountHolders = AccountHolders;
+Augustus.Counterparties = Counterparties;
 Augustus.Returns = Returns;
 Augustus.WebhookSubscriptions = WebhookSubscriptions;
 Augustus.Events = Events;
@@ -1011,6 +1028,8 @@ export declare namespace Augustus {
     type DepositListResponsesCursorPage as DepositListResponsesCursorPage,
     type DepositListParams as DepositListParams,
   };
+
+  export { Simulations as Simulations };
 
   export {
     Transactions as Transactions,
@@ -1066,6 +1085,19 @@ export declare namespace Augustus {
     type AccountHolderCreateParams as AccountHolderCreateParams,
     type AccountHolderUpdateParams as AccountHolderUpdateParams,
     type AccountHolderListParams as AccountHolderListParams,
+  };
+
+  export {
+    Counterparties as Counterparties,
+    type CounterpartyCreateResponse as CounterpartyCreateResponse,
+    type CounterpartyRetrieveResponse as CounterpartyRetrieveResponse,
+    type CounterpartyUpdateResponse as CounterpartyUpdateResponse,
+    type CounterpartyListResponse as CounterpartyListResponse,
+    type CounterpartyBlockResponse as CounterpartyBlockResponse,
+    type CounterpartyListResponsesCursorPage as CounterpartyListResponsesCursorPage,
+    type CounterpartyCreateParams as CounterpartyCreateParams,
+    type CounterpartyUpdateParams as CounterpartyUpdateParams,
+    type CounterpartyListParams as CounterpartyListParams,
   };
 
   export {

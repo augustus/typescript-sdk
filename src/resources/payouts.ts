@@ -9,6 +9,18 @@ import { path } from '../internal/utils/path';
 export class Payouts extends APIResource {
   /**
    * Creates a new payout.
+   *
+   * @example
+   * ```ts
+   * const payout = await client.payouts.create({
+   *   account_id: '550e8400-e29b-41d4-a716-44665544000b',
+   *   amount: '100.50',
+   *   destination: {
+   *     counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *     type: 'counterparty',
+   *   },
+   * });
+   * ```
    */
   create(body: PayoutCreateParams, options?: RequestOptions): APIPromise<PayoutCreateResponse> {
     return this._client.post('/v1/payouts', { body, ...options });
@@ -16,6 +28,13 @@ export class Payouts extends APIResource {
 
   /**
    * Retrieves a payout by ID.
+   *
+   * @example
+   * ```ts
+   * const payout = await client.payouts.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440003',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<PayoutRetrieveResponse> {
     return this._client.get(path`/v1/payouts/${id}`, options);
@@ -23,6 +42,14 @@ export class Payouts extends APIResource {
 
   /**
    * Lists payouts for the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const payoutListResponse of client.payouts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: PayoutListParams | null | undefined = {},
@@ -41,28 +68,24 @@ export interface PayoutCreateResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutCreateResponse.IbanFinancialAddress
-    | PayoutCreateResponse.SortCodeFinancialAddress
-    | PayoutCreateResponse.AbaFinancialAddress
-    | PayoutCreateResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -70,24 +93,57 @@ export interface PayoutCreateResponse {
   failure: PayoutCreateResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
    * Current status of the payout.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Identifier used to track the payout through the payment network where supported.
+   */
+  tracking_id: string | null;
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -95,103 +151,13 @@ export interface PayoutCreateResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutCreateResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -204,6 +170,7 @@ export namespace PayoutCreateResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -234,28 +201,24 @@ export interface PayoutRetrieveResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutRetrieveResponse.IbanFinancialAddress
-    | PayoutRetrieveResponse.SortCodeFinancialAddress
-    | PayoutRetrieveResponse.AbaFinancialAddress
-    | PayoutRetrieveResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -263,24 +226,57 @@ export interface PayoutRetrieveResponse {
   failure: PayoutRetrieveResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
    * Current status of the payout.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Identifier used to track the payout through the payment network where supported.
+   */
+  tracking_id: string | null;
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -288,103 +284,13 @@ export interface PayoutRetrieveResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutRetrieveResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -397,6 +303,7 @@ export namespace PayoutRetrieveResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -427,28 +334,24 @@ export interface PayoutListResponse {
   id: string;
 
   /**
+   * ID of the account that was debited.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * ISO 8601 UTC timestamp when the payout was created.
+   * ID of the counterparty that receives the money.
    */
-  created_at: string;
+  counterparty_id: string;
 
   /**
-   * Currency code (ISO 4217 currency code or crypto currency code).
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet the payout was sent to.
-   */
-  destination:
-    | PayoutListResponse.IbanFinancialAddress
-    | PayoutListResponse.SortCodeFinancialAddress
-    | PayoutListResponse.AbaFinancialAddress
-    | PayoutListResponse.CryptoWalletFinancialAddress;
 
   /**
    * Failure details when status is failed, otherwise null.
@@ -456,24 +359,57 @@ export interface PayoutListResponse {
   failure: PayoutListResponse.Failure | null;
 
   /**
+   * ISO 8601 UTC timestamp when the payout was initiated.
+   */
+  initiated_at: string;
+
+  /**
    * Key-value pairs stored with the payout.
    */
   metadata: { [key: string]: string };
 
   /**
-   * Payment reference.
+   * Payment scheme or blockchain used for the payout, or null when unknown.
    */
-  reference: string;
+  rail:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy'
+    | null;
 
   /**
-   * ID of the account that was debited.
+   * ISO 8601 UTC timestamp when the payout was sent.
    */
-  source_account_id: string;
+  sent_at: string | null;
 
   /**
    * Current status of the payout.
    */
-  status: 'pending' | 'paid' | 'failed' | 'returned';
+  status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+  /**
+   * Identifier used to track the payout through the payment network where supported.
+   */
+  tracking_id: string | null;
+
+  /**
+   * Transaction hash for crypto payouts, or null when not known. Only blockchain
+   * rails support this field.
+   */
+  tx_hash: string | null;
 
   /**
    * Resource type discriminator.
@@ -481,103 +417,13 @@ export interface PayoutListResponse {
   type: 'payout';
 
   /**
-   * ISO 8601 UTC timestamp when the payout was last updated.
+   * Unstructured remittance information attached to the transfer. Not all rails
+   * support this field.
    */
-  updated_at: string;
+  unstructured_remittance_information: string | null;
 }
 
 export namespace PayoutListResponse {
-  export interface IbanFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
-
-    /**
-     * International Bank Account Number.
-     */
-    iban: string;
-
-    /**
-     * Discriminator for IBAN financial address.
-     */
-    type: 'iban';
-  }
-
-  export interface SortCodeFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * UK account number (8 digits).
-     */
-    account_number: string;
-
-    /**
-     * UK sort code (6 digits).
-     */
-    sort_code: string;
-
-    /**
-     * Discriminator for UK sort code financial address.
-     */
-    type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
-  export interface CryptoWalletFinancialAddress {
-    /**
-     * Wallet address on the specified blockchain.
-     */
-    address: string;
-
-    /**
-     * Blockchain network for the crypto wallet.
-     */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
-
-    /**
-     * Discriminator for crypto wallet financial address.
-     */
-    type: 'crypto_wallet';
-  }
-
   /**
    * Failure details when status is failed, otherwise null.
    */
@@ -590,6 +436,7 @@ export namespace PayoutListResponse {
       | 'account_blocked'
       | 'insufficient_funds'
       | 'invalid_account_format'
+      | 'invalid_routing_number'
       | 'invalid_instruction'
       | 'invalid_amount'
       | 'invalid_time'
@@ -615,51 +462,70 @@ export namespace PayoutListResponse {
 
 export interface PayoutCreateParams {
   /**
+   * ID of the account to debit.
+   */
+  account_id: string;
+
+  /**
    * Amount as a string decimal (e.g. "100.50").
    */
   amount: string;
 
   /**
-   * Currency for the payout.
-   */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Bank account or crypto wallet to send funds to.
+   * Where and how to send the payout: a saved counterparty or an inline financial
+   * address. Currency and rail are bundled with the destination so only valid
+   * combinations are accepted.
    */
   destination:
-    | PayoutCreateParams.Iban
-    | PayoutCreateParams.SortCodeFinancialAddress
-    | PayoutCreateParams.AbaFinancialAddress
-    | PayoutCreateParams.CryptoWalletFinancialAddress;
-
-  /**
-   * Payment reference.
-   */
-  reference: string;
-
-  /**
-   * ID of the account to debit.
-   */
-  source_account_id: string;
+    | PayoutCreateParams.SavedCounterpartyDestination
+    | PayoutCreateParams.IbanEurDestination
+    | PayoutCreateParams.IbanUsdDestination
+    | PayoutCreateParams.SortCodeDestination
+    | PayoutCreateParams.AbaDestination
+    | PayoutCreateParams.BicDestination
+    | PayoutCreateParams.CryptoWalletDestination;
 
   /**
    * Key-value pairs stored with the payout.
    */
-  metadata?: { [key: string]: string };
+  metadata?: { [key: string]: string } | null;
 
   /**
-   * Payment rail. It is enforced when provided, otherwise auto-selected.
+   * Unstructured remittance information attached to the transfer. This appears on
+   * the counterparty's bank statement. Not supported by blockchain rails.
    */
-  rail?: 'sepa_instant' | 'sepa' | 'faster_payments';
+  unstructured_remittance_information?: string | null;
 }
 
 export namespace PayoutCreateParams {
-  export interface Iban {
+  export interface SavedCounterpartyDestination {
+    /**
+     * ID of the saved counterparty to pay.
+     */
+    counterparty_id: string;
+
+    /**
+     * Discriminator for paying a saved counterparty.
+     */
+    type: 'counterparty';
+
+    /**
+     * Settlement rail the counterparty is reachable on. Selected automatically when
+     * omitted.
+     */
+    rail?: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift';
+  }
+
+  export interface IbanEurDestination {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
+
+    /**
+     * Currency of the payout. Settles in EUR.
+     */
+    currency: 'EUR';
 
     /**
      * International Bank Account Number.
@@ -672,12 +538,638 @@ export namespace PayoutCreateParams {
     type: 'iban';
 
     /**
-     * Bank Identifier Code.
+     * Bank Identifier Code. Optional; omit or send null if not provided.
      */
-    bic?: string;
+    bic?: string | null;
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: IbanEurDestination.PhysicalAddress | null;
+
+    /**
+     * When omitted, Augustus sends via SEPA Instant where available and falls back to
+     * SEPA Credit Transfer.
+     */
+    rail?: 'sepa' | 'sepa_instant';
   }
 
-  export interface SortCodeFinancialAddress {
+  export namespace IbanEurDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface IbanUsdDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Currency of the payout. Settles in USD over SWIFT.
+     */
+    currency: 'USD';
+
+    /**
+     * International Bank Account Number.
+     */
+    iban: string;
+
+    /**
+     * Discriminator for IBAN financial address.
+     */
+    type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: IbanUsdDestination.PhysicalAddress | null;
+
+    /**
+     * Settles over SWIFT. Defaults to `swift` when omitted.
+     */
+    rail?: 'swift';
+  }
+
+  export namespace IbanUsdDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface SortCodeDestination {
     /**
      * Name of the account holder.
      */
@@ -689,6 +1181,11 @@ export namespace PayoutCreateParams {
     account_number: string;
 
     /**
+     * Currency of the payout. Sort code destinations settle in GBP.
+     */
+    currency: 'GBP';
+
+    /**
      * UK sort code (6 digits).
      */
     sort_code: string;
@@ -697,9 +1194,308 @@ export namespace PayoutCreateParams {
      * Discriminator for UK sort code financial address.
      */
     type: 'sort_code';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: SortCodeDestination.PhysicalAddress | null;
+
+    /**
+     * Selected automatically for this destination when omitted.
+     */
+    rail?: 'faster_payments';
   }
 
-  export interface AbaFinancialAddress {
+  export namespace SortCodeDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface AbaDestination {
     /**
      * Name of the account holder.
      */
@@ -711,6 +1507,16 @@ export namespace PayoutCreateParams {
     account_number: string;
 
     /**
+     * Currency of the payout. ABA destinations settle in USD.
+     */
+    currency: 'USD';
+
+    /**
+     * ABA accounts are reachable on more than one rail, so the rail must be specified.
+     */
+    rail: 'ach' | 'fedwire';
+
+    /**
      * ABA routing number (9 digits).
      */
     routing_number: string;
@@ -719,31 +1525,947 @@ export namespace PayoutCreateParams {
      * Discriminator for ABA wire financial address.
      */
     type: 'aba';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: AbaDestination.PhysicalAddress | null;
   }
 
-  export interface CryptoWalletFinancialAddress {
+  export namespace AbaDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface BicDestination {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number (1-34 alphanumeric characters).
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Currency of the payout. Settles in USD over SWIFT.
+     */
+    currency: 'USD';
+
+    /**
+     * Physical address of the counterparty. Required for SWIFT destinations.
+     */
+    physical_address: BicDestination.PhysicalAddress;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia). Optional; omit or send null where the country has none.
+     */
+    local_bank_code?: string | null;
+
+    /**
+     * Settles over SWIFT. Defaults to `swift` when omitted.
+     */
+    rail?: 'swift';
+  }
+
+  export namespace BicDestination {
+    /**
+     * Physical address of the counterparty. Required for SWIFT destinations.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
+  }
+
+  export interface CryptoWalletDestination {
     /**
      * Wallet address on the specified blockchain.
      */
     address: string;
 
     /**
-     * Blockchain network for the crypto wallet.
+     * Blockchain network of the destination wallet.
      */
-    blockchain:
-      | 'bitcoin'
-      | 'ethereum'
-      | 'solana'
-      | 'polygon'
-      | 'bitcoin_testnet4'
-      | 'ethereum_sepolia'
-      | 'solana_devnet'
-      | 'polygon_amoy';
+    blockchain: 'ethereum' | 'solana' | 'polygon' | 'ethereum_sepolia' | 'solana_devnet' | 'polygon_amoy';
 
     /**
-     * Discriminator for crypto wallet financial address.
+     * Currency debited from the source account. The wallet always settles USDC
+     * on-chain; a non-USDC currency triggers auto-conversion.
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Discriminator for a crypto wallet destination.
      */
     type: 'crypto_wallet';
+
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    physical_address?: CryptoWalletDestination.PhysicalAddress | null;
+  }
+
+  export namespace CryptoWalletDestination {
+    /**
+     * Physical address of the counterparty. Only used when creating a new counterparty
+     * inline.
+     */
+    export interface PhysicalAddress {
+      /**
+       * City or locality.
+       */
+      city: string;
+
+      /**
+       * ISO 3166-1 alpha-2 country code.
+       */
+      country_code:
+        | 'AF'
+        | 'AL'
+        | 'DZ'
+        | 'AS'
+        | 'AD'
+        | 'AO'
+        | 'AI'
+        | 'AQ'
+        | 'AG'
+        | 'AR'
+        | 'AM'
+        | 'AW'
+        | 'AU'
+        | 'AT'
+        | 'AZ'
+        | 'BS'
+        | 'BH'
+        | 'BD'
+        | 'BB'
+        | 'BY'
+        | 'BE'
+        | 'BZ'
+        | 'BJ'
+        | 'BM'
+        | 'BT'
+        | 'BO'
+        | 'BA'
+        | 'BW'
+        | 'BV'
+        | 'BR'
+        | 'IO'
+        | 'BN'
+        | 'BG'
+        | 'BF'
+        | 'BI'
+        | 'KH'
+        | 'CM'
+        | 'CA'
+        | 'CV'
+        | 'KY'
+        | 'CF'
+        | 'TD'
+        | 'CL'
+        | 'CN'
+        | 'CX'
+        | 'CC'
+        | 'CO'
+        | 'KM'
+        | 'CG'
+        | 'CD'
+        | 'CK'
+        | 'CR'
+        | 'CI'
+        | 'HR'
+        | 'CU'
+        | 'CY'
+        | 'CZ'
+        | 'DK'
+        | 'DJ'
+        | 'DM'
+        | 'DO'
+        | 'EC'
+        | 'EG'
+        | 'SV'
+        | 'GQ'
+        | 'ER'
+        | 'EE'
+        | 'ET'
+        | 'FK'
+        | 'FO'
+        | 'FJ'
+        | 'FI'
+        | 'FR'
+        | 'GF'
+        | 'PF'
+        | 'TF'
+        | 'GA'
+        | 'GM'
+        | 'GE'
+        | 'DE'
+        | 'GH'
+        | 'GI'
+        | 'GR'
+        | 'GL'
+        | 'GD'
+        | 'GP'
+        | 'GU'
+        | 'GT'
+        | 'GN'
+        | 'GW'
+        | 'GY'
+        | 'HT'
+        | 'HM'
+        | 'VA'
+        | 'HN'
+        | 'HK'
+        | 'HU'
+        | 'IS'
+        | 'IN'
+        | 'ID'
+        | 'IR'
+        | 'IQ'
+        | 'IE'
+        | 'IL'
+        | 'IT'
+        | 'JM'
+        | 'JP'
+        | 'JO'
+        | 'KZ'
+        | 'KE'
+        | 'KI'
+        | 'KP'
+        | 'KR'
+        | 'KW'
+        | 'KG'
+        | 'LA'
+        | 'LV'
+        | 'LB'
+        | 'LS'
+        | 'LR'
+        | 'LY'
+        | 'LI'
+        | 'LT'
+        | 'LU'
+        | 'MO'
+        | 'MG'
+        | 'MW'
+        | 'MY'
+        | 'MV'
+        | 'ML'
+        | 'MT'
+        | 'MH'
+        | 'MQ'
+        | 'MR'
+        | 'MU'
+        | 'YT'
+        | 'MX'
+        | 'FM'
+        | 'MD'
+        | 'MC'
+        | 'MN'
+        | 'MS'
+        | 'MA'
+        | 'MZ'
+        | 'MM'
+        | 'NA'
+        | 'NR'
+        | 'NP'
+        | 'NL'
+        | 'NC'
+        | 'NZ'
+        | 'NI'
+        | 'NE'
+        | 'NG'
+        | 'NU'
+        | 'NF'
+        | 'MP'
+        | 'MK'
+        | 'NO'
+        | 'OM'
+        | 'PK'
+        | 'PW'
+        | 'PS'
+        | 'PA'
+        | 'PG'
+        | 'PY'
+        | 'PE'
+        | 'PH'
+        | 'PN'
+        | 'PL'
+        | 'PT'
+        | 'PR'
+        | 'QA'
+        | 'RE'
+        | 'RO'
+        | 'RU'
+        | 'RW'
+        | 'SH'
+        | 'KN'
+        | 'LC'
+        | 'PM'
+        | 'VC'
+        | 'WS'
+        | 'SM'
+        | 'ST'
+        | 'SA'
+        | 'SN'
+        | 'SC'
+        | 'SL'
+        | 'SG'
+        | 'SK'
+        | 'SI'
+        | 'SB'
+        | 'SO'
+        | 'ZA'
+        | 'GS'
+        | 'ES'
+        | 'LK'
+        | 'SD'
+        | 'SR'
+        | 'SJ'
+        | 'SZ'
+        | 'SE'
+        | 'CH'
+        | 'SY'
+        | 'TW'
+        | 'TJ'
+        | 'TZ'
+        | 'TH'
+        | 'TL'
+        | 'TG'
+        | 'TK'
+        | 'TO'
+        | 'TT'
+        | 'TN'
+        | 'TR'
+        | 'TM'
+        | 'TC'
+        | 'TV'
+        | 'UG'
+        | 'UA'
+        | 'AE'
+        | 'GB'
+        | 'US'
+        | 'UM'
+        | 'UY'
+        | 'UZ'
+        | 'VU'
+        | 'VE'
+        | 'VN'
+        | 'VG'
+        | 'VI'
+        | 'WF'
+        | 'EH'
+        | 'YE'
+        | 'ZM'
+        | 'ZW'
+        | 'AX'
+        | 'BQ'
+        | 'CW'
+        | 'GG'
+        | 'IM'
+        | 'JE'
+        | 'ME'
+        | 'BL'
+        | 'MF'
+        | 'RS'
+        | 'SX'
+        | 'SS'
+        | 'XK';
+
+      /**
+       * Primary street address.
+       */
+      line_1: string;
+
+      /**
+       * Postal or ZIP code.
+       */
+      postal_code: string;
+
+      /**
+       * Secondary street address, or null if not recorded.
+       */
+      line_2?: string | null;
+
+      /**
+       * State, province, or region, or null if not recorded.
+       */
+      state?: string | null;
+    }
   }
 }
 
@@ -759,7 +2481,7 @@ export interface PayoutListParams extends CursorPageParams {
   /**
    * Filter by payout status.
    */
-  status?: 'pending' | 'paid' | 'failed';
+  status?: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 }
 
 export namespace PayoutListParams {

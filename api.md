@@ -49,6 +49,66 @@ Methods:
 - <code title="get /v1/deposits/{id}">client.deposits.<a href="./src/resources/deposits.ts">retrieve</a>(id) -> DepositRetrieveResponse</code>
 - <code title="get /v1/deposits">client.deposits.<a href="./src/resources/deposits.ts">list</a>({ ...params }) -> DepositListResponsesCursorPage</code>
 
+# Simulations
+
+## Deposits
+
+Types:
+
+- <code><a href="./src/resources/simulations/deposits.ts">DepositCreateResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/deposits">client.simulations.deposits.<a href="./src/resources/simulations/deposits.ts">create</a>({ ...params }) -> DepositCreateResponse</code>
+
+## Payouts
+
+Types:
+
+- <code><a href="./src/resources/simulations/payouts.ts">PayoutRejectResponse</a></code>
+- <code><a href="./src/resources/simulations/payouts.ts">PayoutSendResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/payouts/{id}/reject">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">reject</a>(id, { ...params }) -> PayoutRejectResponse</code>
+- <code title="post /v1/simulations/payouts/{id}/send">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">send</a>(id) -> PayoutSendResponse</code>
+
+## AccountPrograms
+
+Types:
+
+- <code><a href="./src/resources/simulations/account-programs.ts">AccountProgramCreateResponse</a></code>
+- <code><a href="./src/resources/simulations/account-programs.ts">AccountProgramCloseResponse</a></code>
+- <code><a href="./src/resources/simulations/account-programs.ts">AccountProgramDrainResponse</a></code>
+- <code><a href="./src/resources/simulations/account-programs.ts">AccountProgramFreezeResponse</a></code>
+- <code><a href="./src/resources/simulations/account-programs.ts">AccountProgramUnfreezeResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/account_programs">client.simulations.accountPrograms.<a href="./src/resources/simulations/account-programs.ts">create</a>({ ...params }) -> AccountProgramCreateResponse</code>
+- <code title="post /v1/simulations/account_programs/{id}/close">client.simulations.accountPrograms.<a href="./src/resources/simulations/account-programs.ts">close</a>(id, { ...params }) -> AccountProgramCloseResponse</code>
+- <code title="post /v1/simulations/account_programs/{id}/drain">client.simulations.accountPrograms.<a href="./src/resources/simulations/account-programs.ts">drain</a>(id, { ...params }) -> AccountProgramDrainResponse</code>
+- <code title="post /v1/simulations/account_programs/{id}/freeze">client.simulations.accountPrograms.<a href="./src/resources/simulations/account-programs.ts">freeze</a>(id) -> AccountProgramFreezeResponse</code>
+- <code title="post /v1/simulations/account_programs/{id}/unfreeze">client.simulations.accountPrograms.<a href="./src/resources/simulations/account-programs.ts">unfreeze</a>(id) -> AccountProgramUnfreezeResponse</code>
+
+## Accounts
+
+Types:
+
+- <code><a href="./src/resources/simulations/accounts.ts">AccountCreateResponse</a></code>
+- <code><a href="./src/resources/simulations/accounts.ts">AccountCloseResponse</a></code>
+- <code><a href="./src/resources/simulations/accounts.ts">AccountDrainResponse</a></code>
+- <code><a href="./src/resources/simulations/accounts.ts">AccountFreezeResponse</a></code>
+- <code><a href="./src/resources/simulations/accounts.ts">AccountUnfreezeResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/accounts">client.simulations.accounts.<a href="./src/resources/simulations/accounts.ts">create</a>({ ...params }) -> AccountCreateResponse</code>
+- <code title="post /v1/simulations/accounts/{id}/close">client.simulations.accounts.<a href="./src/resources/simulations/accounts.ts">close</a>(id, { ...params }) -> AccountCloseResponse</code>
+- <code title="post /v1/simulations/accounts/{id}/drain">client.simulations.accounts.<a href="./src/resources/simulations/accounts.ts">drain</a>(id, { ...params }) -> AccountDrainResponse</code>
+- <code title="post /v1/simulations/accounts/{id}/freeze">client.simulations.accounts.<a href="./src/resources/simulations/accounts.ts">freeze</a>(id) -> AccountFreezeResponse</code>
+- <code title="post /v1/simulations/accounts/{id}/unfreeze">client.simulations.accounts.<a href="./src/resources/simulations/accounts.ts">unfreeze</a>(id) -> AccountUnfreezeResponse</code>
+
 # Transactions
 
 Types:
@@ -146,6 +206,24 @@ Methods:
 - <code title="get /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">retrieve</a>(id) -> AccountHolderRetrieveResponse</code>
 - <code title="post /v1/account_holders/{id}">client.accountHolders.<a href="./src/resources/account-holders.ts">update</a>(id, { ...params }) -> AccountHolderUpdateResponse</code>
 - <code title="get /v1/account_holders">client.accountHolders.<a href="./src/resources/account-holders.ts">list</a>({ ...params }) -> AccountHolderListResponsesCursorPage</code>
+
+# Counterparties
+
+Types:
+
+- <code><a href="./src/resources/counterparties.ts">CounterpartyCreateResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyRetrieveResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyUpdateResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyListResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyBlockResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">create</a>({ ...params }) -> CounterpartyCreateResponse</code>
+- <code title="get /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">retrieve</a>(id) -> CounterpartyRetrieveResponse</code>
+- <code title="post /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">update</a>(id, { ...params }) -> CounterpartyUpdateResponse</code>
+- <code title="get /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">list</a>({ ...params }) -> CounterpartyListResponsesCursorPage</code>
+- <code title="post /v1/counterparties/{id}/block">client.counterparties.<a href="./src/resources/counterparties.ts">block</a>(id) -> CounterpartyBlockResponse</code>
 
 # Returns
 

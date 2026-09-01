@@ -45,6 +45,18 @@ export {
   type ConversionListResponsesCursorPage,
 } from './conversions';
 export {
+  Counterparties,
+  type CounterpartyCreateResponse,
+  type CounterpartyRetrieveResponse,
+  type CounterpartyUpdateResponse,
+  type CounterpartyListResponse,
+  type CounterpartyBlockResponse,
+  type CounterpartyCreateParams,
+  type CounterpartyUpdateParams,
+  type CounterpartyListParams,
+  type CounterpartyListResponsesCursorPage,
+} from './counterparties';
+export {
   Deposits,
   type DepositRetrieveResponse,
   type DepositListResponse,
@@ -78,6 +90,7 @@ export {
   type ReturnListResponsesCursorPage,
 } from './returns';
 export { Scopes, type ScopeListResponse } from './scopes';
+export { Simulations } from './simulations/simulations';
 export {
   Transactions,
   type TransactionRetrieveResponse,

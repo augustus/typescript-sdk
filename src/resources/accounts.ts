@@ -9,6 +9,15 @@ import { path } from '../internal/utils/path';
 export class Accounts extends APIResource {
   /**
    * Creates a new account.
+   *
+   * @example
+   * ```ts
+   * const account = await client.accounts.create({
+   *   account_holder_id: '68e0a1b2c3d4e5f60718293a',
+   *   account_program_id:
+   *     '550e8400-e29b-41d4-a716-446655440002',
+   * });
+   * ```
    */
   create(body: AccountCreateParams, options?: RequestOptions): APIPromise<AccountCreateResponse> {
     return this._client.post('/v1/accounts', { body, ...options });
@@ -16,6 +25,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieves an account by ID.
+   *
+   * @example
+   * ```ts
+   * const account = await client.accounts.retrieve(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<AccountRetrieveResponse> {
     return this._client.get(path`/v1/accounts/${id}`, options);
@@ -23,6 +39,14 @@ export class Accounts extends APIResource {
 
   /**
    * Returns a paginated list of accounts.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const accountListResponse of client.accounts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: AccountListParams | null | undefined = {},
@@ -33,6 +57,14 @@ export class Accounts extends APIResource {
 
   /**
    * Closes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.close(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   *   { reason: 'aml_risk_fraud' },
+   * );
+   * ```
    */
   close(id: string, body: AccountCloseParams, options?: RequestOptions): APIPromise<AccountCloseResponse> {
     return this._client.post(path`/v1/accounts/${id}/close`, { body, ...options });
@@ -40,6 +72,13 @@ export class Accounts extends APIResource {
 
   /**
    * Freezes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.freeze(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   freeze(id: string, options?: RequestOptions): APIPromise<AccountFreezeResponse> {
     return this._client.post(path`/v1/accounts/${id}/freeze`, options);
@@ -47,6 +86,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieves the available balance for an account.
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.retrieveBalance(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountRetrieveBalanceResponse> {
     return this._client.get(path`/v1/accounts/${id}/balance`, options);
@@ -54,6 +100,13 @@ export class Accounts extends APIResource {
 
   /**
    * Unfreezes an account
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.unfreeze(
+   *   '550e8400-e29b-41d4-a716-446655440001',
+   * );
+   * ```
    */
   unfreeze(id: string, options?: RequestOptions): APIPromise<AccountUnfreezeResponse> {
     return this._client.post(path`/v1/accounts/${id}/unfreeze`, options);
@@ -69,11 +122,6 @@ export interface AccountCreateResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -84,7 +132,7 @@ export interface AccountCreateResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -96,6 +144,7 @@ export interface AccountCreateResponse {
     | AccountCreateResponse.IbanFinancialAddress
     | AccountCreateResponse.SortCodeFinancialAddress
     | AccountCreateResponse.AbaFinancialAddress
+    | AccountCreateResponse.BicFinancialAddress
     | AccountCreateResponse.CryptoWalletFinancialAddress
   >;
 
@@ -187,6 +236,34 @@ export namespace AccountCreateResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -220,11 +297,6 @@ export interface AccountRetrieveResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -235,7 +307,7 @@ export interface AccountRetrieveResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -247,6 +319,7 @@ export interface AccountRetrieveResponse {
     | AccountRetrieveResponse.IbanFinancialAddress
     | AccountRetrieveResponse.SortCodeFinancialAddress
     | AccountRetrieveResponse.AbaFinancialAddress
+    | AccountRetrieveResponse.BicFinancialAddress
     | AccountRetrieveResponse.CryptoWalletFinancialAddress
   >;
 
@@ -338,6 +411,34 @@ export namespace AccountRetrieveResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -371,11 +472,6 @@ export interface AccountListResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -386,7 +482,7 @@ export interface AccountListResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -398,6 +494,7 @@ export interface AccountListResponse {
     | AccountListResponse.IbanFinancialAddress
     | AccountListResponse.SortCodeFinancialAddress
     | AccountListResponse.AbaFinancialAddress
+    | AccountListResponse.BicFinancialAddress
     | AccountListResponse.CryptoWalletFinancialAddress
   >;
 
@@ -489,6 +586,34 @@ export namespace AccountListResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -522,11 +647,6 @@ export interface AccountCloseResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -537,7 +657,7 @@ export interface AccountCloseResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -549,6 +669,7 @@ export interface AccountCloseResponse {
     | AccountCloseResponse.IbanFinancialAddress
     | AccountCloseResponse.SortCodeFinancialAddress
     | AccountCloseResponse.AbaFinancialAddress
+    | AccountCloseResponse.BicFinancialAddress
     | AccountCloseResponse.CryptoWalletFinancialAddress
   >;
 
@@ -640,6 +761,34 @@ export namespace AccountCloseResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -673,11 +822,6 @@ export interface AccountFreezeResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -688,7 +832,7 @@ export interface AccountFreezeResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -700,6 +844,7 @@ export interface AccountFreezeResponse {
     | AccountFreezeResponse.IbanFinancialAddress
     | AccountFreezeResponse.SortCodeFinancialAddress
     | AccountFreezeResponse.AbaFinancialAddress
+    | AccountFreezeResponse.BicFinancialAddress
     | AccountFreezeResponse.CryptoWalletFinancialAddress
   >;
 
@@ -791,6 +936,34 @@ export namespace AccountFreezeResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -824,7 +997,7 @@ export interface AccountRetrieveBalanceResponse {
   account_id: string;
 
   /**
-   * Available balance amount as a decimal string.
+   * Available balance as a string decimal (e.g. "100.50").
    */
   amount: string;
 
@@ -834,7 +1007,7 @@ export interface AccountRetrieveBalanceResponse {
   as_of: string;
 
   /**
-   * ISO 4217 currency code for the balance.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -851,11 +1024,6 @@ export interface AccountUnfreezeResponse {
   id: string;
 
   /**
-   * Type of the account.
-   */
-  account_type: 'virtual_account' | 'payment_account' | 'collateral_account';
-
-  /**
    * Asset type of the account.
    */
   asset_type: 'fiat' | 'crypto';
@@ -866,7 +1034,7 @@ export interface AccountUnfreezeResponse {
   created_at: string;
 
   /**
-   * ISO 4217 currency code for the account.
+   * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
@@ -878,6 +1046,7 @@ export interface AccountUnfreezeResponse {
     | AccountUnfreezeResponse.IbanFinancialAddress
     | AccountUnfreezeResponse.SortCodeFinancialAddress
     | AccountUnfreezeResponse.AbaFinancialAddress
+    | AccountUnfreezeResponse.BicFinancialAddress
     | AccountUnfreezeResponse.CryptoWalletFinancialAddress
   >;
 
@@ -969,6 +1138,34 @@ export namespace AccountUnfreezeResponse {
     type: 'aba';
   }
 
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
   export interface CryptoWalletFinancialAddress {
     /**
      * Wallet address on the specified blockchain.
@@ -1005,11 +1202,6 @@ export interface AccountCreateParams {
    * ID of the account program to create the account under.
    */
   account_program_id: string;
-
-  /**
-   * Type of account. Currently only virtual account.
-   */
-  account_type: 'virtual_account';
 }
 
 export interface AccountListParams extends CursorPageParams {
@@ -1027,7 +1219,7 @@ export interface AccountListParams extends CursorPageParams {
   /**
    * ID of the account program to list virtual accounts for.
    */
-  parent_id?: string;
+  account_program_id?: string;
 
   /**
    * Filter by account status.

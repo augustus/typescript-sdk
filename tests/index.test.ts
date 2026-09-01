@@ -479,15 +479,9 @@ describe('idempotency', () => {
     });
     await client.payouts.create(
       {
-        amount: 'amount',
-        currency: 'EUR',
-        destination: {
-          account_holder_name: 'account_holder_name',
-          iban: 'iban',
-          type: 'iban',
-        },
-        reference: 'reference',
-        source_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        account_id: '550e8400-e29b-41d4-a716-44665544000b',
+        amount: '100.50',
+        destination: { counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', type: 'counterparty' },
       },
       { idempotencyKey: 'my-idempotency-key' },
     );
