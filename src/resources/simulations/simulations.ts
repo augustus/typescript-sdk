@@ -28,14 +28,7 @@ import {
 import * as DepositsAPI from './deposits';
 import { DepositCreateParams, DepositCreateResponse, Deposits } from './deposits';
 import * as PayoutsAPI from './payouts';
-import {
-  PayoutRejectParams,
-  PayoutRejectResponse,
-  PayoutReturnParams,
-  PayoutReturnResponse,
-  PayoutSendResponse,
-  Payouts,
-} from './payouts';
+import { PayoutRejectParams, PayoutRejectResponse, PayoutSendResponse, Payouts } from './payouts';
 
 export class Simulations extends APIResource {
   deposits: DepositsAPI.Deposits = new DepositsAPI.Deposits(this._client);
@@ -59,10 +52,8 @@ export declare namespace Simulations {
   export {
     Payouts as Payouts,
     type PayoutRejectResponse as PayoutRejectResponse,
-    type PayoutReturnResponse as PayoutReturnResponse,
     type PayoutSendResponse as PayoutSendResponse,
     type PayoutRejectParams as PayoutRejectParams,
-    type PayoutReturnParams as PayoutReturnParams,
   };
 
   export {

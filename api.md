@@ -69,13 +69,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/simulations/payouts.ts">PayoutRejectResponse</a></code>
-- <code><a href="./src/resources/simulations/payouts.ts">PayoutReturnResponse</a></code>
 - <code><a href="./src/resources/simulations/payouts.ts">PayoutSendResponse</a></code>
 
 Methods:
 
 - <code title="post /v1/simulations/payouts/{id}/reject">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">reject</a>(id, { ...params }) -> PayoutRejectResponse</code>
-- <code title="post /v1/simulations/payouts/{id}/return">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">return</a>(id, { ...params }) -> PayoutReturnResponse</code>
 - <code title="post /v1/simulations/payouts/{id}/send">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">send</a>(id) -> PayoutSendResponse</code>
 
 ## AccountPrograms

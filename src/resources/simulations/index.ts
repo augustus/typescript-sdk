@@ -26,9 +26,7 @@ export { Deposits, type DepositCreateResponse, type DepositCreateParams } from '
 export {
   Payouts,
   type PayoutRejectResponse,
-  type PayoutReturnResponse,
   type PayoutSendResponse,
   type PayoutRejectParams,
-  type PayoutReturnParams,
 } from './payouts';
 export { Simulations } from './simulations';
