@@ -23,6 +23,23 @@ export class Payouts extends APIResource {
   }
 
   /**
+   * Submits an inbound return for a settled payout through the sandbox provider
+   * pipeline. The original payout remains settled and a standalone deposit is
+   * created. This endpoint is unavailable in live production.
+   *
+   * @example
+   * ```ts
+   * const response = await client.simulations.payouts.return(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   *   { reason: 'account_closed' },
+   * );
+   * ```
+   */
+  return(id: string, body: PayoutReturnParams, options?: RequestOptions): APIPromise<PayoutReturnResponse> {
+    return this._client.post(path`/v1/simulations/payouts/${id}/return`, { body, ...options });
+  }
+
+  /**
    * Submits a successful send event for an existing payout through the sandbox
    * provider pipeline. This endpoint is unavailable in live production.
    *
@@ -39,6 +56,18 @@ export class Payouts extends APIResource {
 }
 
 export interface PayoutRejectResponse {
+  /**
+   * Payout whose lifecycle is being simulated.
+   */
+  payout_id: string;
+
+  /**
+   * Resource type discriminator.
+   */
+  type: 'payout_simulation';
+}
+
+export interface PayoutReturnResponse {
   /**
    * Payout whose lifecycle is being simulated.
    */
@@ -71,10 +100,24 @@ export interface PayoutRejectParams {
   reason: 'invalid_routing_number' | 'invalid_account_format';
 }
 
+export interface PayoutReturnParams {
+  /**
+   * Reason the receiving bank returns the settled payout.
+   */
+  reason:
+    | 'account_closed'
+    | 'invalid_account_format'
+    | 'invalid_routing_number'
+    | 'account_blocked'
+    | 'unknown';
+}
+
 export declare namespace Payouts {
   export {
     type PayoutRejectResponse as PayoutRejectResponse,
+    type PayoutReturnResponse as PayoutReturnResponse,
     type PayoutSendResponse as PayoutSendResponse,
     type PayoutRejectParams as PayoutRejectParams,
+    type PayoutReturnParams as PayoutReturnParams,
   };
 }

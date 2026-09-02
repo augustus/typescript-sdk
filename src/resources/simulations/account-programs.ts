@@ -118,22 +118,6 @@ export interface AccountProgramCreateResponse {
   account_program_id: string;
 
   /**
-   * Account program lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payouts created by a drain event. Feed each id to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_ids: Array<string> | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
-
-  /**
    * Resource type discriminator.
    */
   type: 'account_program_simulation';
@@ -144,22 +128,6 @@ export interface AccountProgramCloseResponse {
    * Account program whose lifecycle is being simulated.
    */
   account_program_id: string;
-
-  /**
-   * Account program lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payouts created by a drain event. Feed each id to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_ids: Array<string> | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
@@ -174,20 +142,10 @@ export interface AccountProgramDrainResponse {
   account_program_id: string;
 
   /**
-   * Account program lifecycle event submitted to the sandbox.
+   * Payouts created by the drain. Feed each id to
+   * `POST /v1/simulations/payouts/{id}/send` to settle.
    */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payouts created by a drain event. Feed each id to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_ids: Array<string> | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
+  payout_ids: Array<string>;
 
   /**
    * Resource type discriminator.
@@ -202,22 +160,6 @@ export interface AccountProgramFreezeResponse {
   account_program_id: string;
 
   /**
-   * Account program lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payouts created by a drain event. Feed each id to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_ids: Array<string> | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
-
-  /**
    * Resource type discriminator.
    */
   type: 'account_program_simulation';
@@ -228,22 +170,6 @@ export interface AccountProgramUnfreezeResponse {
    * Account program whose lifecycle is being simulated.
    */
   account_program_id: string;
-
-  /**
-   * Account program lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payouts created by a drain event. Feed each id to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_ids: Array<string> | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
