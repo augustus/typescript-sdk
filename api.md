@@ -4,8 +4,11 @@ Types:
 
 - <code><a href="./src/resources/webhooks.ts">PayoutCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PayoutInitiatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutSubmittedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PayoutPaidWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutSentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PayoutFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutReturnedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnInitiatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnPaidWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnFailedWebhookEvent</a></code>

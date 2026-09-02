@@ -89,9 +89,21 @@ export interface TransactionRetrieveResponse {
   side: 'credit' | 'debit';
 
   /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  source: TransactionRetrieveResponse.Source | null;
+
+  /**
    * State of the transaction. Transactions are by definition booked.
    */
   status: 'booked';
+
+  /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto transactions, or null when not known. Only
@@ -537,6 +549,22 @@ export namespace TransactionRetrieveResponse {
       state: string | null;
     }
   }
+
+  /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  export interface Source {
+    /**
+     * Identifier of the originating resource, retrievable on its own endpoint.
+     */
+    id: string;
+
+    /**
+     * Type of the resource that originated this transaction.
+     */
+    type: 'deposit' | 'payout' | 'return';
+  }
 }
 
 export interface TransactionListResponse {
@@ -598,9 +626,21 @@ export interface TransactionListResponse {
   side: 'credit' | 'debit';
 
   /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  source: TransactionListResponse.Source | null;
+
+  /**
    * State of the transaction. Transactions are by definition booked.
    */
   status: 'booked';
+
+  /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto transactions, or null when not known. Only
@@ -1045,6 +1085,22 @@ export namespace TransactionListResponse {
        */
       state: string | null;
     }
+  }
+
+  /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  export interface Source {
+    /**
+     * Identifier of the originating resource, retrievable on its own endpoint.
+     */
+    id: string;
+
+    /**
+     * Type of the resource that originated this transaction.
+     */
+    type: 'deposit' | 'payout' | 'return';
   }
 }
 

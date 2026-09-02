@@ -14,7 +14,7 @@ export class WebhookSubscriptions extends APIResource {
    * ```ts
    * const webhookSubscription =
    *   await client.webhookSubscriptions.create({
-   *     events: ['payout.paid'],
+   *     events: ['payout.sent'],
    *     url: 'https://sandbox.example.com/webhooks/augustus',
    *   });
    * ```
@@ -135,8 +135,11 @@ export interface WebhookSubscriptionCreateResponse {
   events: Array<
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -182,8 +185,11 @@ export interface WebhookSubscriptionRetrieveResponse {
   events: Array<
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -229,8 +235,11 @@ export interface WebhookSubscriptionUpdateResponse {
   events: Array<
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -276,8 +285,11 @@ export interface WebhookSubscriptionListResponse {
   events: Array<
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -323,8 +335,11 @@ export interface WebhookSubscriptionDeleteResponse {
   events: Array<
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -382,8 +397,11 @@ export interface WebhookSubscriptionSendTestEventResponse {
   event_type:
     | 'payout.created'
     | 'payout.initiated'
+    | 'payout.submitted'
     | 'payout.paid'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -407,10 +425,11 @@ export interface WebhookSubscriptionCreateParams {
    * Event types to subscribe to. Use ["*"] for all events.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'
@@ -436,10 +455,11 @@ export interface WebhookSubscriptionUpdateParams {
    * events.
    */
   events?: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
     | 'return.paid'
     | 'return.failed'

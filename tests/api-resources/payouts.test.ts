@@ -13,7 +13,8 @@ describe('resource payouts', () => {
     const responsePromise = client.payouts.create({
       account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
-      destination: { counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', type: 'counterparty' },
+      counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
+      currency: 'EUR',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -29,12 +30,10 @@ describe('resource payouts', () => {
     const response = await client.payouts.create({
       account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
-      destination: {
-        counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        type: 'counterparty',
-        rail: 'sepa',
-      },
+      counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
+      currency: 'EUR',
       metadata: { invoice_id: 'INV-2026-0042' },
+      rail: 'sepa',
       unstructured_remittance_information: 'INV-2026-0042',
     });
   });

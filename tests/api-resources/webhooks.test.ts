@@ -13,7 +13,7 @@ describe('resource webhooks', () => {
   test.skip('unwrap', () => {
     const key = 'whsec_c2VjcmV0Cg==';
     const payload =
-      '{"id":"550e8400-e29b-41d4-a716-446655440008","api_version":"2026-05-01","date":"2026-01-15T10:30:00Z","payload":{"id":"550e8400-e29b-41d4-a716-446655440003","account_id":"550e8400-e29b-41d4-a716-446655440001","amount":"100.50","counterparty_id":"550e8400-e29b-41d4-a716-446655440000","currency":"EUR","failure":{"code":"account_closed","message":"message","retry":true},"initiated_at":"2026-01-15T10:30:00Z","metadata":{"invoice_id":"INV-2026-0042"},"rail":"sepa","sent_at":"2026-01-15T10:35:00Z","status":"initiated","tracking_id":"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e","tx_hash":null,"type":"payout","unstructured_remittance_information":"INV-2026-0042"},"type":"payout.created"}';
+      '{"id":"550e8400-e29b-41d4-a716-446655440008","api_version":"2026-05-01","date":"2026-01-15T10:30:00Z","payload":{"id":"550e8400-e29b-41d4-a716-446655440003","account_id":"550e8400-e29b-41d4-a716-446655440001","amount":"100.50","counterparty_id":"550e8400-e29b-41d4-a716-446655440000","currency":"EUR","failure":{"code":"account_closed","message":"message","retry":true},"initiated_at":"2026-01-15T10:30:00Z","metadata":{"invoice_id":"INV-2026-0042"},"rail":"sepa","sent_at":"2026-01-15T10:35:00Z","status":"initiated","tracking_reference":"550e8400-e29b-41d4-a716-44665544000d","tx_hash":null,"type":"payout","unstructured_remittance_information":"INV-2026-0042"},"type":"payout.created"}';
     const msgID = '1';
     const timestamp = new Date();
     const wh = new Webhook('whsec_c2VjcmV0Cg==');
