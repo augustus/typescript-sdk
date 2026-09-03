@@ -126,10 +126,7 @@ export interface AccountProgramRetrieveBalanceResponse {
    */
   id: string;
 
-  /**
-   * Available balance as a string decimal (e.g. "100.50").
-   */
-  amount: string;
+  amount: AccountProgramRetrieveBalanceResponse.Amount;
 
   /**
    * ISO 8601 UTC timestamp when this balance snapshot was produced.
@@ -145,6 +142,20 @@ export interface AccountProgramRetrieveBalanceResponse {
    * Resource type discriminator.
    */
   type: 'account_program_balance';
+}
+
+export namespace AccountProgramRetrieveBalanceResponse {
+  export interface Amount {
+    /**
+     * Available balance as a string decimal (e.g. "100.50").
+     */
+    available: string;
+
+    /**
+     * Pending balance as a string decimal (e.g. "100.50").
+     */
+    pending: string;
+  }
 }
 
 export interface AccountProgramListParams extends CursorPageParams {}

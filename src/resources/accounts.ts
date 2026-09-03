@@ -1000,10 +1000,7 @@ export interface AccountRetrieveBalanceResponse {
    */
   account_id: string;
 
-  /**
-   * Available balance as a string decimal (e.g. "100.50").
-   */
-  amount: string;
+  amount: AccountRetrieveBalanceResponse.Amount;
 
   /**
    * ISO 8601 UTC timestamp when the balance was retrieved.
@@ -1019,6 +1016,20 @@ export interface AccountRetrieveBalanceResponse {
    * Resource type discriminator.
    */
   type: 'account_balance';
+}
+
+export namespace AccountRetrieveBalanceResponse {
+  export interface Amount {
+    /**
+     * Available balance as a string decimal (e.g. "100.50").
+     */
+    available: string;
+
+    /**
+     * Pending balance as a string decimal (e.g. "100.50").
+     */
+    pending: string;
+  }
 }
 
 export interface AccountUnfreezeResponse {
