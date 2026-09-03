@@ -31,8 +31,12 @@ export class AccountPrograms extends APIResource {
    * Returns the aggregated available balance for all virtual accounts under the
    * account program.
    */
-  retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountProgramRetrieveBalanceResponse> {
-    return this._client.get(path`/v1/account_programs/${id}/balance`, options);
+  retrieveBalance(
+    id: string,
+    query: AccountProgramRetrieveBalanceParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountProgramRetrieveBalanceResponse> {
+    return this._client.get(path`/v1/account_programs/${id}/balance`, { query, ...options });
   }
 }
 
@@ -145,6 +149,13 @@ export interface AccountProgramRetrieveBalanceResponse {
 
 export interface AccountProgramListParams extends CursorPageParams {}
 
+export interface AccountProgramRetrieveBalanceParams {
+  /**
+   * ISO 8601 UTC timestamp to retrieve balance at.
+   */
+  as_of?: string;
+}
+
 export declare namespace AccountPrograms {
   export {
     type AccountProgramRetrieveResponse as AccountProgramRetrieveResponse,
@@ -152,5 +163,6 @@ export declare namespace AccountPrograms {
     type AccountProgramRetrieveBalanceResponse as AccountProgramRetrieveBalanceResponse,
     type AccountProgramListResponsesCursorPage as AccountProgramListResponsesCursorPage,
     type AccountProgramListParams as AccountProgramListParams,
+    type AccountProgramRetrieveBalanceParams as AccountProgramRetrieveBalanceParams,
   };
 }

@@ -2774,24 +2774,24 @@ export namespace CounterpartyCreateParams {
       | 'XK';
 
     /**
-     * Primary street address, or null if not recorded.
+     * Primary street address. Optional; omit or send null if not recorded.
      */
-    line_1: string | null;
+    line_1?: string | null;
 
     /**
-     * Secondary street address, or null if not recorded.
+     * Secondary street address. Optional; omit or send null if not recorded.
      */
-    line_2: string | null;
+    line_2?: string | null;
 
     /**
-     * Postal or ZIP code, or null if not recorded.
+     * Postal or ZIP code. Optional; omit or send null if not recorded.
      */
-    postal_code: string | null;
+    postal_code?: string | null;
 
     /**
-     * State, province, or region, or null if not recorded.
+     * State, province, or region. Optional; omit or send null if not recorded.
      */
-    state: string | null;
+    state?: string | null;
   }
 }
 
@@ -3089,24 +3089,24 @@ export namespace CounterpartyUpdateParams {
       | 'XK';
 
     /**
-     * Primary street address, or null if not recorded.
+     * Primary street address. Optional; omit or send null if not recorded.
      */
-    line_1: string | null;
+    line_1?: string | null;
 
     /**
-     * Secondary street address, or null if not recorded.
+     * Secondary street address. Optional; omit or send null if not recorded.
      */
-    line_2: string | null;
+    line_2?: string | null;
 
     /**
-     * Postal or ZIP code, or null if not recorded.
+     * Postal or ZIP code. Optional; omit or send null if not recorded.
      */
-    postal_code: string | null;
+    postal_code?: string | null;
 
     /**
-     * State, province, or region, or null if not recorded.
+     * State, province, or region. Optional; omit or send null if not recorded.
      */
-    state: string | null;
+    state?: string | null;
   }
 }
 

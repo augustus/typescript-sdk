@@ -94,8 +94,12 @@ export class Accounts extends APIResource {
    * );
    * ```
    */
-  retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountRetrieveBalanceResponse> {
-    return this._client.get(path`/v1/accounts/${id}/balance`, options);
+  retrieveBalance(
+    id: string,
+    query: AccountRetrieveBalanceParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountRetrieveBalanceResponse> {
+    return this._client.get(path`/v1/accounts/${id}/balance`, { query, ...options });
   }
 
   /**
@@ -1234,6 +1238,13 @@ export interface AccountCloseParams {
   reason: 'aml_risk_fraud' | 'client_request';
 }
 
+export interface AccountRetrieveBalanceParams {
+  /**
+   * ISO 8601 UTC timestamp to retrieve balance at.
+   */
+  as_of?: string;
+}
+
 export declare namespace Accounts {
   export {
     type AccountCreateResponse as AccountCreateResponse,
@@ -1247,5 +1258,6 @@ export declare namespace Accounts {
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
     type AccountCloseParams as AccountCloseParams,
+    type AccountRetrieveBalanceParams as AccountRetrieveBalanceParams,
   };
 }

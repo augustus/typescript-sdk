@@ -133,15 +133,14 @@ export interface WebhookSubscriptionCreateResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -183,15 +182,14 @@ export interface WebhookSubscriptionRetrieveResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -233,15 +231,14 @@ export interface WebhookSubscriptionUpdateResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -283,15 +280,14 @@ export interface WebhookSubscriptionListResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -333,15 +329,14 @@ export interface WebhookSubscriptionDeleteResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -395,15 +390,14 @@ export interface WebhookSubscriptionSendTestEventResponse {
    * Event type.
    */
   event_type:
-    | 'payout.created'
     | 'payout.initiated'
     | 'payout.submitted'
-    | 'payout.paid'
     | 'payout.sent'
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -431,7 +425,8 @@ export interface WebhookSubscriptionCreateParams {
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -461,7 +456,8 @@ export interface WebhookSubscriptionUpdateParams {
     | 'payout.failed'
     | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'

@@ -50,7 +50,6 @@ export class Accounts extends APIResource {
    *   {
    *     destination: {
    *       account_holder_name: 'Acme Sandbox Ltd.',
-   *       bic: 'COBADEFFXXX',
    *       iban: 'DE89370400440532013000',
    *       type: 'iban',
    *     },
@@ -179,22 +178,17 @@ export interface AccountDrainParams {
    * drained.
    */
   destination:
-    | AccountDrainParams.IbanFinancialAddress
+    | AccountDrainParams.IbanFinancialAddressRequest
     | AccountDrainParams.SortCodeFinancialAddress
     | AccountDrainParams.AbaFinancialAddress;
 }
 
 export namespace AccountDrainParams {
-  export interface IbanFinancialAddress {
+  export interface IbanFinancialAddressRequest {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
 
     /**
      * International Bank Account Number.
@@ -205,6 +199,11 @@ export namespace AccountDrainParams {
      * Discriminator for IBAN financial address.
      */
     type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
   }
 
   export interface SortCodeFinancialAddress {

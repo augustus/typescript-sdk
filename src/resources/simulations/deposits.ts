@@ -497,19 +497,19 @@ export namespace DepositCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * State, province, or region, or null if not recorded.
+       * Secondary street address. Optional; omit or send null if not recorded.
        */
-      state: string | null;
+      line_2?: string | null;
+
+      /**
+       * State, province, or region. Optional; omit or send null if not recorded.
+       */
+      state?: string | null;
     }
   }
 }

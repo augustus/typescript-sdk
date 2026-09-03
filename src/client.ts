@@ -34,6 +34,7 @@ import {
   AccountProgramListParams,
   AccountProgramListResponse,
   AccountProgramListResponsesCursorPage,
+  AccountProgramRetrieveBalanceParams,
   AccountProgramRetrieveBalanceResponse,
   AccountProgramRetrieveResponse,
   AccountPrograms,
@@ -47,6 +48,7 @@ import {
   AccountListParams,
   AccountListResponse,
   AccountListResponsesCursorPage,
+  AccountRetrieveBalanceParams,
   AccountRetrieveBalanceResponse,
   AccountRetrieveResponse,
   AccountUnfreezeResponse,
@@ -143,18 +145,17 @@ import {
   ConversionCreatedWebhookEvent,
   ConversionFailedWebhookEvent,
   DepositReceivedWebhookEvent,
-  PayoutCreatedWebhookEvent,
   PayoutFailedWebhookEvent,
   PayoutInitiatedWebhookEvent,
-  PayoutPaidWebhookEvent,
   PayoutReturnedWebhookEvent,
   PayoutSentWebhookEvent,
   PayoutSubmittedWebhookEvent,
   PingTestWebhookEvent,
   ReturnFailedWebhookEvent,
   ReturnInitiatedWebhookEvent,
-  ReturnPaidWebhookEvent,
   ReturnReturnedWebhookEvent,
+  ReturnSentWebhookEvent,
+  ReturnSubmittedWebhookEvent,
   UnwrapWebhookEvent,
   Webhooks,
 } from './resources/webhooks';
@@ -996,15 +997,14 @@ export declare namespace Augustus {
 
   export {
     Webhooks as Webhooks,
-    type PayoutCreatedWebhookEvent as PayoutCreatedWebhookEvent,
     type PayoutInitiatedWebhookEvent as PayoutInitiatedWebhookEvent,
     type PayoutSubmittedWebhookEvent as PayoutSubmittedWebhookEvent,
-    type PayoutPaidWebhookEvent as PayoutPaidWebhookEvent,
     type PayoutSentWebhookEvent as PayoutSentWebhookEvent,
     type PayoutFailedWebhookEvent as PayoutFailedWebhookEvent,
     type PayoutReturnedWebhookEvent as PayoutReturnedWebhookEvent,
     type ReturnInitiatedWebhookEvent as ReturnInitiatedWebhookEvent,
-    type ReturnPaidWebhookEvent as ReturnPaidWebhookEvent,
+    type ReturnSubmittedWebhookEvent as ReturnSubmittedWebhookEvent,
+    type ReturnSentWebhookEvent as ReturnSentWebhookEvent,
     type ReturnFailedWebhookEvent as ReturnFailedWebhookEvent,
     type ReturnReturnedWebhookEvent as ReturnReturnedWebhookEvent,
     type DepositReceivedWebhookEvent as DepositReceivedWebhookEvent,
@@ -1070,6 +1070,7 @@ export declare namespace Augustus {
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
     type AccountCloseParams as AccountCloseParams,
+    type AccountRetrieveBalanceParams as AccountRetrieveBalanceParams,
   };
 
   export {
@@ -1079,6 +1080,7 @@ export declare namespace Augustus {
     type AccountProgramRetrieveBalanceResponse as AccountProgramRetrieveBalanceResponse,
     type AccountProgramListResponsesCursorPage as AccountProgramListResponsesCursorPage,
     type AccountProgramListParams as AccountProgramListParams,
+    type AccountProgramRetrieveBalanceParams as AccountProgramRetrieveBalanceParams,
   };
 
   export {

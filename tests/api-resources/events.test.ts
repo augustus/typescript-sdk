@@ -40,7 +40,7 @@ describe('resource events', () => {
         {
           created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
           cursor: 'cursor',
-          event_type: 'payout.created',
+          event_type: 'payout.initiated',
           limit: 1,
         },
         { path: '/_stainless_unknown_path' },

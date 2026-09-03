@@ -18,172 +18,6 @@ export class Webhooks extends APIResource {
   }
 }
 
-export interface PayoutCreatedWebhookEvent {
-  /**
-   * Unique identifier for the event. Stable across retries.
-   */
-  id: string;
-
-  /**
-   * API version the payload was rendered at. Stable across retries and redeliveries.
-   */
-  api_version: string;
-
-  /**
-   * ISO 8601 UTC timestamp when the event was created.
-   */
-  date: string;
-
-  /**
-   * Full resource snapshot at the time of the event.
-   */
-  payload: PayoutCreatedWebhookEvent.Payload;
-
-  /**
-   * Event type in resource.action format.
-   */
-  type: 'payout.created';
-}
-
-export namespace PayoutCreatedWebhookEvent {
-  /**
-   * Full resource snapshot at the time of the event.
-   */
-  export interface Payload {
-    /**
-     * Unique identifier of the payout.
-     */
-    id: string;
-
-    /**
-     * ID of the account that was debited.
-     */
-    account_id: string;
-
-    /**
-     * Amount as a string decimal (e.g. "100.50").
-     */
-    amount: string;
-
-    /**
-     * ID of the counterparty that receives the money.
-     */
-    counterparty_id: string;
-
-    /**
-     * Currency code (ISO 4217 or crypto).
-     */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    failure: Payload.Failure | null;
-
-    /**
-     * ISO 8601 UTC timestamp when the payout was initiated.
-     */
-    initiated_at: string;
-
-    /**
-     * Key-value pairs stored with the payout.
-     */
-    metadata: { [key: string]: string };
-
-    /**
-     * Payment scheme or blockchain used for the payout, or null when unknown.
-     */
-    rail:
-      | 'sepa'
-      | 'sepa_instant'
-      | 'faster_payments'
-      | 'swift'
-      | 'internal'
-      | 'target'
-      | 'ach'
-      | 'fedwire'
-      | 'bitcoin'
-      | 'bitcoin_testnet4'
-      | 'ethereum'
-      | 'ethereum_sepolia'
-      | 'solana'
-      | 'solana_devnet'
-      | 'polygon'
-      | 'polygon_amoy'
-      | null;
-
-    /**
-     * ISO 8601 UTC timestamp when the payout was sent.
-     */
-    sent_at: string | null;
-
-    /**
-     * Current status of the payout.
-     */
-    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
-
-    /**
-     * Reference used to track the payment across the payment network, such as the UETR
-     * for SWIFT payments.
-     */
-    tracking_reference: string | null;
-
-    /**
-     * Transaction hash for crypto payouts, or null when not known. Only blockchain
-     * rails support this field.
-     */
-    tx_hash: string | null;
-
-    /**
-     * Resource type discriminator.
-     */
-    type: 'payout';
-
-    /**
-     * Unstructured remittance information attached to the transfer. Not all rails
-     * support this field.
-     */
-    unstructured_remittance_information: string | null;
-  }
-
-  export namespace Payload {
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    export interface Failure {
-      /**
-       * Failure code.
-       */
-      code:
-        | 'account_closed'
-        | 'account_blocked'
-        | 'insufficient_funds'
-        | 'invalid_account_format'
-        | 'invalid_routing_number'
-        | 'invalid_instruction'
-        | 'invalid_amount'
-        | 'invalid_time'
-        | 'duplicate_transaction'
-        | 'payee_verification_failed'
-        | 'system_error'
-        | 'provider_system_error'
-        | 'rejected_by_correspondent_bank'
-        | 'blocked_by_review'
-        | 'unknown';
-
-      /**
-       * Human-readable description of the failure.
-       */
-      message: string;
-
-      /**
-       * Whether the payout can be retried.
-       */
-      retry: boolean;
-    }
-  }
-}
-
 export interface PayoutInitiatedWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
@@ -378,172 +212,6 @@ export interface PayoutSubmittedWebhookEvent {
 }
 
 export namespace PayoutSubmittedWebhookEvent {
-  /**
-   * Full resource snapshot at the time of the event.
-   */
-  export interface Payload {
-    /**
-     * Unique identifier of the payout.
-     */
-    id: string;
-
-    /**
-     * ID of the account that was debited.
-     */
-    account_id: string;
-
-    /**
-     * Amount as a string decimal (e.g. "100.50").
-     */
-    amount: string;
-
-    /**
-     * ID of the counterparty that receives the money.
-     */
-    counterparty_id: string;
-
-    /**
-     * Currency code (ISO 4217 or crypto).
-     */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    failure: Payload.Failure | null;
-
-    /**
-     * ISO 8601 UTC timestamp when the payout was initiated.
-     */
-    initiated_at: string;
-
-    /**
-     * Key-value pairs stored with the payout.
-     */
-    metadata: { [key: string]: string };
-
-    /**
-     * Payment scheme or blockchain used for the payout, or null when unknown.
-     */
-    rail:
-      | 'sepa'
-      | 'sepa_instant'
-      | 'faster_payments'
-      | 'swift'
-      | 'internal'
-      | 'target'
-      | 'ach'
-      | 'fedwire'
-      | 'bitcoin'
-      | 'bitcoin_testnet4'
-      | 'ethereum'
-      | 'ethereum_sepolia'
-      | 'solana'
-      | 'solana_devnet'
-      | 'polygon'
-      | 'polygon_amoy'
-      | null;
-
-    /**
-     * ISO 8601 UTC timestamp when the payout was sent.
-     */
-    sent_at: string | null;
-
-    /**
-     * Current status of the payout.
-     */
-    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
-
-    /**
-     * Reference used to track the payment across the payment network, such as the UETR
-     * for SWIFT payments.
-     */
-    tracking_reference: string | null;
-
-    /**
-     * Transaction hash for crypto payouts, or null when not known. Only blockchain
-     * rails support this field.
-     */
-    tx_hash: string | null;
-
-    /**
-     * Resource type discriminator.
-     */
-    type: 'payout';
-
-    /**
-     * Unstructured remittance information attached to the transfer. Not all rails
-     * support this field.
-     */
-    unstructured_remittance_information: string | null;
-  }
-
-  export namespace Payload {
-    /**
-     * Failure details when status is failed, otherwise null.
-     */
-    export interface Failure {
-      /**
-       * Failure code.
-       */
-      code:
-        | 'account_closed'
-        | 'account_blocked'
-        | 'insufficient_funds'
-        | 'invalid_account_format'
-        | 'invalid_routing_number'
-        | 'invalid_instruction'
-        | 'invalid_amount'
-        | 'invalid_time'
-        | 'duplicate_transaction'
-        | 'payee_verification_failed'
-        | 'system_error'
-        | 'provider_system_error'
-        | 'rejected_by_correspondent_bank'
-        | 'blocked_by_review'
-        | 'unknown';
-
-      /**
-       * Human-readable description of the failure.
-       */
-      message: string;
-
-      /**
-       * Whether the payout can be retried.
-       */
-      retry: boolean;
-    }
-  }
-}
-
-export interface PayoutPaidWebhookEvent {
-  /**
-   * Unique identifier for the event. Stable across retries.
-   */
-  id: string;
-
-  /**
-   * API version the payload was rendered at. Stable across retries and redeliveries.
-   */
-  api_version: string;
-
-  /**
-   * ISO 8601 UTC timestamp when the event was created.
-   */
-  date: string;
-
-  /**
-   * Full resource snapshot at the time of the event.
-   */
-  payload: PayoutPaidWebhookEvent.Payload;
-
-  /**
-   * Event type in resource.action format.
-   */
-  type: 'payout.paid';
-}
-
-export namespace PayoutPaidWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
@@ -1324,7 +992,7 @@ export namespace ReturnInitiatedWebhookEvent {
   }
 }
 
-export interface ReturnPaidWebhookEvent {
+export interface ReturnSubmittedWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
    */
@@ -1343,15 +1011,159 @@ export interface ReturnPaidWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
-  payload: ReturnPaidWebhookEvent.Payload;
+  payload: ReturnSubmittedWebhookEvent.Payload;
 
   /**
    * Event type in resource.action format.
    */
-  type: 'return.paid';
+  type: 'return.submitted';
 }
 
-export namespace ReturnPaidWebhookEvent {
+export namespace ReturnSubmittedWebhookEvent {
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  export interface Payload {
+    /**
+     * Unique identifier of the return.
+     */
+    id: string;
+
+    /**
+     * Amount as a string decimal (e.g. "100.50").
+     */
+    amount: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto).
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * ID of the parent deposit.
+     */
+    deposit_id: string;
+
+    /**
+     * Failure details when status is failed, otherwise null.
+     */
+    failure: Payload.Failure | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was initiated.
+     */
+    initiated_at: string;
+
+    /**
+     * Payment scheme or blockchain used for the return, or null when unknown.
+     */
+    rail:
+      | 'sepa'
+      | 'sepa_instant'
+      | 'faster_payments'
+      | 'swift'
+      | 'internal'
+      | 'target'
+      | 'ach'
+      | 'fedwire'
+      | 'bitcoin'
+      | 'bitcoin_testnet4'
+      | 'ethereum'
+      | 'ethereum_sepolia'
+      | 'solana'
+      | 'solana_devnet'
+      | 'polygon'
+      | 'polygon_amoy'
+      | null;
+
+    /**
+     * ISO 8601 UTC timestamp when the return was sent.
+     */
+    sent_at: string | null;
+
+    /**
+     * Current status of the return.
+     */
+    status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
+
+    /**
+     * Transaction hash for crypto returns, or null when not known. Only blockchain
+     * rails support this field.
+     */
+    tx_hash: string | null;
+
+    /**
+     * Resource type discriminator.
+     */
+    type: 'return';
+  }
+
+  export namespace Payload {
+    /**
+     * Failure details when status is failed, otherwise null.
+     */
+    export interface Failure {
+      /**
+       * Failure code.
+       */
+      code:
+        | 'account_closed'
+        | 'account_blocked'
+        | 'insufficient_funds'
+        | 'invalid_account_format'
+        | 'invalid_routing_number'
+        | 'invalid_instruction'
+        | 'invalid_amount'
+        | 'invalid_time'
+        | 'duplicate_transaction'
+        | 'payee_verification_failed'
+        | 'system_error'
+        | 'provider_system_error'
+        | 'rejected_by_correspondent_bank'
+        | 'blocked_by_review'
+        | 'unknown';
+
+      /**
+       * Human-readable description of the failure.
+       */
+      message: string;
+
+      /**
+       * Whether the return can be retried.
+       */
+      retry: boolean;
+    }
+  }
+}
+
+export interface ReturnSentWebhookEvent {
+  /**
+   * Unique identifier for the event. Stable across retries.
+   */
+  id: string;
+
+  /**
+   * API version the payload was rendered at. Stable across retries and redeliveries.
+   */
+  api_version: string;
+
+  /**
+   * ISO 8601 UTC timestamp when the event was created.
+   */
+  date: string;
+
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  payload: ReturnSentWebhookEvent.Payload;
+
+  /**
+   * Event type in resource.action format.
+   */
+  type: 'return.sent';
+}
+
+export namespace ReturnSentWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
@@ -10069,15 +9881,14 @@ export namespace PingTestWebhookEvent {
 }
 
 export type UnwrapWebhookEvent =
-  | PayoutCreatedWebhookEvent
   | PayoutInitiatedWebhookEvent
   | PayoutSubmittedWebhookEvent
-  | PayoutPaidWebhookEvent
   | PayoutSentWebhookEvent
   | PayoutFailedWebhookEvent
   | PayoutReturnedWebhookEvent
   | ReturnInitiatedWebhookEvent
-  | ReturnPaidWebhookEvent
+  | ReturnSubmittedWebhookEvent
+  | ReturnSentWebhookEvent
   | ReturnFailedWebhookEvent
   | ReturnReturnedWebhookEvent
   | DepositReceivedWebhookEvent
@@ -10090,15 +9901,14 @@ export type UnwrapWebhookEvent =
 
 export declare namespace Webhooks {
   export {
-    type PayoutCreatedWebhookEvent as PayoutCreatedWebhookEvent,
     type PayoutInitiatedWebhookEvent as PayoutInitiatedWebhookEvent,
     type PayoutSubmittedWebhookEvent as PayoutSubmittedWebhookEvent,
-    type PayoutPaidWebhookEvent as PayoutPaidWebhookEvent,
     type PayoutSentWebhookEvent as PayoutSentWebhookEvent,
     type PayoutFailedWebhookEvent as PayoutFailedWebhookEvent,
     type PayoutReturnedWebhookEvent as PayoutReturnedWebhookEvent,
     type ReturnInitiatedWebhookEvent as ReturnInitiatedWebhookEvent,
-    type ReturnPaidWebhookEvent as ReturnPaidWebhookEvent,
+    type ReturnSubmittedWebhookEvent as ReturnSubmittedWebhookEvent,
+    type ReturnSentWebhookEvent as ReturnSentWebhookEvent,
     type ReturnFailedWebhookEvent as ReturnFailedWebhookEvent,
     type ReturnReturnedWebhookEvent as ReturnReturnedWebhookEvent,
     type DepositReceivedWebhookEvent as DepositReceivedWebhookEvent,

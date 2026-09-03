@@ -119,6 +119,18 @@ describe('resource accounts', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('retrieveBalance: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.accounts.retrieveBalance(
+        '550e8400-e29b-41d4-a716-446655440001',
+        { as_of: '2026-01-15T10:40:00Z' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Augustus.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('unfreeze', async () => {
     const responsePromise = client.accounts.unfreeze('550e8400-e29b-41d4-a716-446655440001');
     const rawResponse = await responsePromise.asResponse();
