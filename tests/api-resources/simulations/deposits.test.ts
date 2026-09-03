@@ -41,11 +41,12 @@ describe('resource deposits', () => {
           city: 'city',
           country_code: 'DE',
           line_1: 'line_1',
-          line_2: 'line_2',
           postal_code: 'postal_code',
+          line_2: 'line_2',
           state: 'state',
         },
       },
+      counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       rail: 'sepa',
       unstructured_remittance_information: 'x',
     });

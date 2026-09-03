@@ -2,12 +2,14 @@
 
 Types:
 
-- <code><a href="./src/resources/webhooks.ts">PayoutCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PayoutInitiatedWebhookEvent</a></code>
-- <code><a href="./src/resources/webhooks.ts">PayoutPaidWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutSubmittedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutSentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PayoutFailedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutReturnedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnInitiatedWebhookEvent</a></code>
-- <code><a href="./src/resources/webhooks.ts">ReturnPaidWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">ReturnSubmittedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">ReturnSentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnReturnedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">DepositReceivedWebhookEvent</a></code>
@@ -174,7 +176,7 @@ Methods:
 - <code title="get /v1/accounts">client.accounts.<a href="./src/resources/accounts.ts">list</a>({ ...params }) -> AccountListResponsesCursorPage</code>
 - <code title="post /v1/accounts/{id}/close">client.accounts.<a href="./src/resources/accounts.ts">close</a>(id, { ...params }) -> AccountCloseResponse</code>
 - <code title="post /v1/accounts/{id}/freeze">client.accounts.<a href="./src/resources/accounts.ts">freeze</a>(id) -> AccountFreezeResponse</code>
-- <code title="get /v1/accounts/{id}/balance">client.accounts.<a href="./src/resources/accounts.ts">retrieveBalance</a>(id) -> AccountRetrieveBalanceResponse</code>
+- <code title="get /v1/accounts/{id}/balance">client.accounts.<a href="./src/resources/accounts.ts">retrieveBalance</a>(id, { ...params }) -> AccountRetrieveBalanceResponse</code>
 - <code title="post /v1/accounts/{id}/unfreeze">client.accounts.<a href="./src/resources/accounts.ts">unfreeze</a>(id) -> AccountUnfreezeResponse</code>
 
 # AccountPrograms
@@ -189,7 +191,7 @@ Methods:
 
 - <code title="get /v1/account_programs/{id}">client.accountPrograms.<a href="./src/resources/account-programs.ts">retrieve</a>(id) -> AccountProgramRetrieveResponse</code>
 - <code title="get /v1/account_programs">client.accountPrograms.<a href="./src/resources/account-programs.ts">list</a>({ ...params }) -> AccountProgramListResponsesCursorPage</code>
-- <code title="get /v1/account_programs/{id}/balance">client.accountPrograms.<a href="./src/resources/account-programs.ts">retrieveBalance</a>(id) -> AccountProgramRetrieveBalanceResponse</code>
+- <code title="get /v1/account_programs/{id}/balance">client.accountPrograms.<a href="./src/resources/account-programs.ts">retrieveBalance</a>(id, { ...params }) -> AccountProgramRetrieveBalanceResponse</code>
 
 # AccountHolders
 

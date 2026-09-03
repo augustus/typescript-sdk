@@ -51,7 +51,6 @@ describe('resource accounts', () => {
     const responsePromise = client.simulations.accounts.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
       },
@@ -70,9 +69,9 @@ describe('resource accounts', () => {
     const response = await client.simulations.accounts.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
+        bic: 'COBADEFFXXX',
       },
     });
   });

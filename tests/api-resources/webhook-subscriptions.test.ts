@@ -11,7 +11,7 @@ describe('resource webhookSubscriptions', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.webhookSubscriptions.create({
-      events: ['payout.paid'],
+      events: ['payout.sent'],
       url: 'https://sandbox.example.com/webhooks/augustus',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,7 +26,7 @@ describe('resource webhookSubscriptions', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.webhookSubscriptions.create({
-      events: ['payout.paid'],
+      events: ['payout.sent'],
       url: 'https://sandbox.example.com/webhooks/augustus',
     });
   });

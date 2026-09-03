@@ -31,8 +31,12 @@ export class AccountPrograms extends APIResource {
    * Returns the aggregated available balance for all virtual accounts under the
    * account program.
    */
-  retrieveBalance(id: string, options?: RequestOptions): APIPromise<AccountProgramRetrieveBalanceResponse> {
-    return this._client.get(path`/v1/account_programs/${id}/balance`, options);
+  retrieveBalance(
+    id: string,
+    query: AccountProgramRetrieveBalanceParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountProgramRetrieveBalanceResponse> {
+    return this._client.get(path`/v1/account_programs/${id}/balance`, { query, ...options });
   }
 }
 
@@ -122,10 +126,7 @@ export interface AccountProgramRetrieveBalanceResponse {
    */
   id: string;
 
-  /**
-   * Available balance as a string decimal (e.g. "100.50").
-   */
-  amount: string;
+  amount: AccountProgramRetrieveBalanceResponse.Amount;
 
   /**
    * ISO 8601 UTC timestamp when this balance snapshot was produced.
@@ -143,7 +144,28 @@ export interface AccountProgramRetrieveBalanceResponse {
   type: 'account_program_balance';
 }
 
+export namespace AccountProgramRetrieveBalanceResponse {
+  export interface Amount {
+    /**
+     * Available balance as a string decimal (e.g. "100.50").
+     */
+    available: string;
+
+    /**
+     * Pending balance as a string decimal (e.g. "100.50").
+     */
+    pending: string;
+  }
+}
+
 export interface AccountProgramListParams extends CursorPageParams {}
+
+export interface AccountProgramRetrieveBalanceParams {
+  /**
+   * ISO 8601 UTC timestamp to retrieve balance at.
+   */
+  as_of?: string;
+}
 
 export declare namespace AccountPrograms {
   export {
@@ -152,5 +174,6 @@ export declare namespace AccountPrograms {
     type AccountProgramRetrieveBalanceResponse as AccountProgramRetrieveBalanceResponse,
     type AccountProgramListResponsesCursorPage as AccountProgramListResponsesCursorPage,
     type AccountProgramListParams as AccountProgramListParams,
+    type AccountProgramRetrieveBalanceParams as AccountProgramRetrieveBalanceParams,
   };
 }

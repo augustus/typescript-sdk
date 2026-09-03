@@ -50,7 +50,6 @@ export class Accounts extends APIResource {
    *   {
    *     destination: {
    *       account_holder_name: 'Acme Sandbox Ltd.',
-   *       bic: 'COBADEFFXXX',
    *       iban: 'DE89370400440532013000',
    *       type: 'iban',
    *     },
@@ -100,22 +99,6 @@ export interface AccountCreateResponse {
   account_id: string;
 
   /**
-   * Account lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payout created by a drain event. Feed to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_id: string | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
-
-  /**
    * Resource type discriminator.
    */
   type: 'account_simulation';
@@ -126,22 +109,6 @@ export interface AccountCloseResponse {
    * Account whose lifecycle is being simulated.
    */
   account_id: string;
-
-  /**
-   * Account lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payout created by a drain event. Feed to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_id: string | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
@@ -156,20 +123,10 @@ export interface AccountDrainResponse {
   account_id: string;
 
   /**
-   * Account lifecycle event submitted to the sandbox.
+   * Payout created by the drain. Feed to `POST /v1/simulations/payouts/{id}/send` to
+   * settle.
    */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payout created by a drain event. Feed to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_id: string | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
+  payout_id: string;
 
   /**
    * Resource type discriminator.
@@ -184,22 +141,6 @@ export interface AccountFreezeResponse {
   account_id: string;
 
   /**
-   * Account lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payout created by a drain event. Feed to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_id: string | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
-
-  /**
    * Resource type discriminator.
    */
   type: 'account_simulation';
@@ -210,22 +151,6 @@ export interface AccountUnfreezeResponse {
    * Account whose lifecycle is being simulated.
    */
   account_id: string;
-
-  /**
-   * Account lifecycle event submitted to the sandbox.
-   */
-  event: 'create' | 'freeze' | 'unfreeze' | 'close' | 'drain';
-
-  /**
-   * Payout created by a drain event. Feed to
-   * `POST /v1/simulations/payouts/{id}/send` to settle. `null` for non-drain events.
-   */
-  payout_id: string | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
@@ -253,22 +178,17 @@ export interface AccountDrainParams {
    * drained.
    */
   destination:
-    | AccountDrainParams.IbanFinancialAddress
+    | AccountDrainParams.IbanFinancialAddressRequest
     | AccountDrainParams.SortCodeFinancialAddress
     | AccountDrainParams.AbaFinancialAddress;
 }
 
 export namespace AccountDrainParams {
-  export interface IbanFinancialAddress {
+  export interface IbanFinancialAddressRequest {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
-
-    /**
-     * Bank Identifier Code, or null if not provided.
-     */
-    bic: string | null;
 
     /**
      * International Bank Account Number.
@@ -279,6 +199,11 @@ export namespace AccountDrainParams {
      * Discriminator for IBAN financial address.
      */
     type: 'iban';
+
+    /**
+     * Bank Identifier Code. Optional; omit or send null if not provided.
+     */
+    bic?: string | null;
   }
 
   export interface SortCodeFinancialAddress {

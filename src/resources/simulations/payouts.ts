@@ -40,19 +40,9 @@ export class Payouts extends APIResource {
 
 export interface PayoutRejectResponse {
   /**
-   * Payout lifecycle event submitted to the sandbox provider.
-   */
-  event: 'send' | 'reject' | 'return';
-
-  /**
    * Payout whose lifecycle is being simulated.
    */
   payout_id: string;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
@@ -62,19 +52,9 @@ export interface PayoutRejectResponse {
 
 export interface PayoutSendResponse {
   /**
-   * Payout lifecycle event submitted to the sandbox provider.
-   */
-  event: 'send' | 'reject' | 'return';
-
-  /**
    * Payout whose lifecycle is being simulated.
    */
   payout_id: string;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
 
   /**
    * Resource type discriminator.
@@ -84,9 +64,11 @@ export interface PayoutSendResponse {
 
 export interface PayoutRejectParams {
   /**
-   * Reason the sandbox provider rejects the payout.
+   * Reason the sandbox provider rejects the payout. Use `invalid_routing_number` for
+   * domestic rails and `invalid_account_format` for a SWIFT correspondent rejecting
+   * on the beneficiary details.
    */
-  reason: 'invalid_routing_number';
+  reason: 'invalid_routing_number' | 'invalid_account_format';
 }
 
 export declare namespace Payouts {

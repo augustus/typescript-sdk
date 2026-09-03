@@ -30,35 +30,9 @@ export interface DepositCreateResponse {
   account_id: string;
 
   /**
-   * Simulated amount as a decimal string.
-   */
-  amount: string;
-
-  /**
-   * Currency of the receiving account.
-   */
-  currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
-
-  /**
-   * Payment rail the simulated deposit arrived on, or null when not known.
-   */
-  rail: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift' | null;
-
-  /**
-   * Whether the simulation submission was successful.
-   */
-  success: boolean;
-
-  /**
    * Resource type discriminator.
    */
   type: 'deposit_simulation';
-
-  /**
-   * ISO 20022 unstructured remittance information (<RmtInf>/<Ustrd>), or null when
-   * omitted.
-   */
-  unstructured_remittance_information: string | null;
 }
 
 export interface DepositCreateParams {
@@ -78,14 +52,32 @@ export interface DepositCreateParams {
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * Sender of the simulated deposit.
+   * Sender of the simulated deposit. Mutually exclusive with `counterparty_id`.
    */
   counterparty?: DepositCreateParams.Counterparty;
 
   /**
+   * ID of an existing counterparty to use as the sender of the simulated deposit.
+   * Mutually exclusive with `counterparty`.
+   */
+  counterparty_id?: string;
+
+  /**
    * Payment rail the simulated deposit arrives on.
    */
-  rail?: 'sepa' | 'sepa_instant' | 'faster_payments' | 'ach' | 'fedwire' | 'swift';
+  rail?:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'ach'
+    | 'fedwire'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy';
 
   /**
    * Unstructured remittance information attached to the transfer. Not all rails
@@ -96,7 +88,7 @@ export interface DepositCreateParams {
 
 export namespace DepositCreateParams {
   /**
-   * Sender of the simulated deposit.
+   * Sender of the simulated deposit. Mutually exclusive with `counterparty_id`.
    */
   export interface Counterparty {
     /**
@@ -505,19 +497,19 @@ export namespace DepositCreateParams {
       line_1: string;
 
       /**
-       * Secondary street address, or null if not recorded.
-       */
-      line_2: string | null;
-
-      /**
        * Postal or ZIP code.
        */
       postal_code: string;
 
       /**
-       * State, province, or region, or null if not recorded.
+       * Secondary street address. Optional; omit or send null if not recorded.
        */
-      state: string | null;
+      line_2?: string | null;
+
+      /**
+       * State, province, or region. Optional; omit or send null if not recorded.
+       */
+      state?: string | null;
     }
   }
 }

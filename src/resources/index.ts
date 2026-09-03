@@ -19,6 +19,7 @@ export {
   type AccountProgramListResponse,
   type AccountProgramRetrieveBalanceResponse,
   type AccountProgramListParams,
+  type AccountProgramRetrieveBalanceParams,
   type AccountProgramListResponsesCursorPage,
 } from './account-programs';
 export {
@@ -33,6 +34,7 @@ export {
   type AccountCreateParams,
   type AccountListParams,
   type AccountCloseParams,
+  type AccountRetrieveBalanceParams,
   type AccountListResponsesCursorPage,
 } from './accounts';
 export {
@@ -121,12 +123,14 @@ export {
 } from './webhook-subscriptions';
 export {
   Webhooks,
-  type PayoutCreatedWebhookEvent,
   type PayoutInitiatedWebhookEvent,
-  type PayoutPaidWebhookEvent,
+  type PayoutSubmittedWebhookEvent,
+  type PayoutSentWebhookEvent,
   type PayoutFailedWebhookEvent,
+  type PayoutReturnedWebhookEvent,
   type ReturnInitiatedWebhookEvent,
-  type ReturnPaidWebhookEvent,
+  type ReturnSubmittedWebhookEvent,
+  type ReturnSentWebhookEvent,
   type ReturnFailedWebhookEvent,
   type ReturnReturnedWebhookEvent,
   type DepositReceivedWebhookEvent,

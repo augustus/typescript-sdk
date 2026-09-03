@@ -91,6 +91,12 @@ export interface DepositRetrieveResponse {
   status: 'settled';
 
   /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
+
+  /**
    * Transaction hash for crypto deposits, or null when not known. Only blockchain
    * rails support this field.
    */
@@ -170,6 +176,12 @@ export interface DepositListResponse {
    * Current status of the deposit.
    */
   status: 'settled';
+
+  /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto deposits, or null when not known. Only blockchain

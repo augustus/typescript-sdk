@@ -55,12 +55,14 @@ export interface EventRetrieveResponse {
    * Event type.
    */
   event_type:
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -104,12 +106,14 @@ export interface EventListResponse {
    * Event type.
    */
   event_type:
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -133,12 +137,14 @@ export interface EventListParams extends CursorPageParams {
    * Filter by event type.
    */
   event_type?:
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'

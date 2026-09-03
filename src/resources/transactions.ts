@@ -57,6 +57,13 @@ export interface TransactionRetrieveResponse {
   counterparty: TransactionRetrieveResponse.Counterparty | null;
 
   /**
+   * ID of the counterparty this transaction is associated with, or null when none
+   * was resolved. Correlates with the counterparties API and a payout's
+   * counterparty_id.
+   */
+  counterparty_id: string | null;
+
+  /**
    * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
@@ -89,9 +96,21 @@ export interface TransactionRetrieveResponse {
   side: 'credit' | 'debit';
 
   /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  source: TransactionRetrieveResponse.Source | null;
+
+  /**
    * State of the transaction. Transactions are by definition booked.
    */
   status: 'booked';
+
+  /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto transactions, or null when not known. Only
@@ -537,6 +556,22 @@ export namespace TransactionRetrieveResponse {
       state: string | null;
     }
   }
+
+  /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  export interface Source {
+    /**
+     * Identifier of the originating resource, retrievable on its own endpoint.
+     */
+    id: string;
+
+    /**
+     * Type of the resource that originated this transaction.
+     */
+    type: 'deposit' | 'payout' | 'return';
+  }
 }
 
 export interface TransactionListResponse {
@@ -564,6 +599,13 @@ export interface TransactionListResponse {
    * Counterparty of the transaction.
    */
   counterparty: TransactionListResponse.Counterparty | null;
+
+  /**
+   * ID of the counterparty this transaction is associated with, or null when none
+   * was resolved. Correlates with the counterparties API and a payout's
+   * counterparty_id.
+   */
+  counterparty_id: string | null;
 
   /**
    * Currency code (ISO 4217 or crypto).
@@ -598,9 +640,21 @@ export interface TransactionListResponse {
   side: 'credit' | 'debit';
 
   /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  source: TransactionListResponse.Source | null;
+
+  /**
    * State of the transaction. Transactions are by definition booked.
    */
   status: 'booked';
+
+  /**
+   * Reference used to track the payment across the payment network, such as the UETR
+   * for SWIFT payments.
+   */
+  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto transactions, or null when not known. Only
@@ -1045,6 +1099,22 @@ export namespace TransactionListResponse {
        */
       state: string | null;
     }
+  }
+
+  /**
+   * The resource that originated this transaction, or null when it does not map to a
+   * retrievable resource.
+   */
+  export interface Source {
+    /**
+     * Identifier of the originating resource, retrievable on its own endpoint.
+     */
+    id: string;
+
+    /**
+     * Type of the resource that originated this transaction.
+     */
+    type: 'deposit' | 'payout' | 'return';
   }
 }
 

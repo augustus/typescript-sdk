@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource accountPrograms', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.simulations.accountPrograms.create({ label: 'x', type: 'fbo-program' });
+    const responsePromise = client.simulations.accountPrograms.create({ label: 'x', type: 'fbo_program' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource accountPrograms', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.simulations.accountPrograms.create({ label: 'x', type: 'fbo-program' });
+    const response = await client.simulations.accountPrograms.create({ label: 'x', type: 'fbo_program' });
   });
 
   // Mock server tests are disabled
@@ -51,7 +51,6 @@ describe('resource accountPrograms', () => {
     const responsePromise = client.simulations.accountPrograms.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
       },
@@ -70,9 +69,9 @@ describe('resource accountPrograms', () => {
     const response = await client.simulations.accountPrograms.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        bic: 'COBADEFFXXX',
         iban: 'DE89370400440532013000',
         type: 'iban',
+        bic: 'COBADEFFXXX',
       },
     });
   });

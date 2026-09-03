@@ -14,7 +14,7 @@ export class WebhookSubscriptions extends APIResource {
    * ```ts
    * const webhookSubscription =
    *   await client.webhookSubscriptions.create({
-   *     events: ['payout.paid'],
+   *     events: ['payout.sent'],
    *     url: 'https://sandbox.example.com/webhooks/augustus',
    *   });
    * ```
@@ -133,12 +133,14 @@ export interface WebhookSubscriptionCreateResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -180,12 +182,14 @@ export interface WebhookSubscriptionRetrieveResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -227,12 +231,14 @@ export interface WebhookSubscriptionUpdateResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -274,12 +280,14 @@ export interface WebhookSubscriptionListResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -321,12 +329,14 @@ export interface WebhookSubscriptionDeleteResponse {
    * Event types this subscription receives.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -380,12 +390,14 @@ export interface WebhookSubscriptionSendTestEventResponse {
    * Event type.
    */
   event_type:
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -407,12 +419,14 @@ export interface WebhookSubscriptionCreateParams {
    * Event types to subscribe to. Use ["*"] for all events.
    */
   events: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
@@ -436,12 +450,14 @@ export interface WebhookSubscriptionUpdateParams {
    * events.
    */
   events?: Array<
-    | 'payout.created'
     | 'payout.initiated'
-    | 'payout.paid'
+    | 'payout.submitted'
+    | 'payout.sent'
     | 'payout.failed'
+    | 'payout.returned'
     | 'return.initiated'
-    | 'return.paid'
+    | 'return.submitted'
+    | 'return.sent'
     | 'return.failed'
     | 'return.returned'
     | 'deposit.received'
