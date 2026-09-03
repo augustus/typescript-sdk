@@ -57,6 +57,13 @@ export interface TransactionRetrieveResponse {
   counterparty: TransactionRetrieveResponse.Counterparty | null;
 
   /**
+   * ID of the counterparty this transaction is associated with, or null when none
+   * was resolved. Correlates with the counterparties API and a payout's
+   * counterparty_id.
+   */
+  counterparty_id: string | null;
+
+  /**
    * Currency code (ISO 4217 or crypto).
    */
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
@@ -592,6 +599,13 @@ export interface TransactionListResponse {
    * Counterparty of the transaction.
    */
   counterparty: TransactionListResponse.Counterparty | null;
+
+  /**
+   * ID of the counterparty this transaction is associated with, or null when none
+   * was resolved. Correlates with the counterparties API and a payout's
+   * counterparty_id.
+   */
+  counterparty_id: string | null;
 
   /**
    * Currency code (ISO 4217 or crypto).

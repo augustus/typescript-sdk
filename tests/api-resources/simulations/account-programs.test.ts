@@ -10,7 +10,7 @@ const client = new Augustus({
 describe('resource accountPrograms', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.simulations.accountPrograms.create({ label: 'x', type: 'fbo-program' });
+    const responsePromise = client.simulations.accountPrograms.create({ label: 'x', type: 'fbo_program' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource accountPrograms', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.simulations.accountPrograms.create({ label: 'x', type: 'fbo-program' });
+    const response = await client.simulations.accountPrograms.create({ label: 'x', type: 'fbo_program' });
   });
 
   // Mock server tests are disabled

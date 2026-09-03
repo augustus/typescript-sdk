@@ -15,7 +15,7 @@ export class AccountPrograms extends APIResource {
    * const accountProgram =
    *   await client.simulations.accountPrograms.create({
    *     label: 'x',
-   *     type: 'fbo-program',
+   *     type: 'fbo_program',
    *   });
    * ```
    */
@@ -186,7 +186,7 @@ export interface AccountProgramCreateParams {
   /**
    * Account program type.
    */
-  type: 'fbo-program' | 'fbo-sponsored';
+  type: 'fbo_program' | 'fbo_sponsored';
 }
 
 export interface AccountProgramCloseParams {
