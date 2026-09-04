@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.22.1 (2026-09-04)
+
+Full Changelog: [v0.22.0...v0.22.1](https://github.com/augustus/typescript-sdk/compare/v0.22.0...v0.22.1)
+
+### Bug Fixes
+
+* add repository scope ([b3c39a9](https://github.com/augustus/typescript-sdk/commit/b3c39a9e06ddaa0fcf79e35a6f5a26b11c86be00))
+
+
+### Reverts
+
+* keep this PR scoped to account-programs/accounts only ([edfb44c](https://github.com/augustus/typescript-sdk/commit/edfb44c4248fe05eac3844a74e184a74878b54ee))
+
+
+### Chores
+
+* **backsync:** merge production main into staging ([6cc1d49](https://github.com/augustus/typescript-sdk/commit/6cc1d49540544e34b96393dc3387b3b4d73b6f66))
+* drop npm lockfile artifacts, restore yarn.lock ([188811e](https://github.com/augustus/typescript-sdk/commit/188811e3c2cbba83b169aae3531b6cd74dbb1e7a))
+
 ## 0.22.0 (2026-08-31)
 
 Full Changelog: [v0.21.0...v0.22.0](https://github.com/augustus/typescript-sdk/compare/v0.21.0...v0.22.0)
