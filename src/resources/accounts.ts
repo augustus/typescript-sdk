@@ -1026,7 +1026,7 @@ export namespace AccountRetrieveBalanceResponse {
     available: string;
 
     /**
-     * Pending balance as a string decimal (e.g. "100.50").
+     * Pending balance as a string decimal (e.g. "7.50").
      */
     pending: string;
   }

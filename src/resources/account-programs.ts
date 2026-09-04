@@ -49,12 +49,6 @@ export interface AccountProgramRetrieveResponse {
   id: string;
 
   /**
-   * Which for-benefit-of (FBO) program model applies: `fbo_program` (merchant
-   * program) or `fbo_sponsored` (sponsored program).
-   */
-  account_program_type: 'fbo_program' | 'fbo_sponsored';
-
-  /**
    * ISO 8601 UTC timestamp when the account program was created.
    */
   created_at: string;
@@ -86,12 +80,6 @@ export interface AccountProgramListResponse {
    * Unique identifier of the account program.
    */
   id: string;
-
-  /**
-   * Which for-benefit-of (FBO) program model applies: `fbo_program` (merchant
-   * program) or `fbo_sponsored` (sponsored program).
-   */
-  account_program_type: 'fbo_program' | 'fbo_sponsored';
 
   /**
    * ISO 8601 UTC timestamp when the account program was created.
@@ -152,7 +140,7 @@ export namespace AccountProgramRetrieveBalanceResponse {
     available: string;
 
     /**
-     * Pending balance as a string decimal (e.g. "100.50").
+     * Pending balance as a string decimal (e.g. "7.50").
      */
     pending: string;
   }

@@ -12,7 +12,7 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">ReturnSentWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ReturnReturnedWebhookEvent</a></code>
-- <code><a href="./src/resources/webhooks.ts">DepositReceivedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">DepositSettledWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ConversionCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ConversionCompletedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">ConversionFailedWebhookEvent</a></code>
@@ -62,6 +62,18 @@ Types:
 Methods:
 
 - <code title="post /v1/simulations/deposits">client.simulations.deposits.<a href="./src/resources/simulations/deposits.ts">create</a>({ ...params }) -> DepositCreateResponse</code>
+
+## Conversions
+
+Types:
+
+- <code><a href="./src/resources/simulations/conversions.ts">ConversionCompleteResponse</a></code>
+- <code><a href="./src/resources/simulations/conversions.ts">ConversionFailResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/conversions/{id}/complete">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">complete</a>(id) -> ConversionCompleteResponse</code>
+- <code title="post /v1/simulations/conversions/{id}/fail">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">fail</a>(id) -> ConversionFailResponse</code>
 
 ## Payouts
 

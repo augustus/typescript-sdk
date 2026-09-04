@@ -22,6 +22,7 @@ export {
   type AccountCloseParams,
   type AccountDrainParams,
 } from './accounts';
+export { Conversions, type ConversionCompleteResponse, type ConversionFailResponse } from './conversions';
 export { Deposits, type DepositCreateResponse, type DepositCreateParams } from './deposits';
 export {
   Payouts,

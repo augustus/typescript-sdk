@@ -133,7 +133,7 @@ export {
   type ReturnSentWebhookEvent,
   type ReturnFailedWebhookEvent,
   type ReturnReturnedWebhookEvent,
-  type DepositReceivedWebhookEvent,
+  type DepositSettledWebhookEvent,
   type ConversionCreatedWebhookEvent,
   type ConversionCompletedWebhookEvent,
   type ConversionFailedWebhookEvent,

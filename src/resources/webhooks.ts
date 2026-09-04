@@ -1568,7 +1568,7 @@ export namespace ReturnReturnedWebhookEvent {
   }
 }
 
-export interface DepositReceivedWebhookEvent {
+export interface DepositSettledWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
    */
@@ -1587,15 +1587,15 @@ export interface DepositReceivedWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
-  payload: DepositReceivedWebhookEvent.Payload;
+  payload: DepositSettledWebhookEvent.Payload;
 
   /**
    * Event type in resource.action format.
    */
-  type: 'deposit.received';
+  type: 'deposit.settled';
 }
 
-export namespace DepositReceivedWebhookEvent {
+export namespace DepositSettledWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
@@ -9891,7 +9891,7 @@ export type UnwrapWebhookEvent =
   | ReturnSentWebhookEvent
   | ReturnFailedWebhookEvent
   | ReturnReturnedWebhookEvent
-  | DepositReceivedWebhookEvent
+  | DepositSettledWebhookEvent
   | ConversionCreatedWebhookEvent
   | ConversionCompletedWebhookEvent
   | ConversionFailedWebhookEvent
@@ -9911,7 +9911,7 @@ export declare namespace Webhooks {
     type ReturnSentWebhookEvent as ReturnSentWebhookEvent,
     type ReturnFailedWebhookEvent as ReturnFailedWebhookEvent,
     type ReturnReturnedWebhookEvent as ReturnReturnedWebhookEvent,
-    type DepositReceivedWebhookEvent as DepositReceivedWebhookEvent,
+    type DepositSettledWebhookEvent as DepositSettledWebhookEvent,
     type ConversionCreatedWebhookEvent as ConversionCreatedWebhookEvent,
     type ConversionCompletedWebhookEvent as ConversionCompletedWebhookEvent,
     type ConversionFailedWebhookEvent as ConversionFailedWebhookEvent,

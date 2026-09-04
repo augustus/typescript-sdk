@@ -25,6 +25,8 @@ import {
   AccountUnfreezeResponse,
   Accounts,
 } from './accounts';
+import * as ConversionsAPI from './conversions';
+import { ConversionCompleteResponse, ConversionFailResponse, Conversions } from './conversions';
 import * as DepositsAPI from './deposits';
 import { DepositCreateParams, DepositCreateResponse, Deposits } from './deposits';
 import * as PayoutsAPI from './payouts';
@@ -32,12 +34,14 @@ import { PayoutRejectParams, PayoutRejectResponse, PayoutSendResponse, Payouts }
 
 export class Simulations extends APIResource {
   deposits: DepositsAPI.Deposits = new DepositsAPI.Deposits(this._client);
+  conversions: ConversionsAPI.Conversions = new ConversionsAPI.Conversions(this._client);
   payouts: PayoutsAPI.Payouts = new PayoutsAPI.Payouts(this._client);
   accountPrograms: AccountProgramsAPI.AccountPrograms = new AccountProgramsAPI.AccountPrograms(this._client);
   accounts: AccountsAPI.Accounts = new AccountsAPI.Accounts(this._client);
 }
 
 Simulations.Deposits = Deposits;
+Simulations.Conversions = Conversions;
 Simulations.Payouts = Payouts;
 Simulations.AccountPrograms = AccountPrograms;
 Simulations.Accounts = Accounts;
@@ -47,6 +51,12 @@ export declare namespace Simulations {
     Deposits as Deposits,
     type DepositCreateResponse as DepositCreateResponse,
     type DepositCreateParams as DepositCreateParams,
+  };
+
+  export {
+    Conversions as Conversions,
+    type ConversionCompleteResponse as ConversionCompleteResponse,
+    type ConversionFailResponse as ConversionFailResponse,
   };
 
   export {
