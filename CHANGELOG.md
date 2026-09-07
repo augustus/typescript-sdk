@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.22.2](https://github.com/augustus/typescript-sdk/compare/v0.22.1...v0.22.2) (2026-09-07)
+
+
+### Bug Fixes
+
+* **inf-1261:** restore simulations payouts.return ([6086185](https://github.com/augustus/typescript-sdk/commit/6086185c36013ade115f1e0371dc3bdd5b540dde))
+
+
+### Reverts
+
+* restore simulations payouts.return ([1413f40](https://github.com/augustus/typescript-sdk/commit/1413f40de581deefddc44b2029f288c2e337f79d))
+
 ## 0.22.1 (2026-09-04)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/augustus/typescript-sdk/compare/v0.22.0...v0.22.1)
