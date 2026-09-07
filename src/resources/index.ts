@@ -81,7 +81,7 @@ export {
   type PayoutListParams,
   type PayoutListResponsesCursorPage,
 } from './payouts';
-export { Quotes, type QuoteRetrieveResponse } from './quotes/quotes';
+export { Quotes } from './quotes/quotes';
 export {
   Returns,
   type ReturnCreateResponse,

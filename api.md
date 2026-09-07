@@ -89,6 +89,20 @@ Methods:
 - <code title="post /v1/simulations/payouts/{id}/return">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">return</a>(id, { ...params }) -> PayoutReturnResponse</code>
 - <code title="post /v1/simulations/payouts/{id}/send">client.simulations.payouts.<a href="./src/resources/simulations/payouts.ts">send</a>(id) -> PayoutSendResponse</code>
 
+## Returns
+
+Types:
+
+- <code><a href="./src/resources/simulations/returns.ts">ReturnRejectResponse</a></code>
+- <code><a href="./src/resources/simulations/returns.ts">ReturnReturnResponse</a></code>
+- <code><a href="./src/resources/simulations/returns.ts">ReturnSendResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/returns/{id}/reject">client.simulations.returns.<a href="./src/resources/simulations/returns.ts">reject</a>(id, { ...params }) -> ReturnRejectResponse</code>
+- <code title="post /v1/simulations/returns/{id}/return">client.simulations.returns.<a href="./src/resources/simulations/returns.ts">return</a>(id, { ...params }) -> ReturnReturnResponse</code>
+- <code title="post /v1/simulations/returns/{id}/send">client.simulations.returns.<a href="./src/resources/simulations/returns.ts">send</a>(id) -> ReturnSendResponse</code>
+
 ## AccountPrograms
 
 Types:
@@ -152,14 +166,6 @@ Methods:
 - <code title="get /v1/conversions">client.conversions.<a href="./src/resources/conversions.ts">list</a>({ ...params }) -> ConversionListResponsesCursorPage</code>
 
 # Quotes
-
-Types:
-
-- <code><a href="./src/resources/quotes/quotes.ts">QuoteRetrieveResponse</a></code>
-
-Methods:
-
-- <code title="get /v1/quotes/{id}">client.quotes.<a href="./src/resources/quotes/quotes.ts">retrieve</a>(id) -> QuoteRetrieveResponse</code>
 
 ## Indicative
 

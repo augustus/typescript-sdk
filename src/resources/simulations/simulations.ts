@@ -38,11 +38,21 @@ import {
   PayoutSendResponse,
   Payouts,
 } from './payouts';
+import * as ReturnsAPI from './returns';
+import {
+  ReturnRejectParams,
+  ReturnRejectResponse,
+  ReturnReturnParams,
+  ReturnReturnResponse,
+  ReturnSendResponse,
+  Returns,
+} from './returns';
 
 export class Simulations extends APIResource {
   deposits: DepositsAPI.Deposits = new DepositsAPI.Deposits(this._client);
   conversions: ConversionsAPI.Conversions = new ConversionsAPI.Conversions(this._client);
   payouts: PayoutsAPI.Payouts = new PayoutsAPI.Payouts(this._client);
+  returns: ReturnsAPI.Returns = new ReturnsAPI.Returns(this._client);
   accountPrograms: AccountProgramsAPI.AccountPrograms = new AccountProgramsAPI.AccountPrograms(this._client);
   accounts: AccountsAPI.Accounts = new AccountsAPI.Accounts(this._client);
 }
@@ -50,6 +60,7 @@ export class Simulations extends APIResource {
 Simulations.Deposits = Deposits;
 Simulations.Conversions = Conversions;
 Simulations.Payouts = Payouts;
+Simulations.Returns = Returns;
 Simulations.AccountPrograms = AccountPrograms;
 Simulations.Accounts = Accounts;
 
@@ -73,6 +84,15 @@ export declare namespace Simulations {
     type PayoutSendResponse as PayoutSendResponse,
     type PayoutRejectParams as PayoutRejectParams,
     type PayoutReturnParams as PayoutReturnParams,
+  };
+
+  export {
+    Returns as Returns,
+    type ReturnRejectResponse as ReturnRejectResponse,
+    type ReturnReturnResponse as ReturnReturnResponse,
+    type ReturnSendResponse as ReturnSendResponse,
+    type ReturnRejectParams as ReturnRejectParams,
+    type ReturnReturnParams as ReturnReturnParams,
   };
 
   export {

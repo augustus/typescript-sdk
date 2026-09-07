@@ -159,7 +159,7 @@ import {
   UnwrapWebhookEvent,
   Webhooks,
 } from './resources/webhooks';
-import { QuoteRetrieveResponse, Quotes } from './resources/quotes/quotes';
+import { Quotes } from './resources/quotes/quotes';
 import { Simulations } from './resources/simulations/simulations';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -1055,7 +1055,7 @@ export declare namespace Augustus {
     type ConversionListParams as ConversionListParams,
   };
 
-  export { Quotes as Quotes, type QuoteRetrieveResponse as QuoteRetrieveResponse };
+  export { Quotes as Quotes };
 
   export {
     Accounts as Accounts,

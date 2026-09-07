@@ -32,4 +32,12 @@ export {
   type PayoutRejectParams,
   type PayoutReturnParams,
 } from './payouts';
+export {
+  Returns,
+  type ReturnRejectResponse,
+  type ReturnReturnResponse,
+  type ReturnSendResponse,
+  type ReturnRejectParams,
+  type ReturnReturnParams,
+} from './returns';
 export { Simulations } from './simulations';

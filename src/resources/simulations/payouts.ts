@@ -24,8 +24,8 @@ export class Payouts extends APIResource {
 
   /**
    * Submits an inbound return for a settled payout through the sandbox provider
-   * pipeline. The original payout remains settled and a standalone deposit is
-   * created. This endpoint is unavailable in live production.
+   * pipeline. The return is linked to the payout and the payout is exposed as
+   * returned. This endpoint is unavailable in live production.
    *
    * @example
    * ```ts

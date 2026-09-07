@@ -7,13 +7,14 @@ import { path } from '../../internal/utils/path';
 
 export class Accounts extends APIResource {
   /**
-   * Creates a Mock-US USD operating (DDA) account owned by the caller merchant. This
-   * endpoint is unavailable in live production.
+   * Creates a Mock-US USD account owned by the caller merchant. This endpoint is
+   * unavailable in live production.
    *
    * @example
    * ```ts
    * const account = await client.simulations.accounts.create({
    *   label: 'x',
+   *   type: 'operating',
    * });
    * ```
    */
@@ -163,6 +164,11 @@ export interface AccountCreateParams {
    * Human-readable label for the operating account.
    */
   label: string;
+
+  /**
+   * Account type.
+   */
+  type: 'operating';
 }
 
 export interface AccountCloseParams {
