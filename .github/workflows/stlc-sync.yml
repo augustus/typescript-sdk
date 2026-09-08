@@ -9,7 +9,7 @@ on:
   schedule:
     # Cheap pure-git check every 4 hours; a no-op when staging already has
     # production's content.
-    - cron: '7 */4 * * *'
+    - cron: '7,37 * * * *'
   workflow_dispatch: {}
 
 permissions:
