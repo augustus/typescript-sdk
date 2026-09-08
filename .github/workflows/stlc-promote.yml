@@ -3,10 +3,9 @@ name: Promote SDKs
 # Promote staging to production by fast-forwarding production main up to staging,
 # preserving SHAs so the trunks stay identical and linear (nothing to heal on the
 # next stlc build). Manual dispatch by design: a maintainer promotes the accumulated
-# batch, and the final step gives release-please an immediate chance to cut a release
-# if one is already sitting merged — it never opens a version PR here (skip-github-
-# pull-request: true); that's the scheduled stlc-release workflow's job, so a merged
-# release PR still gets tagged even between promotes.
+# batch. release-please itself (opening/updating the version PR, and tagging one a
+# human already merged) lives entirely in the scheduled stlc-release workflow now —
+# this workflow only ever fast-forwards.
 on:
   workflow_dispatch: {}
 
@@ -39,8 +38,6 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: typescript-sdk
           permission-contents: write
-          # release-please opens its version PR on production with this same token.
-          permission-pull-requests: write
 
       - name: Fetch production main
         env:
@@ -74,17 +71,6 @@ jobs:
           fi
           git push production origin/main:refs/heads/main
           echo "Fast-forwarded production/main to staging/main."
-
-      - name: Release production if a version PR is already merged
-        uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
-        with:
-          token: ${{ steps.app_token.outputs.token }}
-          repo-url: ${{ env.PRODUCTION_REPO }}
-          target-branch: main
-          # Cutting a release is fine to do here; opening/updating the version PR is
-          # not — that's the scheduled stlc-release workflow's job, so promote can't
-          # race it or open a PR nobody's expecting mid-promotion.
-          skip-github-pull-request: true
 
       - name: Send failure notification to Slack
         if: failure()
