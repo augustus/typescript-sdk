@@ -135,6 +135,13 @@ export interface AccountHolderCreateResponse {
   holder_type: 'natural_person' | 'business';
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current account holder status.
    */
   status: 'pending' | 'active' | 'closed';
@@ -4034,6 +4041,13 @@ export interface AccountHolderRetrieveResponse {
    * Type of the account holder.
    */
   holder_type: 'natural_person' | 'business';
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Current account holder status.
@@ -7937,6 +7951,13 @@ export interface AccountHolderUpdateResponse {
   holder_type: 'natural_person' | 'business';
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current account holder status.
    */
   status: 'pending' | 'active' | 'closed';
@@ -11838,6 +11859,13 @@ export interface AccountHolderListResponse {
   holder_type: 'natural_person' | 'business';
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current account holder status.
    */
   status: 'pending' | 'active' | 'closed';
@@ -15732,6 +15760,13 @@ export interface AccountHolderCreateParams {
    * Type of the account holder.
    */
   holder_type: 'natural_person' | 'business';
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export namespace AccountHolderCreateParams {

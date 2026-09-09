@@ -27,6 +27,8 @@ import {
 } from './accounts';
 import * as ConversionsAPI from './conversions';
 import { ConversionCompleteResponse, ConversionFailResponse, Conversions } from './conversions';
+import * as CounterpartiesAPI from './counterparties';
+import { Counterparties, CounterpartyRejectResponse } from './counterparties';
 import * as DepositsAPI from './deposits';
 import { DepositCreateParams, DepositCreateResponse, Deposits } from './deposits';
 import * as PayoutsAPI from './payouts';
@@ -51,6 +53,7 @@ import {
 export class Simulations extends APIResource {
   deposits: DepositsAPI.Deposits = new DepositsAPI.Deposits(this._client);
   conversions: ConversionsAPI.Conversions = new ConversionsAPI.Conversions(this._client);
+  counterparties: CounterpartiesAPI.Counterparties = new CounterpartiesAPI.Counterparties(this._client);
   payouts: PayoutsAPI.Payouts = new PayoutsAPI.Payouts(this._client);
   returns: ReturnsAPI.Returns = new ReturnsAPI.Returns(this._client);
   accountPrograms: AccountProgramsAPI.AccountPrograms = new AccountProgramsAPI.AccountPrograms(this._client);
@@ -59,6 +62,7 @@ export class Simulations extends APIResource {
 
 Simulations.Deposits = Deposits;
 Simulations.Conversions = Conversions;
+Simulations.Counterparties = Counterparties;
 Simulations.Payouts = Payouts;
 Simulations.Returns = Returns;
 Simulations.AccountPrograms = AccountPrograms;
@@ -76,6 +80,8 @@ export declare namespace Simulations {
     type ConversionCompleteResponse as ConversionCompleteResponse,
     type ConversionFailResponse as ConversionFailResponse,
   };
+
+  export { Counterparties as Counterparties, type CounterpartyRejectResponse as CounterpartyRejectResponse };
 
   export {
     Payouts as Payouts,

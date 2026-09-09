@@ -38,6 +38,7 @@ describe('resource counterparties', () => {
       date_of_birth: '2019-12-27',
       entity_type: 'business',
       is_self_owned: true,
+      metadata: { invoice_id: 'INV-2026-0042' },
       name: 'name',
       physical_address: {
         city: 'city',

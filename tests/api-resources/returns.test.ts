@@ -22,7 +22,10 @@ describe('resource returns', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.returns.create({ deposit_id: '550e8400-e29b-41d4-a716-446655440004' });
+    const response = await client.returns.create({
+      deposit_id: '550e8400-e29b-41d4-a716-446655440004',
+      metadata: { invoice_id: 'INV-2026-0042' },
+    });
   });
 
   // Mock server tests are disabled

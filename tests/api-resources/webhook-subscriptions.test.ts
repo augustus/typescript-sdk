@@ -28,6 +28,7 @@ describe('resource webhookSubscriptions', () => {
     const response = await client.webhookSubscriptions.create({
       events: ['payout.sent'],
       url: 'https://sandbox.example.com/webhooks/augustus',
+      metadata: { invoice_id: 'INV-2026-0042' },
     });
   });
 

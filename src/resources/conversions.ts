@@ -78,7 +78,9 @@ export interface ConversionCreateResponse {
   created_at: string;
 
   /**
-   * Key-value pairs stored with the conversion.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -135,7 +137,9 @@ export interface ConversionRetrieveResponse {
   created_at: string;
 
   /**
-   * Key-value pairs stored with the conversion.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -192,7 +196,9 @@ export interface ConversionListResponse {
   created_at: string;
 
   /**
-   * Key-value pairs stored with the conversion.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -249,7 +255,9 @@ export interface ConversionCreateParams {
   target_account_id: string;
 
   /**
-   * Key-value pairs stored with the conversion.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata?: { [key: string]: string } | null;
 }

@@ -23,6 +23,7 @@ export {
   type AccountDrainParams,
 } from './accounts';
 export { Conversions, type ConversionCompleteResponse, type ConversionFailResponse } from './conversions';
+export { Counterparties, type CounterpartyRejectResponse } from './counterparties';
 export { Deposits, type DepositCreateResponse, type DepositCreateParams } from './deposits';
 export {
   Payouts,

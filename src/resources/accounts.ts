@@ -158,6 +158,13 @@ export interface AccountCreateResponse {
   label: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -331,6 +338,13 @@ export interface AccountRetrieveResponse {
    * Human-readable label for the account.
    */
   label: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Current status of the account.
@@ -508,6 +522,13 @@ export interface AccountListResponse {
   label: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -683,6 +704,13 @@ export interface AccountCloseResponse {
   label: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -856,6 +884,13 @@ export interface AccountFreezeResponse {
    * Human-readable label for the account.
    */
   label: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Current status of the account.
@@ -1071,6 +1106,13 @@ export interface AccountUnfreezeResponse {
   label: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -1217,6 +1259,13 @@ export interface AccountCreateParams {
    * ID of the account program to create the account under.
    */
   account_program_id: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface AccountListParams extends CursorPageParams {

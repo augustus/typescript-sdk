@@ -55,6 +55,7 @@ describe('resource accountHolders', () => {
         },
       },
       holder_type: 'natural_person',
+      metadata: { invoice_id: 'INV-2026-0042' },
     });
   });
 

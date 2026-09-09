@@ -88,6 +88,13 @@ export interface ReturnCreateResponse {
   initiated_at: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Payment scheme or blockchain used for the return, or null when unknown.
    */
   rail:
@@ -198,6 +205,13 @@ export interface ReturnRetrieveResponse {
    * ISO 8601 UTC timestamp when the return was initiated.
    */
   initiated_at: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Payment scheme or blockchain used for the return, or null when unknown.
@@ -312,6 +326,13 @@ export interface ReturnListResponse {
   initiated_at: string;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Payment scheme or blockchain used for the return, or null when unknown.
    */
   rail:
@@ -397,6 +418,13 @@ export interface ReturnCreateParams {
    * Deposit to return funds from.
    */
   deposit_id: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface ReturnListParams extends CursorPageParams {

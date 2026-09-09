@@ -96,7 +96,9 @@ export interface PayoutCreateResponse {
   initiated_at: string;
 
   /**
-   * Key-value pairs stored with the payout.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -230,7 +232,9 @@ export interface PayoutRetrieveResponse {
   initiated_at: string;
 
   /**
-   * Key-value pairs stored with the payout.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -364,7 +368,9 @@ export interface PayoutListResponse {
   initiated_at: string;
 
   /**
-   * Key-value pairs stored with the payout.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
 
@@ -483,7 +489,9 @@ export interface PayoutCreateParams {
   currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
-   * Key-value pairs stored with the payout.
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata?: { [key: string]: string } | null;
 

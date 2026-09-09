@@ -9,6 +9,17 @@ import { path } from '../internal/utils/path';
 export class Counterparties extends APIResource {
   /**
    * Creates a counterparty owned by the merchant.
+   *
+   * @example
+   * ```ts
+   * const counterparty = await client.counterparties.create({
+   *   financial_address: {
+   *     account_holder_name: 'Acme Sandbox Ltd.',
+   *     iban: 'DE89370400440532013000',
+   *     type: 'iban',
+   *   },
+   * });
+   * ```
    */
   create(body: CounterpartyCreateParams, options?: RequestOptions): APIPromise<CounterpartyCreateResponse> {
     return this._client.post('/v1/counterparties', { body, ...options });
@@ -16,6 +27,13 @@ export class Counterparties extends APIResource {
 
   /**
    * Retrieves a counterparty owned by the merchant.
+   *
+   * @example
+   * ```ts
+   * const counterparty = await client.counterparties.retrieve(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   retrieve(id: string, options?: RequestOptions): APIPromise<CounterpartyRetrieveResponse> {
     return this._client.get(path`/v1/counterparties/${id}`, options);
@@ -23,6 +41,13 @@ export class Counterparties extends APIResource {
 
   /**
    * Updates the mutable details of a counterparty owned by the merchant.
+   *
+   * @example
+   * ```ts
+   * const counterparty = await client.counterparties.update(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   update(
     id: string,
@@ -34,6 +59,14 @@ export class Counterparties extends APIResource {
 
   /**
    * Lists counterparties owned by the merchant with cursor-based pagination.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const counterpartyListResponse of client.counterparties.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query: CounterpartyListParams | null | undefined = {},
@@ -48,6 +81,13 @@ export class Counterparties extends APIResource {
   /**
    * Blocks payments to and from a counterparty owned by the merchant. Blocking an
    * already-blocked counterparty succeeds without changing the existing block.
+   *
+   * @example
+   * ```ts
+   * const response = await client.counterparties.block(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
    */
   block(id: string, options?: RequestOptions): APIPromise<CounterpartyBlockResponse> {
     return this._client.post(path`/v1/counterparties/${id}/block`, options);
@@ -92,6 +132,13 @@ export interface CounterpartyCreateResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Name of the counterparty, or null if not recorded.
@@ -553,6 +600,13 @@ export interface CounterpartyRetrieveResponse {
   is_self_owned: boolean;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Name of the counterparty, or null if not recorded.
    */
   name: string | null;
@@ -1010,6 +1064,13 @@ export interface CounterpartyUpdateResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Name of the counterparty, or null if not recorded.
@@ -1471,6 +1532,13 @@ export interface CounterpartyListResponse {
   is_self_owned: boolean;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Name of the counterparty, or null if not recorded.
    */
   name: string | null;
@@ -1930,6 +1998,13 @@ export interface CounterpartyBlockResponse {
   is_self_owned: boolean;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Name of the counterparty, or null if not recorded.
    */
   name: string | null;
@@ -2377,6 +2452,13 @@ export interface CounterpartyCreateParams {
    * by you, `true` if it is.
    */
   is_self_owned?: boolean;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata?: { [key: string]: string } | null;
 
   /**
    * Name of the counterparty.

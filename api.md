@@ -75,6 +75,16 @@ Methods:
 - <code title="post /v1/simulations/conversions/{id}/complete">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">complete</a>(id) -> ConversionCompleteResponse</code>
 - <code title="post /v1/simulations/conversions/{id}/fail">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">fail</a>(id) -> ConversionFailResponse</code>
 
+## Counterparties
+
+Types:
+
+- <code><a href="./src/resources/simulations/counterparties.ts">CounterpartyRejectResponse</a></code>
+
+Methods:
+
+- <code title="post /v1/simulations/counterparties/{id}/reject">client.simulations.counterparties.<a href="./src/resources/simulations/counterparties.ts">reject</a>(id) -> CounterpartyRejectResponse</code>
+
 ## Payouts
 
 Types:

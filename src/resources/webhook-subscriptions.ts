@@ -152,6 +152,13 @@ export interface WebhookSubscriptionCreateResponse {
   >;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Resource type discriminator.
    */
   type: 'webhook_subscription';
@@ -199,6 +206,13 @@ export interface WebhookSubscriptionRetrieveResponse {
     | 'account_holder.active'
     | 'account_holder.closed'
   >;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Resource type discriminator.
@@ -250,6 +264,13 @@ export interface WebhookSubscriptionUpdateResponse {
   >;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Resource type discriminator.
    */
   type: 'webhook_subscription';
@@ -299,6 +320,13 @@ export interface WebhookSubscriptionListResponse {
   >;
 
   /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
    * Resource type discriminator.
    */
   type: 'webhook_subscription';
@@ -346,6 +374,13 @@ export interface WebhookSubscriptionDeleteResponse {
     | 'account_holder.active'
     | 'account_holder.closed'
   >;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
 
   /**
    * Resource type discriminator.
@@ -442,6 +477,13 @@ export interface WebhookSubscriptionCreateParams {
    * The HTTPS URL where webhook events will be delivered.
    */
   url: string;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata?: { [key: string]: string } | null;
 }
 
 export interface WebhookSubscriptionUpdateParams {

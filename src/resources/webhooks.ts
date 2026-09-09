@@ -86,7 +86,9 @@ export namespace PayoutInitiatedWebhookEvent {
     initiated_at: string;
 
     /**
-     * Key-value pairs stored with the payout.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -252,7 +254,9 @@ export namespace PayoutSubmittedWebhookEvent {
     initiated_at: string;
 
     /**
-     * Key-value pairs stored with the payout.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -418,7 +422,9 @@ export namespace PayoutSentWebhookEvent {
     initiated_at: string;
 
     /**
-     * Key-value pairs stored with the payout.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -584,7 +590,9 @@ export namespace PayoutFailedWebhookEvent {
     initiated_at: string;
 
     /**
-     * Key-value pairs stored with the payout.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -750,7 +758,9 @@ export namespace PayoutReturnedWebhookEvent {
     initiated_at: string;
 
     /**
-     * Key-value pairs stored with the payout.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -911,6 +921,13 @@ export namespace ReturnInitiatedWebhookEvent {
     initiated_at: string;
 
     /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
      * Payment scheme or blockchain used for the return, or null when unknown.
      */
     rail:
@@ -1053,6 +1070,13 @@ export namespace ReturnSubmittedWebhookEvent {
      * ISO 8601 UTC timestamp when the return was initiated.
      */
     initiated_at: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
 
     /**
      * Payment scheme or blockchain used for the return, or null when unknown.
@@ -1199,6 +1223,13 @@ export namespace ReturnSentWebhookEvent {
     initiated_at: string;
 
     /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
      * Payment scheme or blockchain used for the return, or null when unknown.
      */
     rail:
@@ -1343,6 +1374,13 @@ export namespace ReturnFailedWebhookEvent {
     initiated_at: string;
 
     /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
      * Payment scheme or blockchain used for the return, or null when unknown.
      */
     rail:
@@ -1485,6 +1523,13 @@ export namespace ReturnReturnedWebhookEvent {
      * ISO 8601 UTC timestamp when the return was initiated.
      */
     initiated_at: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
 
     /**
      * Payment scheme or blockchain used for the return, or null when unknown.
@@ -1735,7 +1780,9 @@ export namespace ConversionCreatedWebhookEvent {
     created_at: string;
 
     /**
-     * Key-value pairs stored with the conversion.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -1824,7 +1871,9 @@ export namespace ConversionCompletedWebhookEvent {
     created_at: string;
 
     /**
-     * Key-value pairs stored with the conversion.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -1913,7 +1962,9 @@ export namespace ConversionFailedWebhookEvent {
     created_at: string;
 
     /**
-     * Key-value pairs stored with the conversion.
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
      */
     metadata: { [key: string]: string };
 
@@ -2011,6 +2062,13 @@ export namespace AccountHolderActiveWebhookEvent {
      * Type of the account holder.
      */
     holder_type: 'natural_person' | 'business';
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
 
     /**
      * Current account holder status.
@@ -5944,6 +6002,13 @@ export namespace AccountHolderClosedWebhookEvent {
      * Type of the account holder.
      */
     holder_type: 'natural_person' | 'business';
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
 
     /**
      * Current account holder status.
