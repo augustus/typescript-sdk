@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.23.0](https://github.com/augustus/typescript-sdk/compare/v0.22.2...v0.23.0) (2026-09-09)
+
+
+### Features
+
+* **inf-1273:** typescript-sdk-staging main ([ead56d7](https://github.com/augustus/typescript-sdk/commit/ead56d76eb811dac958f2e003f632c3601ec4c56))
+
+
+### Bug Fixes
+
+* **inf-1273:** stop marking releases prerelease, decouple promote from PR creation ([1357f7b](https://github.com/augustus/typescript-sdk/commit/1357f7b13fb7c2a8d10fb97142b24882ac823c9f))
+* **release:** stop marking releases as prerelease, decouple promote from PR creation ([e3aff95](https://github.com/augustus/typescript-sdk/commit/e3aff951d9ba3728eb0228006740eb88f5017661))
+
 ## [0.22.2](https://github.com/augustus/typescript-sdk/compare/v0.22.1...v0.22.2) (2026-09-07)
 
 
