@@ -1270,13 +1270,12 @@ export interface AccountCreateParams {
 
 export interface AccountListParams extends CursorPageParams {
   /**
-   * Filter by account holder name (case-insensitive phrase match). Crypto wallets
-   * are excluded when set.
+   * Filter by account holder name (case-insensitive phrase match).
    */
   account_holder_name?: string;
 
   /**
-   * Filter by exact fiat account number. Crypto wallets are excluded when set.
+   * Filter by exact fiat account number.
    */
   account_number?: string;
 
