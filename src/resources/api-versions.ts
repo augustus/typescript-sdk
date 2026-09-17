@@ -20,7 +20,11 @@ export interface APIVersionListResponse {
 
   has_more: boolean;
 
+  has_previous: boolean;
+
   next_cursor: string | null;
+
+  previous_cursor: string | null;
 }
 
 export namespace APIVersionListResponse {

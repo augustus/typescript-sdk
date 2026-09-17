@@ -149,6 +149,12 @@ export interface WebhookSubscriptionCreateResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
   >;
 
   /**
@@ -205,6 +211,12 @@ export interface WebhookSubscriptionRetrieveResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
   >;
 
   /**
@@ -261,6 +273,12 @@ export interface WebhookSubscriptionUpdateResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
   >;
 
   /**
@@ -317,6 +335,12 @@ export interface WebhookSubscriptionListResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
   >;
 
   /**
@@ -373,6 +397,12 @@ export interface WebhookSubscriptionDeleteResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
   >;
 
   /**
@@ -441,6 +471,12 @@ export interface WebhookSubscriptionSendTestEventResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | 'ping.test';
 
   /**
@@ -470,6 +506,12 @@ export interface WebhookSubscriptionCreateParams {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | '*'
   >;
 
@@ -508,6 +550,12 @@ export interface WebhookSubscriptionUpdateParams {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | '*'
   > | null;
 

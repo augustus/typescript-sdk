@@ -18,6 +18,12 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">ConversionFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">AccountHolderActiveWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">AccountHolderClosedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyCreatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyVerifiedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyRejectedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyBlockedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyUnblockedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">CounterpartyUpdatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PingTestWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">UnwrapWebhookEvent</a></code>
 

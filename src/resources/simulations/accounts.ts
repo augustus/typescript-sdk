@@ -13,7 +13,7 @@ export class Accounts extends APIResource {
    * @example
    * ```ts
    * const account = await client.simulations.accounts.create({
-   *   label: 'x',
+   *   label: 'Operating EUR account',
    *   type: 'operating',
    * });
    * ```

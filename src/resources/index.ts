@@ -139,6 +139,12 @@ export {
   type ConversionFailedWebhookEvent,
   type AccountHolderActiveWebhookEvent,
   type AccountHolderClosedWebhookEvent,
+  type CounterpartyCreatedWebhookEvent,
+  type CounterpartyVerifiedWebhookEvent,
+  type CounterpartyRejectedWebhookEvent,
+  type CounterpartyBlockedWebhookEvent,
+  type CounterpartyUnblockedWebhookEvent,
+  type CounterpartyUpdatedWebhookEvent,
   type PingTestWebhookEvent,
   type UnwrapWebhookEvent,
 } from './webhooks';

@@ -14,7 +14,7 @@ export class AccountPrograms extends APIResource {
    * ```ts
    * const accountProgram =
    *   await client.simulations.accountPrograms.create({
-   *     label: 'x',
+   *     label: 'Primary FBO program',
    *     type: 'fbo_program',
    *   });
    * ```

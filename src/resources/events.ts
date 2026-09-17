@@ -71,6 +71,12 @@ export interface EventRetrieveResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | 'ping.test';
 
   /**
@@ -122,6 +128,12 @@ export interface EventListResponse {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | 'ping.test';
 
   /**
@@ -153,6 +165,12 @@ export interface EventListParams extends CursorPageParams {
     | 'conversion.failed'
     | 'account_holder.active'
     | 'account_holder.closed'
+    | 'counterparty.created'
+    | 'counterparty.verified'
+    | 'counterparty.rejected'
+    | 'counterparty.blocked'
+    | 'counterparty.unblocked'
+    | 'counterparty.updated'
     | 'ping.test';
 }
 

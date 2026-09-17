@@ -12,7 +12,7 @@ describe('resource deposits', () => {
   test.skip('create: only required params', async () => {
     const responsePromise = client.simulations.deposits.create({
       account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      amount: '869.225610155',
+      amount: '100.50',
       currency: 'EUR',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -28,7 +28,7 @@ describe('resource deposits', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.simulations.deposits.create({
       account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-      amount: '869.225610155',
+      amount: '100.50',
       currency: 'EUR',
       counterparty: {
         financial_address: {
@@ -38,17 +38,17 @@ describe('resource deposits', () => {
           bic: 'COBADEFFXXX',
         },
         physical_address: {
-          city: 'city',
-          country_code: 'DE',
-          line_1: 'line_1',
-          postal_code: 'postal_code',
-          line_2: 'line_2',
-          state: 'state',
+          city: 'San Francisco',
+          country_code: 'US',
+          line_1: '548 Market St',
+          postal_code: '94103',
+          line_2: 'Apartment 4B',
+          state: 'CA',
         },
       },
       counterparty_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       rail: 'sepa',
-      unstructured_remittance_information: 'x',
+      unstructured_remittance_information: 'Invoice INV-2026-0042',
     });
   });
 });
