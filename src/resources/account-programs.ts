@@ -28,8 +28,8 @@ export class AccountPrograms extends APIResource {
   }
 
   /**
-   * Returns the aggregated available balance for all virtual accounts under the
-   * account program.
+   * Returns the aggregated available balance of all accounts under the account
+   * program.
    */
   retrieveBalance(
     id: string,

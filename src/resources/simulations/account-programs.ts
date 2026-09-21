@@ -78,7 +78,7 @@ export class AccountPrograms extends APIResource {
   }
 
   /**
-   * Freezes an existing account program and its virtual accounts. This endpoint is
+   * Freezes an existing account program and the accounts under it. This endpoint is
    * unavailable in live production.
    *
    * @example
@@ -94,8 +94,8 @@ export class AccountPrograms extends APIResource {
   }
 
   /**
-   * Unfreezes an existing account program and its virtual accounts. This endpoint is
-   * unavailable in live production.
+   * Unfreezes an existing account program and the accounts under it. This endpoint
+   * is unavailable in live production.
    *
    * @example
    * ```ts

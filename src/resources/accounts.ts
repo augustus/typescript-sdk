@@ -1251,7 +1251,7 @@ export namespace AccountUnfreezeResponse {
 
 export interface AccountCreateParams {
   /**
-   * ID of an existing virtual account holder to provision the account for.
+   * ID of an existing account holder to provision the account for.
    */
   account_holder_id: string;
 
@@ -1280,7 +1280,7 @@ export interface AccountListParams extends CursorPageParams {
   account_number?: string;
 
   /**
-   * ID of the account program to list virtual accounts for.
+   * ID of the account program to list accounts for.
    */
   account_program_id?: string;
 
