@@ -67,7 +67,6 @@ import {
 } from './resources/conversions';
 import {
   Counterparties,
-  CounterpartyBlockResponse,
   CounterpartyCreateParams,
   CounterpartyCreateResponse,
   CounterpartyListParams,
@@ -1113,7 +1112,6 @@ export declare namespace Augustus {
     type CounterpartyRetrieveResponse as CounterpartyRetrieveResponse,
     type CounterpartyUpdateResponse as CounterpartyUpdateResponse,
     type CounterpartyListResponse as CounterpartyListResponse,
-    type CounterpartyBlockResponse as CounterpartyBlockResponse,
     type CounterpartyListResponsesCursorPage as CounterpartyListResponsesCursorPage,
     type CounterpartyCreateParams as CounterpartyCreateParams,
     type CounterpartyUpdateParams as CounterpartyUpdateParams,

@@ -185,8 +185,8 @@ export interface AccountDrainParams {
    */
   destination:
     | AccountDrainParams.IbanFinancialAddressRequest
-    | AccountDrainParams.SortCodeFinancialAddress
-    | AccountDrainParams.AbaFinancialAddress;
+    | AccountDrainParams.SortCodeFinancialAddressRequest
+    | AccountDrainParams.AbaFinancialAddressRequest;
 }
 
 export namespace AccountDrainParams {
@@ -212,7 +212,7 @@ export namespace AccountDrainParams {
     bic?: string | null;
   }
 
-  export interface SortCodeFinancialAddress {
+  export interface SortCodeFinancialAddressRequest {
     /**
      * Name of the account holder.
      */
@@ -234,7 +234,7 @@ export namespace AccountDrainParams {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddress {
+  export interface AbaFinancialAddressRequest {
     /**
      * Name of the account holder.
      */

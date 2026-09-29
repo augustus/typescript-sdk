@@ -52,7 +52,6 @@ export {
   type CounterpartyRetrieveResponse,
   type CounterpartyUpdateResponse,
   type CounterpartyListResponse,
-  type CounterpartyBlockResponse,
   type CounterpartyCreateParams,
   type CounterpartyUpdateParams,
   type CounterpartyListParams,

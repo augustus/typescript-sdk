@@ -96,8 +96,8 @@ export namespace DepositCreateParams {
      */
     financial_address:
       | Counterparty.IbanFinancialAddressRequest
-      | Counterparty.SortCodeFinancialAddress
-      | Counterparty.AbaFinancialAddress
+      | Counterparty.SortCodeFinancialAddressRequest
+      | Counterparty.AbaFinancialAddressRequest
       | Counterparty.BicFinancialAddressRequest
       | Counterparty.CryptoWalletFinancialAddress;
 
@@ -130,7 +130,7 @@ export namespace DepositCreateParams {
       bic?: string | null;
     }
 
-    export interface SortCodeFinancialAddress {
+    export interface SortCodeFinancialAddressRequest {
       /**
        * Name of the account holder.
        */
@@ -152,7 +152,7 @@ export namespace DepositCreateParams {
       type: 'sort_code';
     }
 
-    export interface AbaFinancialAddress {
+    export interface AbaFinancialAddressRequest {
       /**
        * Name of the account holder.
        */

@@ -150,7 +150,8 @@ export interface AccountProgramListParams extends CursorPageParams {}
 
 export interface AccountProgramRetrieveBalanceParams {
   /**
-   * ISO 8601 UTC timestamp to retrieve balance at.
+   * ISO 8601 UTC timestamp to retrieve balance at. Must be at least 5 minutes in the
+   * past.
    */
   as_of?: string;
 }
