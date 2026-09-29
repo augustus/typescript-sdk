@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.27.0](https://github.com/augustus/typescript-sdk/compare/v0.26.0...v0.27.0) (2026-09-29)
+
+
+### Features
+
+* **api:** new sdk build due to api update ([e6fde93](https://github.com/augustus/typescript-sdk/commit/e6fde93acbf59ec0f4771641d876fe20b031c569))
+
 ## [0.26.0](https://github.com/augustus/typescript-sdk/compare/v0.25.0...v0.26.0) (2026-09-22)
 
 
