@@ -15,8 +15,9 @@ export class Counterparties extends APIResource {
    * const counterparty = await client.counterparties.create({
    *   financial_address: {
    *     account_holder_name: 'Acme Sandbox Ltd.',
-   *     iban: 'DE89370400440532013000',
-   *     type: 'iban',
+   *     account_number: '000123456789',
+   *     routing_number: '110000000',
+   *     type: 'aba',
    *   },
    * });
    * ```
@@ -98,6 +99,11 @@ export interface CounterpartyCreateResponse {
   date_of_birth: string | null;
 
   /**
+   * Email address of the counterparty, or null if not recorded.
+   */
+  email: string | null;
+
+  /**
    * Whether the counterparty is a business or an individual.
    */
   entity_type: 'business' | 'individual';
@@ -106,9 +112,9 @@ export interface CounterpartyCreateResponse {
    * Financial address of the counterparty.
    */
   financial_address:
+    | CounterpartyCreateResponse.AbaFinancialAddress
     | CounterpartyCreateResponse.IbanFinancialAddress
     | CounterpartyCreateResponse.SortCodeFinancialAddress
-    | CounterpartyCreateResponse.AbaFinancialAddress
     | CounterpartyCreateResponse.BicFinancialAddress
     | CounterpartyCreateResponse.CryptoWalletFinancialAddress;
 
@@ -117,6 +123,11 @@ export interface CounterpartyCreateResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, or null if not recorded.
+   */
+  legal_id: string | null;
 
   /**
    * Set of up to 50 key-value string pairs you can attach to store structured
@@ -131,6 +142,11 @@ export interface CounterpartyCreateResponse {
   name: string | null;
 
   /**
+   * Phone number of the counterparty, or null if not recorded.
+   */
+  phone: string | null;
+
+  /**
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyCreateResponse.PhysicalAddress | null;
@@ -142,11 +158,43 @@ export interface CounterpartyCreateResponse {
 }
 
 export namespace CounterpartyCreateResponse {
+  export interface AbaFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
   export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code, or null if not provided.
@@ -186,28 +234,6 @@ export namespace CounterpartyCreateResponse {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
   export interface BicFinancialAddress {
     /**
      * Name of the account holder.
@@ -218,6 +244,11 @@ export namespace CounterpartyCreateResponse {
      * Local-format bank account number.
      */
     account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * ISO 9362 Bank Identifier Code (8 or 11 characters).
@@ -564,6 +595,11 @@ export interface CounterpartyRetrieveResponse {
   date_of_birth: string | null;
 
   /**
+   * Email address of the counterparty, or null if not recorded.
+   */
+  email: string | null;
+
+  /**
    * Whether the counterparty is a business or an individual.
    */
   entity_type: 'business' | 'individual';
@@ -572,9 +608,9 @@ export interface CounterpartyRetrieveResponse {
    * Financial address of the counterparty.
    */
   financial_address:
+    | CounterpartyRetrieveResponse.AbaFinancialAddress
     | CounterpartyRetrieveResponse.IbanFinancialAddress
     | CounterpartyRetrieveResponse.SortCodeFinancialAddress
-    | CounterpartyRetrieveResponse.AbaFinancialAddress
     | CounterpartyRetrieveResponse.BicFinancialAddress
     | CounterpartyRetrieveResponse.CryptoWalletFinancialAddress;
 
@@ -583,6 +619,11 @@ export interface CounterpartyRetrieveResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, or null if not recorded.
+   */
+  legal_id: string | null;
 
   /**
    * Set of up to 50 key-value string pairs you can attach to store structured
@@ -597,6 +638,11 @@ export interface CounterpartyRetrieveResponse {
   name: string | null;
 
   /**
+   * Phone number of the counterparty, or null if not recorded.
+   */
+  phone: string | null;
+
+  /**
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyRetrieveResponse.PhysicalAddress | null;
@@ -608,11 +654,43 @@ export interface CounterpartyRetrieveResponse {
 }
 
 export namespace CounterpartyRetrieveResponse {
+  export interface AbaFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
   export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code, or null if not provided.
@@ -652,28 +730,6 @@ export namespace CounterpartyRetrieveResponse {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
   export interface BicFinancialAddress {
     /**
      * Name of the account holder.
@@ -684,6 +740,11 @@ export namespace CounterpartyRetrieveResponse {
      * Local-format bank account number.
      */
     account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * ISO 9362 Bank Identifier Code (8 or 11 characters).
@@ -1030,6 +1091,11 @@ export interface CounterpartyUpdateResponse {
   date_of_birth: string | null;
 
   /**
+   * Email address of the counterparty, or null if not recorded.
+   */
+  email: string | null;
+
+  /**
    * Whether the counterparty is a business or an individual.
    */
   entity_type: 'business' | 'individual';
@@ -1038,9 +1104,9 @@ export interface CounterpartyUpdateResponse {
    * Financial address of the counterparty.
    */
   financial_address:
+    | CounterpartyUpdateResponse.AbaFinancialAddress
     | CounterpartyUpdateResponse.IbanFinancialAddress
     | CounterpartyUpdateResponse.SortCodeFinancialAddress
-    | CounterpartyUpdateResponse.AbaFinancialAddress
     | CounterpartyUpdateResponse.BicFinancialAddress
     | CounterpartyUpdateResponse.CryptoWalletFinancialAddress;
 
@@ -1049,6 +1115,11 @@ export interface CounterpartyUpdateResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, or null if not recorded.
+   */
+  legal_id: string | null;
 
   /**
    * Set of up to 50 key-value string pairs you can attach to store structured
@@ -1063,6 +1134,11 @@ export interface CounterpartyUpdateResponse {
   name: string | null;
 
   /**
+   * Phone number of the counterparty, or null if not recorded.
+   */
+  phone: string | null;
+
+  /**
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyUpdateResponse.PhysicalAddress | null;
@@ -1074,11 +1150,43 @@ export interface CounterpartyUpdateResponse {
 }
 
 export namespace CounterpartyUpdateResponse {
+  export interface AbaFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
   export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code, or null if not provided.
@@ -1118,28 +1226,6 @@ export namespace CounterpartyUpdateResponse {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
   export interface BicFinancialAddress {
     /**
      * Name of the account holder.
@@ -1150,6 +1236,11 @@ export namespace CounterpartyUpdateResponse {
      * Local-format bank account number.
      */
     account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * ISO 9362 Bank Identifier Code (8 or 11 characters).
@@ -1496,6 +1587,11 @@ export interface CounterpartyListResponse {
   date_of_birth: string | null;
 
   /**
+   * Email address of the counterparty, or null if not recorded.
+   */
+  email: string | null;
+
+  /**
    * Whether the counterparty is a business or an individual.
    */
   entity_type: 'business' | 'individual';
@@ -1504,9 +1600,9 @@ export interface CounterpartyListResponse {
    * Financial address of the counterparty.
    */
   financial_address:
+    | CounterpartyListResponse.AbaFinancialAddress
     | CounterpartyListResponse.IbanFinancialAddress
     | CounterpartyListResponse.SortCodeFinancialAddress
-    | CounterpartyListResponse.AbaFinancialAddress
     | CounterpartyListResponse.BicFinancialAddress
     | CounterpartyListResponse.CryptoWalletFinancialAddress;
 
@@ -1515,6 +1611,11 @@ export interface CounterpartyListResponse {
    * by you, `true` if it is.
    */
   is_self_owned: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, or null if not recorded.
+   */
+  legal_id: string | null;
 
   /**
    * Set of up to 50 key-value string pairs you can attach to store structured
@@ -1529,6 +1630,11 @@ export interface CounterpartyListResponse {
   name: string | null;
 
   /**
+   * Phone number of the counterparty, or null if not recorded.
+   */
+  phone: string | null;
+
+  /**
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyListResponse.PhysicalAddress | null;
@@ -1540,11 +1646,43 @@ export interface CounterpartyListResponse {
 }
 
 export namespace CounterpartyListResponse {
+  export interface AbaFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
   export interface IbanFinancialAddress {
     /**
      * Name of the account holder.
      */
     account_holder_name: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code, or null if not provided.
@@ -1584,28 +1722,6 @@ export namespace CounterpartyListResponse {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddress {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
   export interface BicFinancialAddress {
     /**
      * Name of the account holder.
@@ -1616,6 +1732,11 @@ export namespace CounterpartyListResponse {
      * Local-format bank account number.
      */
     account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
 
     /**
      * ISO 9362 Bank Identifier Code (8 or 11 characters).
@@ -1950,9 +2071,9 @@ export interface CounterpartyCreateParams {
    * Financial address of the counterparty.
    */
   financial_address:
+    | CounterpartyCreateParams.AbaFinancialAddressRequest
     | CounterpartyCreateParams.IbanFinancialAddressRequest
     | CounterpartyCreateParams.SortCodeFinancialAddressRequest
-    | CounterpartyCreateParams.AbaFinancialAddressRequest
     | CounterpartyCreateParams.BicFinancialAddressRequest
     | CounterpartyCreateParams.CryptoWalletFinancialAddress;
 
@@ -1960,6 +2081,12 @@ export interface CounterpartyCreateParams {
    * Date of birth in YYYY-MM-DD format.
    */
   date_of_birth?: string;
+
+  /**
+   * Email address of the counterparty. Stored for operational contact only; it is
+   * not sent with payments.
+   */
+  email?: string;
 
   /**
    * Whether the counterparty is a business or an individual. Defaults to business.
@@ -1971,6 +2098,13 @@ export interface CounterpartyCreateParams {
    * by you, `true` if it is.
    */
   is_self_owned?: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, as issued in its country:
+   * CPF or CNPJ in Brazil, Cédula or NIT in Colombia, CUIL or CUIT in Argentina, DNI
+   * or RUC in Peru, RUT in Chile. Free text, up to 127 characters.
+   */
+  legal_id?: string;
 
   /**
    * Set of up to 50 key-value string pairs you can attach to store structured
@@ -1985,12 +2119,48 @@ export interface CounterpartyCreateParams {
   name?: string;
 
   /**
+   * Phone number of the counterparty. Stored for operational contact only; it is not
+   * sent with payments.
+   */
+  phone?: string;
+
+  /**
    * Physical address of the counterparty.
    */
   physical_address?: CounterpartyCreateParams.PhysicalAddress;
 }
 
 export namespace CounterpartyCreateParams {
+  export interface AbaFinancialAddressRequest {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+
+    /**
+     * Whether the account is a checking or a savings account. Optional; omit or send
+     * null if not provided. Some destination countries require it (for example the
+     * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+     * code. A payment to an account without one is sent as checking.
+     */
+    account_type?: 'checking' | 'savings' | null;
+  }
+
   export interface IbanFinancialAddressRequest {
     /**
      * Name of the account holder.
@@ -2006,6 +2176,14 @@ export namespace CounterpartyCreateParams {
      * Discriminator for IBAN financial address.
      */
     type: 'iban';
+
+    /**
+     * Whether the account is a checking or a savings account. Optional; omit or send
+     * null if not provided. Some destination countries require it (for example the
+     * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+     * code. A payment to an account without one is sent as checking.
+     */
+    account_type?: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code. Optional; omit or send null if not provided.
@@ -2035,28 +2213,6 @@ export namespace CounterpartyCreateParams {
     type: 'sort_code';
   }
 
-  export interface AbaFinancialAddressRequest {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
-  }
-
   export interface BicFinancialAddressRequest {
     /**
      * Name of the account holder.
@@ -2077,6 +2233,14 @@ export namespace CounterpartyCreateParams {
      * Discriminator for BIC + local account financial address.
      */
     type: 'bic';
+
+    /**
+     * Whether the account is a checking or a savings account. Optional; omit or send
+     * null if not provided. Some destination countries require it (for example the
+     * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+     * code. A payment to an account without one is sent as checking.
+     */
+    account_type?: 'checking' | 'savings' | null;
 
     /**
      * Domestic bank or branch code where the destination country uses one (for example
@@ -2404,6 +2568,11 @@ export interface CounterpartyUpdateParams {
   date_of_birth?: string | null;
 
   /**
+   * New email address, or null to clear the current email address.
+   */
+  email?: string | null;
+
+  /**
    * New entity type. Omit to keep the current entity type.
    */
   entity_type?: 'business' | 'individual';
@@ -2414,9 +2583,19 @@ export interface CounterpartyUpdateParams {
   is_self_owned?: boolean;
 
   /**
+   * New legal identifier, or null to clear the current legal identifier.
+   */
+  legal_id?: string | null;
+
+  /**
    * New name, or null to clear the current name.
    */
   name?: string | null;
+
+  /**
+   * New phone number, or null to clear the current phone number.
+   */
+  phone?: string | null;
 
   /**
    * New physical address, or null to clear the current physical address.

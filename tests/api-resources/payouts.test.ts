@@ -14,7 +14,7 @@ describe('resource payouts', () => {
       account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
       counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
-      currency: 'EUR',
+      currency: 'USD',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -31,7 +31,7 @@ describe('resource payouts', () => {
       account_id: '550e8400-e29b-41d4-a716-44665544000b',
       amount: '100.50',
       counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
-      currency: 'EUR',
+      currency: 'USD',
       metadata: { invoice_id: 'INV-2026-0042' },
       rail: 'sepa',
       unstructured_remittance_information: 'INV-2026-0042',
@@ -69,10 +69,10 @@ describe('resource payouts', () => {
       client.payouts.list(
         {
           created_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
-          currencies: ['EUR'],
+          currencies: ['USD'],
           cursor: 'cursor',
           limit: 1,
-          status: 'initiated',
+          status: 'sent',
         },
         { path: '/_stainless_unknown_path' },
       ),

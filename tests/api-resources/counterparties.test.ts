@@ -13,8 +13,9 @@ describe('resource counterparties', () => {
     const responsePromise = client.counterparties.create({
       financial_address: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
+        account_number: '000123456789',
+        routing_number: '110000000',
+        type: 'aba',
       },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -31,15 +32,19 @@ describe('resource counterparties', () => {
     const response = await client.counterparties.create({
       financial_address: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
-        bic: 'COBADEFFXXX',
+        account_number: '000123456789',
+        routing_number: '110000000',
+        type: 'aba',
+        account_type: 'checking',
       },
       date_of_birth: '1990-01-15',
+      email: 'finance@example.com',
       entity_type: 'business',
       is_self_owned: true,
+      legal_id: '12.345.678/0001-95',
       metadata: { invoice_id: 'INV-2026-0042' },
       name: 'Acme Sandbox Ltd.',
+      phone: '+55 11 91234 5678',
       physical_address: {
         city: 'San Francisco',
         country_code: 'US',

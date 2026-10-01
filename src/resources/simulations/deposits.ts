@@ -14,7 +14,7 @@ export class Deposits extends APIResource {
    * const deposit = await client.simulations.deposits.create({
    *   account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
    *   amount: '100.50',
-   *   currency: 'EUR',
+   *   currency: 'USD',
    * });
    * ```
    */
@@ -95,9 +95,9 @@ export namespace DepositCreateParams {
      * Financial address of the counterparty.
      */
     financial_address:
+      | Counterparty.AbaFinancialAddressRequest
       | Counterparty.IbanFinancialAddressRequest
       | Counterparty.SortCodeFinancialAddressRequest
-      | Counterparty.AbaFinancialAddressRequest
       | Counterparty.BicFinancialAddressRequest
       | Counterparty.CryptoWalletFinancialAddress;
 
@@ -108,6 +108,36 @@ export namespace DepositCreateParams {
   }
 
   export namespace Counterparty {
+    export interface AbaFinancialAddressRequest {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+
+      /**
+       * Whether the account is a checking or a savings account. Optional; omit or send
+       * null if not provided. Some destination countries require it (for example the
+       * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+       * code. A payment to an account without one is sent as checking.
+       */
+      account_type?: 'checking' | 'savings' | null;
+    }
+
     export interface IbanFinancialAddressRequest {
       /**
        * Name of the account holder.
@@ -123,6 +153,14 @@ export namespace DepositCreateParams {
        * Discriminator for IBAN financial address.
        */
       type: 'iban';
+
+      /**
+       * Whether the account is a checking or a savings account. Optional; omit or send
+       * null if not provided. Some destination countries require it (for example the
+       * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+       * code. A payment to an account without one is sent as checking.
+       */
+      account_type?: 'checking' | 'savings' | null;
 
       /**
        * Bank Identifier Code. Optional; omit or send null if not provided.
@@ -152,28 +190,6 @@ export namespace DepositCreateParams {
       type: 'sort_code';
     }
 
-    export interface AbaFinancialAddressRequest {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
     export interface BicFinancialAddressRequest {
       /**
        * Name of the account holder.
@@ -194,6 +210,14 @@ export namespace DepositCreateParams {
        * Discriminator for BIC + local account financial address.
        */
       type: 'bic';
+
+      /**
+       * Whether the account is a checking or a savings account. Optional; omit or send
+       * null if not provided. Some destination countries require it (for example the
+       * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+       * code. A payment to an account without one is sent as checking.
+       */
+      account_type?: 'checking' | 'savings' | null;
 
       /**
        * Domestic bank or branch code where the destination country uses one (for example

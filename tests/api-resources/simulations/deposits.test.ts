@@ -13,7 +13,7 @@ describe('resource deposits', () => {
     const responsePromise = client.simulations.deposits.create({
       account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       amount: '100.50',
-      currency: 'EUR',
+      currency: 'USD',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -29,13 +29,14 @@ describe('resource deposits', () => {
     const response = await client.simulations.deposits.create({
       account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       amount: '100.50',
-      currency: 'EUR',
+      currency: 'USD',
       counterparty: {
         financial_address: {
           account_holder_name: 'Acme Sandbox Ltd.',
-          iban: 'DE89370400440532013000',
-          type: 'iban',
-          bic: 'COBADEFFXXX',
+          account_number: '000123456789',
+          routing_number: '110000000',
+          type: 'aba',
+          account_type: 'checking',
         },
         physical_address: {
           city: 'San Francisco',

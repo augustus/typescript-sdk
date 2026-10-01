@@ -13,7 +13,7 @@ export class Accounts extends APIResource {
    * @example
    * ```ts
    * const account = await client.simulations.accounts.create({
-   *   label: 'Operating EUR account',
+   *   label: 'Operating USD account',
    *   type: 'operating',
    * });
    * ```
@@ -51,8 +51,9 @@ export class Accounts extends APIResource {
    *   {
    *     destination: {
    *       account_holder_name: 'Acme Sandbox Ltd.',
-   *       iban: 'DE89370400440532013000',
-   *       type: 'iban',
+   *       account_number: '000123456789',
+   *       routing_number: '110000000',
+   *       type: 'aba',
    *     },
    *   },
    * );
@@ -184,12 +185,42 @@ export interface AccountDrainParams {
    * drained.
    */
   destination:
+    | AccountDrainParams.AbaFinancialAddressRequest
     | AccountDrainParams.IbanFinancialAddressRequest
-    | AccountDrainParams.SortCodeFinancialAddressRequest
-    | AccountDrainParams.AbaFinancialAddressRequest;
+    | AccountDrainParams.SortCodeFinancialAddressRequest;
 }
 
 export namespace AccountDrainParams {
+  export interface AbaFinancialAddressRequest {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+
+    /**
+     * Whether the account is a checking or a savings account. Optional; omit or send
+     * null if not provided. Some destination countries require it (for example the
+     * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+     * code. A payment to an account without one is sent as checking.
+     */
+    account_type?: 'checking' | 'savings' | null;
+  }
+
   export interface IbanFinancialAddressRequest {
     /**
      * Name of the account holder.
@@ -205,6 +236,14 @@ export namespace AccountDrainParams {
      * Discriminator for IBAN financial address.
      */
     type: 'iban';
+
+    /**
+     * Whether the account is a checking or a savings account. Optional; omit or send
+     * null if not provided. Some destination countries require it (for example the
+     * Dominican Republic, Honduras and Jamaica) and ACH uses it for the transaction
+     * code. A payment to an account without one is sent as checking.
+     */
+    account_type?: 'checking' | 'savings' | null;
 
     /**
      * Bank Identifier Code. Optional; omit or send null if not provided.
@@ -232,28 +271,6 @@ export namespace AccountDrainParams {
      * Discriminator for UK sort code financial address.
      */
     type: 'sort_code';
-  }
-
-  export interface AbaFinancialAddressRequest {
-    /**
-     * Name of the account holder.
-     */
-    account_holder_name: string;
-
-    /**
-     * Bank account number.
-     */
-    account_number: string;
-
-    /**
-     * ABA routing number (9 digits).
-     */
-    routing_number: string;
-
-    /**
-     * Discriminator for ABA wire financial address.
-     */
-    type: 'aba';
   }
 }
 

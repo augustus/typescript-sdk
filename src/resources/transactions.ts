@@ -139,9 +139,9 @@ export namespace TransactionRetrieveResponse {
      * Financial address of the counterparty.
      */
     financial_address:
+      | Counterparty.AbaFinancialAddress
       | Counterparty.IbanFinancialAddress
       | Counterparty.SortCodeFinancialAddress
-      | Counterparty.AbaFinancialAddress
       | Counterparty.BicFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
 
@@ -152,11 +152,43 @@ export namespace TransactionRetrieveResponse {
   }
 
   export namespace Counterparty {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
     export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
       account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
 
       /**
        * Bank Identifier Code, or null if not provided.
@@ -196,28 +228,6 @@ export namespace TransactionRetrieveResponse {
       type: 'sort_code';
     }
 
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
     export interface BicFinancialAddress {
       /**
        * Name of the account holder.
@@ -228,6 +238,11 @@ export namespace TransactionRetrieveResponse {
        * Local-format bank account number.
        */
       account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
 
       /**
        * ISO 9362 Bank Identifier Code (8 or 11 characters).
@@ -683,9 +698,9 @@ export namespace TransactionListResponse {
      * Financial address of the counterparty.
      */
     financial_address:
+      | Counterparty.AbaFinancialAddress
       | Counterparty.IbanFinancialAddress
       | Counterparty.SortCodeFinancialAddress
-      | Counterparty.AbaFinancialAddress
       | Counterparty.BicFinancialAddress
       | Counterparty.CryptoWalletFinancialAddress;
 
@@ -696,11 +711,43 @@ export namespace TransactionListResponse {
   }
 
   export namespace Counterparty {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
     export interface IbanFinancialAddress {
       /**
        * Name of the account holder.
        */
       account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
 
       /**
        * Bank Identifier Code, or null if not provided.
@@ -740,28 +787,6 @@ export namespace TransactionListResponse {
       type: 'sort_code';
     }
 
-    export interface AbaFinancialAddress {
-      /**
-       * Name of the account holder.
-       */
-      account_holder_name: string;
-
-      /**
-       * Bank account number.
-       */
-      account_number: string;
-
-      /**
-       * ABA routing number (9 digits).
-       */
-      routing_number: string;
-
-      /**
-       * Discriminator for ABA wire financial address.
-       */
-      type: 'aba';
-    }
-
     export interface BicFinancialAddress {
       /**
        * Name of the account holder.
@@ -772,6 +797,11 @@ export namespace TransactionListResponse {
        * Local-format bank account number.
        */
       account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
 
       /**
        * ISO 9362 Bank Identifier Code (8 or 11 characters).

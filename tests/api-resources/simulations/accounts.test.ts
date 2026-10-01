@@ -11,7 +11,7 @@ describe('resource accounts', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.simulations.accounts.create({
-      label: 'Operating EUR account',
+      label: 'Operating USD account',
       type: 'operating',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,7 +26,7 @@ describe('resource accounts', () => {
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.simulations.accounts.create({
-      label: 'Operating EUR account',
+      label: 'Operating USD account',
       type: 'operating',
     });
   });
@@ -57,8 +57,9 @@ describe('resource accounts', () => {
     const responsePromise = client.simulations.accounts.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
+        account_number: '000123456789',
+        routing_number: '110000000',
+        type: 'aba',
       },
     });
     const rawResponse = await responsePromise.asResponse();
@@ -75,9 +76,10 @@ describe('resource accounts', () => {
     const response = await client.simulations.accounts.drain('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       destination: {
         account_holder_name: 'Acme Sandbox Ltd.',
-        iban: 'DE89370400440532013000',
-        type: 'iban',
-        bic: 'COBADEFFXXX',
+        account_number: '000123456789',
+        routing_number: '110000000',
+        type: 'aba',
+        account_type: 'checking',
       },
     });
   });
