@@ -45,8 +45,10 @@ describe('resource accounts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('list', async () => {
-    const responsePromise = client.accounts.list();
+  test.skip('list: only required params', async () => {
+    const responsePromise = client.accounts.list({
+      account_program_id: '550e8400-e29b-41d4-a716-446655440002',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,21 +59,15 @@ describe('resource accounts', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.accounts.list(
-        {
-          account_holder_name: 'x',
-          account_number: 'x',
-          account_program_id: '550e8400-e29b-41d4-a716-446655440002',
-          cursor: 'cursor',
-          limit: 1,
-          status: 'pending',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Augustus.NotFoundError);
+  test.skip('list: required and optional params', async () => {
+    const response = await client.accounts.list({
+      account_program_id: '550e8400-e29b-41d4-a716-446655440002',
+      account_holder_name: 'x',
+      account_number: 'x',
+      cursor: 'cursor',
+      limit: 1,
+      status: 'pending',
+    });
   });
 
   // Mock server tests are disabled

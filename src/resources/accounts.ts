@@ -43,13 +43,18 @@ export class Accounts extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const accountListResponse of client.accounts.list()) {
+   * for await (const accountListResponse of client.accounts.list(
+   *   {
+   *     account_program_id:
+   *       '550e8400-e29b-41d4-a716-446655440002',
+   *   },
+   * )) {
    *   // ...
    * }
    * ```
    */
   list(
-    query: AccountListParams | null | undefined = {},
+    query: AccountListParams,
     options?: RequestOptions,
   ): PagePromise<AccountListResponsesCursorPage, AccountListResponse> {
     return this._client.getAPIList('/v1/accounts', CursorPage<AccountListResponse>, { query, ...options });
@@ -1360,6 +1365,11 @@ export interface AccountCreateParams {
 
 export interface AccountListParams extends CursorPageParams {
   /**
+   * ID of the account program to list accounts for.
+   */
+  account_program_id: string;
+
+  /**
    * Filter by account holder name (case-insensitive phrase match).
    */
   account_holder_name?: string;
@@ -1368,11 +1378,6 @@ export interface AccountListParams extends CursorPageParams {
    * Filter by exact fiat account number.
    */
   account_number?: string;
-
-  /**
-   * ID of the account program to list accounts for.
-   */
-  account_program_id?: string;
 
   /**
    * Filter by account status.
