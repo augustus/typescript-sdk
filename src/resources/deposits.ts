@@ -91,10 +91,10 @@ export interface DepositRetrieveResponse {
   status: 'settled';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
    */
-  tracking_reference: string | null;
+  tracking_reference: DepositRetrieveResponse.TrackingReference | null;
 
   /**
    * Transaction hash for crypto deposits, or null when not known. Only blockchain
@@ -112,6 +112,24 @@ export interface DepositRetrieveResponse {
    * support this field.
    */
   unstructured_remittance_information: string | null;
+}
+
+export namespace DepositRetrieveResponse {
+  /**
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
+   */
+  export interface TrackingReference {
+    /**
+     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     */
+    type: 'uetr' | 'imad' | 'trace_number';
+
+    /**
+     * Rail-provided tracking identifier.
+     */
+    value: string;
+  }
 }
 
 export interface DepositListResponse {
@@ -178,10 +196,10 @@ export interface DepositListResponse {
   status: 'settled';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
    */
-  tracking_reference: string | null;
+  tracking_reference: DepositListResponse.TrackingReference | null;
 
   /**
    * Transaction hash for crypto deposits, or null when not known. Only blockchain
@@ -199,6 +217,24 @@ export interface DepositListResponse {
    * support this field.
    */
   unstructured_remittance_information: string | null;
+}
+
+export namespace DepositListResponse {
+  /**
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
+   */
+  export interface TrackingReference {
+    /**
+     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     */
+    type: 'uetr' | 'imad' | 'trace_number';
+
+    /**
+     * Rail-provided tracking identifier.
+     */
+    value: string;
+  }
 }
 
 export interface DepositListParams extends CursorPageParams {

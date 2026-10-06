@@ -135,10 +135,10 @@ export interface PayoutCreateResponse {
   status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
    */
-  tracking_reference: string | null;
+  tracking_reference: PayoutCreateResponse.TrackingReference | null;
 
   /**
    * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -192,6 +192,22 @@ export namespace PayoutCreateResponse {
      * Whether the payout can be retried.
      */
     retry: boolean;
+  }
+
+  /**
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
+   */
+  export interface TrackingReference {
+    /**
+     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     */
+    type: 'uetr' | 'imad' | 'trace_number';
+
+    /**
+     * Rail-provided tracking identifier.
+     */
+    value: string;
   }
 }
 
@@ -271,10 +287,10 @@ export interface PayoutRetrieveResponse {
   status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
    */
-  tracking_reference: string | null;
+  tracking_reference: PayoutRetrieveResponse.TrackingReference | null;
 
   /**
    * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -328,6 +344,22 @@ export namespace PayoutRetrieveResponse {
      * Whether the payout can be retried.
      */
     retry: boolean;
+  }
+
+  /**
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
+   */
+  export interface TrackingReference {
+    /**
+     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     */
+    type: 'uetr' | 'imad' | 'trace_number';
+
+    /**
+     * Rail-provided tracking identifier.
+     */
+    value: string;
   }
 }
 
@@ -407,10 +439,10 @@ export interface PayoutListResponse {
   status: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
    */
-  tracking_reference: string | null;
+  tracking_reference: PayoutListResponse.TrackingReference | null;
 
   /**
    * Transaction hash for crypto payouts, or null when not known. Only blockchain
@@ -464,6 +496,22 @@ export namespace PayoutListResponse {
      * Whether the payout can be retried.
      */
     retry: boolean;
+  }
+
+  /**
+   * Rail network tracking identifier with its type: UETR for SWIFT, IMAD for
+   * Fedwire, or the 15-digit trace number for ACH. Null when unavailable.
+   */
+  export interface TrackingReference {
+    /**
+     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     */
+    type: 'uetr' | 'imad' | 'trace_number';
+
+    /**
+     * Rail-provided tracking identifier.
+     */
+    value: string;
   }
 }
 
