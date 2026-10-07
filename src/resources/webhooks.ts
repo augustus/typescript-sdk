@@ -9983,7 +9983,7 @@ export namespace AccountHolderClosedWebhookEvent {
   }
 }
 
-export interface CounterpartyCreatedWebhookEvent {
+export interface CounterpartyPendingWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
    */
@@ -10002,15 +10002,15 @@ export interface CounterpartyCreatedWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
-  payload: CounterpartyCreatedWebhookEvent.Payload;
+  payload: CounterpartyPendingWebhookEvent.Payload;
 
   /**
    * Event type in resource.action format.
    */
-  type: 'counterparty.created';
+  type: 'counterparty.pending';
 }
 
-export namespace CounterpartyCreatedWebhookEvent {
+export namespace CounterpartyPendingWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
@@ -10082,6 +10082,11 @@ export namespace CounterpartyCreatedWebhookEvent {
      * Physical address of the counterparty, or null if not recorded.
      */
     physical_address: Payload.PhysicalAddress | null;
+
+    /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
 
     /**
      * Resource type discriminator.
@@ -10511,7 +10516,7 @@ export namespace CounterpartyCreatedWebhookEvent {
   }
 }
 
-export interface CounterpartyVerifiedWebhookEvent {
+export interface CounterpartyActiveWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
    */
@@ -10530,15 +10535,15 @@ export interface CounterpartyVerifiedWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
-  payload: CounterpartyVerifiedWebhookEvent.Payload;
+  payload: CounterpartyActiveWebhookEvent.Payload;
 
   /**
    * Event type in resource.action format.
    */
-  type: 'counterparty.verified';
+  type: 'counterparty.active';
 }
 
-export namespace CounterpartyVerifiedWebhookEvent {
+export namespace CounterpartyActiveWebhookEvent {
   /**
    * Full resource snapshot at the time of the event.
    */
@@ -10610,6 +10615,11 @@ export namespace CounterpartyVerifiedWebhookEvent {
      * Physical address of the counterparty, or null if not recorded.
      */
     physical_address: Payload.PhysicalAddress | null;
+
+    /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
 
     /**
      * Resource type discriminator.
@@ -11140,6 +11150,11 @@ export namespace CounterpartyRejectedWebhookEvent {
     physical_address: Payload.PhysicalAddress | null;
 
     /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
+
+    /**
      * Resource type discriminator.
      */
     type: 'counterparty';
@@ -11666,6 +11681,11 @@ export namespace CounterpartyBlockedWebhookEvent {
      * Physical address of the counterparty, or null if not recorded.
      */
     physical_address: Payload.PhysicalAddress | null;
+
+    /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
 
     /**
      * Resource type discriminator.
@@ -12196,6 +12216,11 @@ export namespace CounterpartyUnblockedWebhookEvent {
     physical_address: Payload.PhysicalAddress | null;
 
     /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
+
+    /**
      * Resource type discriminator.
      */
     type: 'counterparty';
@@ -12724,6 +12749,11 @@ export namespace CounterpartyUpdatedWebhookEvent {
     physical_address: Payload.PhysicalAddress | null;
 
     /**
+     * Counterparty lifecycle status. Blocking is separate.
+     */
+    status: 'pending' | 'active' | 'rejected';
+
+    /**
      * Resource type discriminator.
      */
     type: 'counterparty';
@@ -13228,8 +13258,8 @@ export type UnwrapWebhookEvent =
   | ConversionFailedWebhookEvent
   | AccountHolderActiveWebhookEvent
   | AccountHolderClosedWebhookEvent
-  | CounterpartyCreatedWebhookEvent
-  | CounterpartyVerifiedWebhookEvent
+  | CounterpartyPendingWebhookEvent
+  | CounterpartyActiveWebhookEvent
   | CounterpartyRejectedWebhookEvent
   | CounterpartyBlockedWebhookEvent
   | CounterpartyUnblockedWebhookEvent
@@ -13254,8 +13284,8 @@ export declare namespace Webhooks {
     type ConversionFailedWebhookEvent as ConversionFailedWebhookEvent,
     type AccountHolderActiveWebhookEvent as AccountHolderActiveWebhookEvent,
     type AccountHolderClosedWebhookEvent as AccountHolderClosedWebhookEvent,
-    type CounterpartyCreatedWebhookEvent as CounterpartyCreatedWebhookEvent,
-    type CounterpartyVerifiedWebhookEvent as CounterpartyVerifiedWebhookEvent,
+    type CounterpartyPendingWebhookEvent as CounterpartyPendingWebhookEvent,
+    type CounterpartyActiveWebhookEvent as CounterpartyActiveWebhookEvent,
     type CounterpartyRejectedWebhookEvent as CounterpartyRejectedWebhookEvent,
     type CounterpartyBlockedWebhookEvent as CounterpartyBlockedWebhookEvent,
     type CounterpartyUnblockedWebhookEvent as CounterpartyUnblockedWebhookEvent,

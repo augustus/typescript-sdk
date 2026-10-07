@@ -152,6 +152,11 @@ export interface CounterpartyCreateResponse {
   physical_address: CounterpartyCreateResponse.PhysicalAddress | null;
 
   /**
+   * Counterparty lifecycle status. Blocking is separate.
+   */
+  status: 'pending' | 'active' | 'rejected';
+
+  /**
    * Resource type discriminator.
    */
   type: 'counterparty';
@@ -646,6 +651,11 @@ export interface CounterpartyRetrieveResponse {
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyRetrieveResponse.PhysicalAddress | null;
+
+  /**
+   * Counterparty lifecycle status. Blocking is separate.
+   */
+  status: 'pending' | 'active' | 'rejected';
 
   /**
    * Resource type discriminator.
@@ -1144,6 +1154,11 @@ export interface CounterpartyUpdateResponse {
   physical_address: CounterpartyUpdateResponse.PhysicalAddress | null;
 
   /**
+   * Counterparty lifecycle status. Blocking is separate.
+   */
+  status: 'pending' | 'active' | 'rejected';
+
+  /**
    * Resource type discriminator.
    */
   type: 'counterparty';
@@ -1638,6 +1653,11 @@ export interface CounterpartyListResponse {
    * Physical address of the counterparty, or null if not recorded.
    */
   physical_address: CounterpartyListResponse.PhysicalAddress | null;
+
+  /**
+   * Counterparty lifecycle status. Blocking is separate.
+   */
+  status: 'pending' | 'active' | 'rejected';
 
   /**
    * Resource type discriminator.
