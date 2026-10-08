@@ -184,9 +184,9 @@ export interface AccountProgramCreateParams {
   label: string;
 
   /**
-   * Account program type.
+   * Account program type. Simulation supports FBO programs only.
    */
-  type: 'fbo_program' | 'fbo_sponsored' | 'operating' | 'crypto';
+  type: 'fbo_program' | 'fbo_sponsored';
 }
 
 export interface AccountProgramCloseParams {

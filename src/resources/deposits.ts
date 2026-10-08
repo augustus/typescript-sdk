@@ -238,6 +238,33 @@ export namespace DepositListResponse {
 }
 
 export interface DepositListParams extends CursorPageParams {
+  /**
+   * Filter to these currency codes. Use a separate `currencies` query parameter for
+   * each value (e.g. `?currencies=EUR&currencies=USD`).
+   */
+  currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC'>;
+
+  /**
+   * Filter by deposit rail.
+   */
+  rail?:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy';
+
   settled_at?: DepositListParams.SettledAt;
 }
 

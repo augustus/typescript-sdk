@@ -578,6 +578,27 @@ export interface PayoutListParams extends CursorPageParams {
   currencies?: Array<'EUR' | 'GBP' | 'USD' | 'USDC'>;
 
   /**
+   * Filter by payout rail.
+   */
+  rail?:
+    | 'sepa'
+    | 'sepa_instant'
+    | 'faster_payments'
+    | 'swift'
+    | 'internal'
+    | 'target'
+    | 'ach'
+    | 'fedwire'
+    | 'bitcoin'
+    | 'bitcoin_testnet4'
+    | 'ethereum'
+    | 'ethereum_sepolia'
+    | 'solana'
+    | 'solana_devnet'
+    | 'polygon'
+    | 'polygon_amoy';
+
+  /**
    * Filter by payout status.
    */
   status?: 'initiated' | 'submitted' | 'sent' | 'failed' | 'returned';

@@ -72,6 +72,7 @@ describe('resource payouts', () => {
           currencies: ['USD'],
           cursor: 'cursor',
           limit: 1,
+          rail: 'sepa',
           status: 'sent',
         },
         { path: '/_stainless_unknown_path' },
