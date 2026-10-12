@@ -33,6 +33,7 @@ describe('resource payouts', () => {
       counterparty_id: '550e8400-e29b-41d4-a716-446655440000',
       currency: 'USD',
       metadata: { invoice_id: 'INV-2026-0042' },
+      purpose_code: 'SALA',
       rail: 'sepa',
       unstructured_remittance_information: 'INV-2026-0042',
     });
