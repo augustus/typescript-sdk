@@ -77,6 +77,7 @@ export interface EventRetrieveResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | 'ping.test';
 
   /**
@@ -134,6 +135,7 @@ export interface EventListResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | 'ping.test';
 
   /**
@@ -171,6 +173,7 @@ export interface EventListParams extends CursorPageParams {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | 'ping.test';
 }
 

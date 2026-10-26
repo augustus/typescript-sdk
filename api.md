@@ -24,6 +24,7 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">CounterpartyBlockedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">CounterpartyUnblockedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">CounterpartyUpdatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">PayoutTrackingEventCreatedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">PingTestWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">UnwrapWebhookEvent</a></code>
 
@@ -44,6 +45,18 @@ Methods:
 - <code title="post /v1/payouts">client.payouts.<a href="./src/resources/payouts.ts">create</a>({ ...params }) -> PayoutCreateResponse</code>
 - <code title="get /v1/payouts/{id}">client.payouts.<a href="./src/resources/payouts.ts">retrieve</a>(id) -> PayoutRetrieveResponse</code>
 - <code title="get /v1/payouts">client.payouts.<a href="./src/resources/payouts.ts">list</a>({ ...params }) -> PayoutListResponsesCursorPage</code>
+
+# PayoutTrackingEvents
+
+Types:
+
+- <code><a href="./src/resources/payout-tracking-events.ts">PayoutTrackingEventRetrieveResponse</a></code>
+- <code><a href="./src/resources/payout-tracking-events.ts">PayoutTrackingEventListResponse</a></code>
+
+Methods:
+
+- <code title="get /v1/payout_tracking_events/{id}">client.payoutTrackingEvents.<a href="./src/resources/payout-tracking-events.ts">retrieve</a>(id) -> PayoutTrackingEventRetrieveResponse</code>
+- <code title="get /v1/payout_tracking_events">client.payoutTrackingEvents.<a href="./src/resources/payout-tracking-events.ts">list</a>({ ...params }) -> PayoutTrackingEventListResponsesCursorPage</code>
 
 # Deposits
 
@@ -253,6 +266,7 @@ Types:
 - <code><a href="./src/resources/counterparties.ts">CounterpartyRetrieveResponse</a></code>
 - <code><a href="./src/resources/counterparties.ts">CounterpartyUpdateResponse</a></code>
 - <code><a href="./src/resources/counterparties.ts">CounterpartyListResponse</a></code>
+- <code><a href="./src/resources/counterparties.ts">CounterpartyActivateResponse</a></code>
 
 Methods:
 
@@ -260,6 +274,7 @@ Methods:
 - <code title="get /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">retrieve</a>(id) -> CounterpartyRetrieveResponse</code>
 - <code title="post /v1/counterparties/{id}">client.counterparties.<a href="./src/resources/counterparties.ts">update</a>(id, { ...params }) -> CounterpartyUpdateResponse</code>
 - <code title="get /v1/counterparties">client.counterparties.<a href="./src/resources/counterparties.ts">list</a>({ ...params }) -> CounterpartyListResponsesCursorPage</code>
+- <code title="post /v1/counterparties/{id}/activate">client.counterparties.<a href="./src/resources/counterparties.ts">activate</a>(id) -> CounterpartyActivateResponse</code>
 
 # Returns
 

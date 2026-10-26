@@ -76,6 +76,7 @@ export interface APIKeyIntrospectResponse {
     | 'webhook_deliveries:write'
     | 'transactions:read'
     | 'simulations:write'
+    | 'payout_tracking_events:read'
   >;
 
   /**

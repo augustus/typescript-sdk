@@ -155,6 +155,7 @@ export interface WebhookSubscriptionCreateResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
   >;
 
   /**
@@ -217,6 +218,7 @@ export interface WebhookSubscriptionRetrieveResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
   >;
 
   /**
@@ -279,6 +281,7 @@ export interface WebhookSubscriptionUpdateResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
   >;
 
   /**
@@ -341,6 +344,7 @@ export interface WebhookSubscriptionListResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
   >;
 
   /**
@@ -403,6 +407,7 @@ export interface WebhookSubscriptionDeleteResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
   >;
 
   /**
@@ -477,6 +482,7 @@ export interface WebhookSubscriptionSendTestEventResponse {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | 'ping.test';
 
   /**
@@ -512,6 +518,7 @@ export interface WebhookSubscriptionCreateParams {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | '*'
   >;
 
@@ -556,6 +563,7 @@ export interface WebhookSubscriptionUpdateParams {
     | 'counterparty.blocked'
     | 'counterparty.unblocked'
     | 'counterparty.updated'
+    | 'payout_tracking_event.created'
     | '*'
   > | null;
 

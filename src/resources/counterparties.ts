@@ -60,6 +60,7 @@ export class Counterparties extends APIResource {
 
   /**
    * Lists counterparties owned by the merchant with cursor-based pagination.
+   * Optionally filter by status.
    *
    * @example
    * ```ts
@@ -77,6 +78,22 @@ export class Counterparties extends APIResource {
       query,
       ...options,
     });
+  }
+
+  /**
+   * Activates a pending counterparty owned by the merchant. A fiat counterparty
+   * becomes active immediately; a crypto counterparty starts verification and stays
+   * pending until it concludes.
+   *
+   * @example
+   * ```ts
+   * const response = await client.counterparties.activate(
+   *   '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+   * );
+   * ```
+   */
+  activate(id: string, options?: RequestOptions): APIPromise<CounterpartyActivateResponse> {
+    return this._client.post(path`/v1/counterparties/${id}/activate`, options);
   }
 }
 
@@ -104,9 +121,9 @@ export interface CounterpartyCreateResponse {
   email: string | null;
 
   /**
-   * Whether the counterparty is a business or an individual.
+   * Classification of the counterparty.
    */
-  entity_type: 'business' | 'individual';
+  entity_type: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * Financial address of the counterparty.
@@ -605,9 +622,9 @@ export interface CounterpartyRetrieveResponse {
   email: string | null;
 
   /**
-   * Whether the counterparty is a business or an individual.
+   * Classification of the counterparty.
    */
-  entity_type: 'business' | 'individual';
+  entity_type: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * Financial address of the counterparty.
@@ -1106,9 +1123,9 @@ export interface CounterpartyUpdateResponse {
   email: string | null;
 
   /**
-   * Whether the counterparty is a business or an individual.
+   * Classification of the counterparty.
    */
-  entity_type: 'business' | 'individual';
+  entity_type: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * Financial address of the counterparty.
@@ -1607,9 +1624,9 @@ export interface CounterpartyListResponse {
   email: string | null;
 
   /**
-   * Whether the counterparty is a business or an individual.
+   * Classification of the counterparty.
    */
-  entity_type: 'business' | 'individual';
+  entity_type: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * Financial address of the counterparty.
@@ -2086,6 +2103,507 @@ export namespace CounterpartyListResponse {
   }
 }
 
+export interface CounterpartyActivateResponse {
+  /**
+   * Unique identifier of the counterparty.
+   */
+  id: string;
+
+  /**
+   * Whether payments to or from this counterparty are currently blocked.
+   */
+  blocked: boolean;
+
+  /**
+   * Date of birth in YYYY-MM-DD format, or null if not recorded.
+   */
+  date_of_birth: string | null;
+
+  /**
+   * Email address of the counterparty, or null if not recorded.
+   */
+  email: string | null;
+
+  /**
+   * Classification of the counterparty.
+   */
+  entity_type: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
+
+  /**
+   * Financial address of the counterparty.
+   */
+  financial_address:
+    | CounterpartyActivateResponse.AbaFinancialAddress
+    | CounterpartyActivateResponse.IbanFinancialAddress
+    | CounterpartyActivateResponse.SortCodeFinancialAddress
+    | CounterpartyActivateResponse.BicFinancialAddress
+    | CounterpartyActivateResponse.CryptoWalletFinancialAddress;
+
+  /**
+   * Whether the counterparty is self-owned. `false` if the counterparty is not owned
+   * by you, `true` if it is.
+   */
+  is_self_owned: boolean;
+
+  /**
+   * National tax or identity number of the counterparty, or null if not recorded.
+   */
+  legal_id: string | null;
+
+  /**
+   * Set of up to 50 key-value string pairs you can attach to store structured
+   * information, such as correlating this resource with an object in your own
+   * system. Keys may be up to 40 characters and values up to 500 characters.
+   */
+  metadata: { [key: string]: string };
+
+  /**
+   * Name of the counterparty, or null if not recorded.
+   */
+  name: string | null;
+
+  /**
+   * Phone number of the counterparty, or null if not recorded.
+   */
+  phone: string | null;
+
+  /**
+   * Physical address of the counterparty, or null if not recorded.
+   */
+  physical_address: CounterpartyActivateResponse.PhysicalAddress | null;
+
+  /**
+   * Counterparty lifecycle status. Blocking is separate.
+   */
+  status: 'pending' | 'active' | 'rejected';
+
+  /**
+   * Resource type discriminator.
+   */
+  type: 'counterparty';
+}
+
+export namespace CounterpartyActivateResponse {
+  export interface AbaFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ABA routing number (9 digits).
+     */
+    routing_number: string;
+
+    /**
+     * Discriminator for ABA wire financial address.
+     */
+    type: 'aba';
+  }
+
+  export interface IbanFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * Bank Identifier Code, or null if not provided.
+     */
+    bic: string | null;
+
+    /**
+     * International Bank Account Number.
+     */
+    iban: string;
+
+    /**
+     * Discriminator for IBAN financial address.
+     */
+    type: 'iban';
+  }
+
+  export interface SortCodeFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * UK account number (8 digits).
+     */
+    account_number: string;
+
+    /**
+     * UK sort code (6 digits).
+     */
+    sort_code: string;
+
+    /**
+     * Discriminator for UK sort code financial address.
+     */
+    type: 'sort_code';
+  }
+
+  export interface BicFinancialAddress {
+    /**
+     * Name of the account holder.
+     */
+    account_holder_name: string;
+
+    /**
+     * Local-format bank account number.
+     */
+    account_number: string;
+
+    /**
+     * Whether the account is a checking or a savings account, or null if not provided.
+     */
+    account_type: 'checking' | 'savings' | null;
+
+    /**
+     * ISO 9362 Bank Identifier Code (8 or 11 characters).
+     */
+    bic: string;
+
+    /**
+     * Domestic bank or branch code where the destination country uses one (for example
+     * the BSB in Australia), or null.
+     */
+    local_bank_code: string | null;
+
+    /**
+     * Discriminator for BIC + local account financial address.
+     */
+    type: 'bic';
+  }
+
+  export interface CryptoWalletFinancialAddress {
+    /**
+     * Wallet address on the specified blockchain.
+     */
+    address: string;
+
+    /**
+     * Blockchain network for the crypto wallet.
+     */
+    blockchain:
+      | 'bitcoin'
+      | 'ethereum'
+      | 'solana'
+      | 'polygon'
+      | 'bitcoin_testnet4'
+      | 'ethereum_sepolia'
+      | 'solana_devnet'
+      | 'polygon_amoy';
+
+    /**
+     * Discriminator for crypto wallet financial address.
+     */
+    type: 'crypto_wallet';
+  }
+
+  /**
+   * Physical address of the counterparty, or null if not recorded.
+   */
+  export interface PhysicalAddress {
+    /**
+     * City or locality.
+     */
+    city: string;
+
+    /**
+     * ISO 3166-1 alpha-2 country code.
+     */
+    country_code:
+      | 'AF'
+      | 'AL'
+      | 'DZ'
+      | 'AS'
+      | 'AD'
+      | 'AO'
+      | 'AI'
+      | 'AQ'
+      | 'AG'
+      | 'AR'
+      | 'AM'
+      | 'AW'
+      | 'AU'
+      | 'AT'
+      | 'AZ'
+      | 'BS'
+      | 'BH'
+      | 'BD'
+      | 'BB'
+      | 'BY'
+      | 'BE'
+      | 'BZ'
+      | 'BJ'
+      | 'BM'
+      | 'BT'
+      | 'BO'
+      | 'BA'
+      | 'BW'
+      | 'BV'
+      | 'BR'
+      | 'IO'
+      | 'BN'
+      | 'BG'
+      | 'BF'
+      | 'BI'
+      | 'KH'
+      | 'CM'
+      | 'CA'
+      | 'CV'
+      | 'KY'
+      | 'CF'
+      | 'TD'
+      | 'CL'
+      | 'CN'
+      | 'CX'
+      | 'CC'
+      | 'CO'
+      | 'KM'
+      | 'CG'
+      | 'CD'
+      | 'CK'
+      | 'CR'
+      | 'CI'
+      | 'HR'
+      | 'CU'
+      | 'CY'
+      | 'CZ'
+      | 'DK'
+      | 'DJ'
+      | 'DM'
+      | 'DO'
+      | 'EC'
+      | 'EG'
+      | 'SV'
+      | 'GQ'
+      | 'ER'
+      | 'EE'
+      | 'ET'
+      | 'FK'
+      | 'FO'
+      | 'FJ'
+      | 'FI'
+      | 'FR'
+      | 'GF'
+      | 'PF'
+      | 'TF'
+      | 'GA'
+      | 'GM'
+      | 'GE'
+      | 'DE'
+      | 'GH'
+      | 'GI'
+      | 'GR'
+      | 'GL'
+      | 'GD'
+      | 'GP'
+      | 'GU'
+      | 'GT'
+      | 'GN'
+      | 'GW'
+      | 'GY'
+      | 'HT'
+      | 'HM'
+      | 'VA'
+      | 'HN'
+      | 'HK'
+      | 'HU'
+      | 'IS'
+      | 'IN'
+      | 'ID'
+      | 'IR'
+      | 'IQ'
+      | 'IE'
+      | 'IL'
+      | 'IT'
+      | 'JM'
+      | 'JP'
+      | 'JO'
+      | 'KZ'
+      | 'KE'
+      | 'KI'
+      | 'KP'
+      | 'KR'
+      | 'KW'
+      | 'KG'
+      | 'LA'
+      | 'LV'
+      | 'LB'
+      | 'LS'
+      | 'LR'
+      | 'LY'
+      | 'LI'
+      | 'LT'
+      | 'LU'
+      | 'MO'
+      | 'MG'
+      | 'MW'
+      | 'MY'
+      | 'MV'
+      | 'ML'
+      | 'MT'
+      | 'MH'
+      | 'MQ'
+      | 'MR'
+      | 'MU'
+      | 'YT'
+      | 'MX'
+      | 'FM'
+      | 'MD'
+      | 'MC'
+      | 'MN'
+      | 'MS'
+      | 'MA'
+      | 'MZ'
+      | 'MM'
+      | 'NA'
+      | 'NR'
+      | 'NP'
+      | 'NL'
+      | 'NC'
+      | 'NZ'
+      | 'NI'
+      | 'NE'
+      | 'NG'
+      | 'NU'
+      | 'NF'
+      | 'MP'
+      | 'MK'
+      | 'NO'
+      | 'OM'
+      | 'PK'
+      | 'PW'
+      | 'PS'
+      | 'PA'
+      | 'PG'
+      | 'PY'
+      | 'PE'
+      | 'PH'
+      | 'PN'
+      | 'PL'
+      | 'PT'
+      | 'PR'
+      | 'QA'
+      | 'RE'
+      | 'RO'
+      | 'RU'
+      | 'RW'
+      | 'SH'
+      | 'KN'
+      | 'LC'
+      | 'PM'
+      | 'VC'
+      | 'WS'
+      | 'SM'
+      | 'ST'
+      | 'SA'
+      | 'SN'
+      | 'SC'
+      | 'SL'
+      | 'SG'
+      | 'SK'
+      | 'SI'
+      | 'SB'
+      | 'SO'
+      | 'ZA'
+      | 'GS'
+      | 'ES'
+      | 'LK'
+      | 'SD'
+      | 'SR'
+      | 'SJ'
+      | 'SZ'
+      | 'SE'
+      | 'CH'
+      | 'SY'
+      | 'TW'
+      | 'TJ'
+      | 'TZ'
+      | 'TH'
+      | 'TL'
+      | 'TG'
+      | 'TK'
+      | 'TO'
+      | 'TT'
+      | 'TN'
+      | 'TR'
+      | 'TM'
+      | 'TC'
+      | 'TV'
+      | 'UG'
+      | 'UA'
+      | 'AE'
+      | 'GB'
+      | 'US'
+      | 'UM'
+      | 'UY'
+      | 'UZ'
+      | 'VU'
+      | 'VE'
+      | 'VN'
+      | 'VG'
+      | 'VI'
+      | 'WF'
+      | 'EH'
+      | 'YE'
+      | 'ZM'
+      | 'ZW'
+      | 'AX'
+      | 'BQ'
+      | 'CW'
+      | 'GG'
+      | 'IM'
+      | 'JE'
+      | 'ME'
+      | 'BL'
+      | 'MF'
+      | 'RS'
+      | 'SX'
+      | 'SS'
+      | 'XK';
+
+    /**
+     * Primary street address, or null if not recorded.
+     */
+    line_1: string | null;
+
+    /**
+     * Secondary street address, or null if not recorded.
+     */
+    line_2: string | null;
+
+    /**
+     * Postal or ZIP code, or null if not recorded.
+     */
+    postal_code: string | null;
+
+    /**
+     * State, province, or region, or null if not recorded.
+     */
+    state: string | null;
+  }
+}
+
 export interface CounterpartyCreateParams {
   /**
    * Financial address of the counterparty.
@@ -2109,9 +2627,9 @@ export interface CounterpartyCreateParams {
   email?: string;
 
   /**
-   * Whether the counterparty is a business or an individual. Defaults to business.
+   * Classification of the counterparty. Defaults to business.
    */
-  entity_type?: 'business' | 'individual';
+  entity_type?: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * Whether the counterparty is self-owned. `false` if the counterparty is not owned
@@ -2595,7 +3113,7 @@ export interface CounterpartyUpdateParams {
   /**
    * New entity type. Omit to keep the current entity type.
    */
-  entity_type?: 'business' | 'individual';
+  entity_type?: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
   /**
    * New ownership status. Omit to keep the current ownership status.
@@ -2910,7 +3428,12 @@ export namespace CounterpartyUpdateParams {
   }
 }
 
-export interface CounterpartyListParams extends CursorPageParams {}
+export interface CounterpartyListParams extends CursorPageParams {
+  /**
+   * Filter by counterparty status. All statuses are included when omitted.
+   */
+  status?: 'pending' | 'active' | 'rejected';
+}
 
 export declare namespace Counterparties {
   export {
@@ -2918,6 +3441,7 @@ export declare namespace Counterparties {
     type CounterpartyRetrieveResponse as CounterpartyRetrieveResponse,
     type CounterpartyUpdateResponse as CounterpartyUpdateResponse,
     type CounterpartyListResponse as CounterpartyListResponse,
+    type CounterpartyActivateResponse as CounterpartyActivateResponse,
     type CounterpartyListResponsesCursorPage as CounterpartyListResponsesCursorPage,
     type CounterpartyCreateParams as CounterpartyCreateParams,
     type CounterpartyUpdateParams as CounterpartyUpdateParams,

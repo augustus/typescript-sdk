@@ -52,6 +52,7 @@ export {
   type CounterpartyRetrieveResponse,
   type CounterpartyUpdateResponse,
   type CounterpartyListResponse,
+  type CounterpartyActivateResponse,
   type CounterpartyCreateParams,
   type CounterpartyUpdateParams,
   type CounterpartyListParams,
@@ -71,6 +72,13 @@ export {
   type EventListParams,
   type EventListResponsesCursorPage,
 } from './events';
+export {
+  PayoutTrackingEvents,
+  type PayoutTrackingEventRetrieveResponse,
+  type PayoutTrackingEventListResponse,
+  type PayoutTrackingEventListParams,
+  type PayoutTrackingEventListResponsesCursorPage,
+} from './payout-tracking-events';
 export {
   Payouts,
   type PayoutCreateResponse,
@@ -144,6 +152,7 @@ export {
   type CounterpartyBlockedWebhookEvent,
   type CounterpartyUnblockedWebhookEvent,
   type CounterpartyUpdatedWebhookEvent,
+  type PayoutTrackingEventCreatedWebhookEvent,
   type PingTestWebhookEvent,
   type UnwrapWebhookEvent,
 } from './webhooks';

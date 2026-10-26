@@ -107,8 +107,8 @@ export interface TransactionRetrieveResponse {
   status: 'booked';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Network tracking identifier: UETR for SWIFT, IMAD for Fedwire, or the trace
+   * number for ACH. Null when unavailable.
    */
   tracking_reference: string | null;
 
@@ -666,8 +666,8 @@ export interface TransactionListResponse {
   status: 'booked';
 
   /**
-   * Reference used to track the payment across the payment network, such as the UETR
-   * for SWIFT payments.
+   * Network tracking identifier: UETR for SWIFT, IMAD for Fedwire, or the trace
+   * number for ACH. Null when unavailable.
    */
   tracking_reference: string | null;
 

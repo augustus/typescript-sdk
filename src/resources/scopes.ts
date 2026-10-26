@@ -54,7 +54,8 @@ export namespace ScopeListResponse {
       | 'webhook_deliveries:read'
       | 'webhook_deliveries:write'
       | 'transactions:read'
-      | 'simulations:write';
+      | 'simulations:write'
+      | 'payout_tracking_events:read';
 
     /**
      * Action category.

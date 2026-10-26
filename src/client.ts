@@ -67,6 +67,7 @@ import {
 } from './resources/conversions';
 import {
   Counterparties,
+  CounterpartyActivateResponse,
   CounterpartyCreateParams,
   CounterpartyCreateResponse,
   CounterpartyListParams,
@@ -90,6 +91,13 @@ import {
   EventRetrieveResponse,
   Events,
 } from './resources/events';
+import {
+  PayoutTrackingEventListParams,
+  PayoutTrackingEventListResponse,
+  PayoutTrackingEventListResponsesCursorPage,
+  PayoutTrackingEventRetrieveResponse,
+  PayoutTrackingEvents,
+} from './resources/payout-tracking-events';
 import {
   PayoutCreateParams,
   PayoutCreateResponse,
@@ -155,6 +163,7 @@ import {
   PayoutReturnedWebhookEvent,
   PayoutSentWebhookEvent,
   PayoutSubmittedWebhookEvent,
+  PayoutTrackingEventCreatedWebhookEvent,
   PingTestWebhookEvent,
   ReturnFailedWebhookEvent,
   ReturnInitiatedWebhookEvent,
@@ -957,6 +966,7 @@ export class Augustus {
 
   webhooks: API.Webhooks = new API.Webhooks(this);
   payouts: API.Payouts = new API.Payouts(this);
+  payoutTrackingEvents: API.PayoutTrackingEvents = new API.PayoutTrackingEvents(this);
   deposits: API.Deposits = new API.Deposits(this);
   simulations: API.Simulations = new API.Simulations(this);
   transactions: API.Transactions = new API.Transactions(this);
@@ -977,6 +987,7 @@ export class Augustus {
 
 Augustus.Webhooks = Webhooks;
 Augustus.Payouts = Payouts;
+Augustus.PayoutTrackingEvents = PayoutTrackingEvents;
 Augustus.Deposits = Deposits;
 Augustus.Simulations = Simulations;
 Augustus.Transactions = Transactions;
@@ -1024,6 +1035,7 @@ export declare namespace Augustus {
     type CounterpartyBlockedWebhookEvent as CounterpartyBlockedWebhookEvent,
     type CounterpartyUnblockedWebhookEvent as CounterpartyUnblockedWebhookEvent,
     type CounterpartyUpdatedWebhookEvent as CounterpartyUpdatedWebhookEvent,
+    type PayoutTrackingEventCreatedWebhookEvent as PayoutTrackingEventCreatedWebhookEvent,
     type PingTestWebhookEvent as PingTestWebhookEvent,
     type UnwrapWebhookEvent as UnwrapWebhookEvent,
   };
@@ -1036,6 +1048,14 @@ export declare namespace Augustus {
     type PayoutListResponsesCursorPage as PayoutListResponsesCursorPage,
     type PayoutCreateParams as PayoutCreateParams,
     type PayoutListParams as PayoutListParams,
+  };
+
+  export {
+    PayoutTrackingEvents as PayoutTrackingEvents,
+    type PayoutTrackingEventRetrieveResponse as PayoutTrackingEventRetrieveResponse,
+    type PayoutTrackingEventListResponse as PayoutTrackingEventListResponse,
+    type PayoutTrackingEventListResponsesCursorPage as PayoutTrackingEventListResponsesCursorPage,
+    type PayoutTrackingEventListParams as PayoutTrackingEventListParams,
   };
 
   export {
@@ -1112,6 +1132,7 @@ export declare namespace Augustus {
     type CounterpartyRetrieveResponse as CounterpartyRetrieveResponse,
     type CounterpartyUpdateResponse as CounterpartyUpdateResponse,
     type CounterpartyListResponse as CounterpartyListResponse,
+    type CounterpartyActivateResponse as CounterpartyActivateResponse,
     type CounterpartyListResponsesCursorPage as CounterpartyListResponsesCursorPage,
     type CounterpartyCreateParams as CounterpartyCreateParams,
     type CounterpartyUpdateParams as CounterpartyUpdateParams,

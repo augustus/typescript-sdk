@@ -147,7 +147,10 @@ export interface AccountCreateResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountCreateResponse.AbaFinancialAddress
@@ -344,7 +347,10 @@ export interface AccountRetrieveResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountRetrieveResponse.AbaFinancialAddress
@@ -541,7 +547,10 @@ export interface AccountListResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountListResponse.AbaFinancialAddress
@@ -738,7 +747,10 @@ export interface AccountCloseResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountCloseResponse.AbaFinancialAddress
@@ -935,7 +947,10 @@ export interface AccountFreezeResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountFreezeResponse.AbaFinancialAddress
@@ -1170,7 +1185,10 @@ export interface AccountUnfreezeResponse {
 
   /**
    * Payment identifiers (e.g. IBAN, account number, wallet address) through which
-   * this account can send or receive funds.
+   * this account can send or receive funds. US dollar accounts that use an ABA
+   * routing number also include a companion `bic` entry for inbound wires: it
+   * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+   * entry, and leaves `local_bank_code` null.
    */
   financial_addresses: Array<
     | AccountUnfreezeResponse.AbaFinancialAddress
