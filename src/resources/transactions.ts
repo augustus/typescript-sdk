@@ -107,12 +107,6 @@ export interface TransactionRetrieveResponse {
   status: 'booked';
 
   /**
-   * Network tracking identifier: UETR for SWIFT, IMAD for Fedwire, or the trace
-   * number for ACH. Null when unavailable.
-   */
-  tracking_reference: string | null;
-
-  /**
    * Transaction hash for crypto transactions, or null when not known. Only
    * blockchain rails support this field.
    */
@@ -664,12 +658,6 @@ export interface TransactionListResponse {
    * State of the transaction. Transactions are by definition booked.
    */
   status: 'booked';
-
-  /**
-   * Network tracking identifier: UETR for SWIFT, IMAD for Fedwire, or the trace
-   * number for ACH. Null when unavailable.
-   */
-  tracking_reference: string | null;
 
   /**
    * Transaction hash for crypto transactions, or null when not known. Only

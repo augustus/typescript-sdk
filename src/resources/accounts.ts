@@ -161,7 +161,8 @@ export interface AccountCreateResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
@@ -361,7 +362,8 @@ export interface AccountRetrieveResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
@@ -561,7 +563,8 @@ export interface AccountListResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
@@ -761,7 +764,8 @@ export interface AccountCloseResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
@@ -961,7 +965,8 @@ export interface AccountFreezeResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
@@ -1199,7 +1204,8 @@ export interface AccountUnfreezeResponse {
   >;
 
   /**
-   * Human-readable label for the account.
+   * Human-readable label for the account. For FBO accounts the label is set to the
+   * account holder’s name.
    */
   label: string;
 
