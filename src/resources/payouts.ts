@@ -103,9 +103,7 @@ export interface PayoutCreateResponse {
   metadata: { [key: string]: string };
 
   /**
-   * Purpose of the payout. Use an ISO 20022 external purpose code unless the
-   * beneficiary bank country requires a national code. Only supported on fedwire and
-   * swift payouts.
+   * ISO 20022 external purpose code. Only supported on fedwire and swift payouts.
    */
   purpose_code:
     | 'BKDF'
@@ -436,12 +434,6 @@ export interface PayoutCreateResponse {
     | 'DEPD'
     | 'RETL'
     | 'DEBT'
-    | 'CAP'
-    | 'GDS'
-    | 'SRV'
-    | 'CAC'
-    | 'FTF'
-    | (string & {})
     | null;
 
   /**
@@ -597,9 +589,7 @@ export interface PayoutRetrieveResponse {
   metadata: { [key: string]: string };
 
   /**
-   * Purpose of the payout. Use an ISO 20022 external purpose code unless the
-   * beneficiary bank country requires a national code. Only supported on fedwire and
-   * swift payouts.
+   * ISO 20022 external purpose code. Only supported on fedwire and swift payouts.
    */
   purpose_code:
     | 'BKDF'
@@ -930,12 +920,6 @@ export interface PayoutRetrieveResponse {
     | 'DEPD'
     | 'RETL'
     | 'DEBT'
-    | 'CAP'
-    | 'GDS'
-    | 'SRV'
-    | 'CAC'
-    | 'FTF'
-    | (string & {})
     | null;
 
   /**
@@ -1091,9 +1075,7 @@ export interface PayoutListResponse {
   metadata: { [key: string]: string };
 
   /**
-   * Purpose of the payout. Use an ISO 20022 external purpose code unless the
-   * beneficiary bank country requires a national code. Only supported on fedwire and
-   * swift payouts.
+   * ISO 20022 external purpose code. Only supported on fedwire and swift payouts.
    */
   purpose_code:
     | 'BKDF'
@@ -1424,12 +1406,6 @@ export interface PayoutListResponse {
     | 'DEPD'
     | 'RETL'
     | 'DEBT'
-    | 'CAP'
-    | 'GDS'
-    | 'SRV'
-    | 'CAC'
-    | 'FTF'
-    | (string & {})
     | null;
 
   /**
@@ -1570,9 +1546,7 @@ export interface PayoutCreateParams {
   metadata?: { [key: string]: string } | null;
 
   /**
-   * Purpose of the payout. Use an ISO 20022 external purpose code unless the
-   * beneficiary bank country requires a national code. Only supported on fedwire and
-   * swift payouts.
+   * ISO 20022 external purpose code. Only supported on fedwire and swift payouts.
    */
   purpose_code?:
     | 'BKDF'
@@ -1903,12 +1877,6 @@ export interface PayoutCreateParams {
     | 'DEPD'
     | 'RETL'
     | 'DEBT'
-    | 'CAP'
-    | 'GDS'
-    | 'SRV'
-    | 'CAC'
-    | 'FTF'
-    | (string & {})
     | null;
 
   /**

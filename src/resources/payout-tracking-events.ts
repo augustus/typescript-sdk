@@ -54,13 +54,21 @@ export interface PayoutTrackingEventRetrieveResponse {
   fee: PayoutTrackingEventRetrieveResponse.Fee | null;
 
   /**
-   * Institution that acted on or reported this step. Null when unknown.
+   * Institution that sent the payout in this step. Null when unknown or not reported
+   * by the source.
+   */
+  from_institution: PayoutTrackingEventRetrieveResponse.FromInstitution | null;
+
+  /**
+   * Institution holding the payout after this step: the bank that received it, or
+   * the bank that reported this status. Null when unknown.
    */
   institution: PayoutTrackingEventRetrieveResponse.Institution | null;
 
   /**
-   * Whether Augustus considers delivery finished. A later event, such as returned,
-   * can still follow.
+   * Whether Augustus considers delivery finished. A credit reported by a bank that
+   * passes the payout on is a forwarded step and is not terminal. A later event,
+   * such as returned, can still follow.
    */
   is_terminal: boolean;
 
@@ -169,18 +177,26 @@ export namespace PayoutTrackingEventRetrieveResponse {
   }
 
   /**
-   * Institution that acted on or reported this step. Null when unknown.
+   * Institution that sent the payout in this step. Null when unknown or not reported
+   * by the source.
    */
-  export interface Institution {
+  export interface FromInstitution {
     /**
-     * Identifier of the institution, typed by scheme.
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
      */
-    identifier: Institution.Identifier;
+    identifier: FromInstitution.Identifier | null;
+
+    /**
+     * Name of the institution. Null when unknown.
+     */
+    name: string | null;
   }
 
-  export namespace Institution {
+  export namespace FromInstitution {
     /**
-     * Identifier of the institution, typed by scheme.
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
      */
     export interface Identifier {
       /**
@@ -189,7 +205,44 @@ export namespace PayoutTrackingEventRetrieveResponse {
       type: 'bic';
 
       /**
-       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       * ISO 9362 Bank Identifier Code, always 11 characters. An 8-character BIC is
+       * padded with the XXX head office branch code.
+       */
+      value: string;
+    }
+  }
+
+  /**
+   * Institution holding the payout after this step: the bank that received it, or
+   * the bank that reported this status. Null when unknown.
+   */
+  export interface Institution {
+    /**
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
+     */
+    identifier: Institution.Identifier | null;
+
+    /**
+     * Name of the institution. Null when unknown.
+     */
+    name: string | null;
+  }
+
+  export namespace Institution {
+    /**
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
+     */
+    export interface Identifier {
+      /**
+       * Identifier scheme. Only bic today.
+       */
+      type: 'bic';
+
+      /**
+       * ISO 9362 Bank Identifier Code, always 11 characters. An 8-character BIC is
+       * padded with the XXX head office branch code.
        */
       value: string;
     }
@@ -215,7 +268,8 @@ export namespace PayoutTrackingEventRetrieveResponse {
    */
   export interface StatusReason {
     /**
-     * Normalized reason code assigned by Augustus. New codes may be added.
+     * Normalized reason code assigned by Augustus. Current codes: `CREDIT_PENDING`
+     * (the beneficiary bank reported the credit as pending). New codes may be added.
      */
     code: string;
 
@@ -249,13 +303,21 @@ export interface PayoutTrackingEventListResponse {
   fee: PayoutTrackingEventListResponse.Fee | null;
 
   /**
-   * Institution that acted on or reported this step. Null when unknown.
+   * Institution that sent the payout in this step. Null when unknown or not reported
+   * by the source.
+   */
+  from_institution: PayoutTrackingEventListResponse.FromInstitution | null;
+
+  /**
+   * Institution holding the payout after this step: the bank that received it, or
+   * the bank that reported this status. Null when unknown.
    */
   institution: PayoutTrackingEventListResponse.Institution | null;
 
   /**
-   * Whether Augustus considers delivery finished. A later event, such as returned,
-   * can still follow.
+   * Whether Augustus considers delivery finished. A credit reported by a bank that
+   * passes the payout on is a forwarded step and is not terminal. A later event,
+   * such as returned, can still follow.
    */
   is_terminal: boolean;
 
@@ -364,18 +426,26 @@ export namespace PayoutTrackingEventListResponse {
   }
 
   /**
-   * Institution that acted on or reported this step. Null when unknown.
+   * Institution that sent the payout in this step. Null when unknown or not reported
+   * by the source.
    */
-  export interface Institution {
+  export interface FromInstitution {
     /**
-     * Identifier of the institution, typed by scheme.
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
      */
-    identifier: Institution.Identifier;
+    identifier: FromInstitution.Identifier | null;
+
+    /**
+     * Name of the institution. Null when unknown.
+     */
+    name: string | null;
   }
 
-  export namespace Institution {
+  export namespace FromInstitution {
     /**
-     * Identifier of the institution, typed by scheme.
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
      */
     export interface Identifier {
       /**
@@ -384,7 +454,44 @@ export namespace PayoutTrackingEventListResponse {
       type: 'bic';
 
       /**
-       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       * ISO 9362 Bank Identifier Code, always 11 characters. An 8-character BIC is
+       * padded with the XXX head office branch code.
+       */
+      value: string;
+    }
+  }
+
+  /**
+   * Institution holding the payout after this step: the bank that received it, or
+   * the bank that reported this status. Null when unknown.
+   */
+  export interface Institution {
+    /**
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
+     */
+    identifier: Institution.Identifier | null;
+
+    /**
+     * Name of the institution. Null when unknown.
+     */
+    name: string | null;
+  }
+
+  export namespace Institution {
+    /**
+     * Identifier of the institution, typed by scheme. Null when only its name is
+     * known.
+     */
+    export interface Identifier {
+      /**
+       * Identifier scheme. Only bic today.
+       */
+      type: 'bic';
+
+      /**
+       * ISO 9362 Bank Identifier Code, always 11 characters. An 8-character BIC is
+       * padded with the XXX head office branch code.
        */
       value: string;
     }
@@ -410,7 +517,8 @@ export namespace PayoutTrackingEventListResponse {
    */
   export interface StatusReason {
     /**
-     * Normalized reason code assigned by Augustus. New codes may be added.
+     * Normalized reason code assigned by Augustus. Current codes: `CREDIT_PENDING`
+     * (the beneficiary bank reported the credit as pending). New codes may be added.
      */
     code: string;
 
