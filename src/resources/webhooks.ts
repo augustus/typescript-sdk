@@ -3567,7 +3567,7 @@ export namespace ConversionCreatedWebhookEvent {
     /**
      * Current status of the conversion.
      */
-    status: 'pending' | 'completed' | 'failed';
+    status: 'initiated' | 'pending' | 'completed' | 'failed';
 
     /**
      * ID of the target account, or null.
@@ -3658,7 +3658,7 @@ export namespace ConversionCompletedWebhookEvent {
     /**
      * Current status of the conversion.
      */
-    status: 'pending' | 'completed' | 'failed';
+    status: 'initiated' | 'pending' | 'completed' | 'failed';
 
     /**
      * ID of the target account, or null.
@@ -3749,7 +3749,7 @@ export namespace ConversionFailedWebhookEvent {
     /**
      * Current status of the conversion.
      */
-    status: 'pending' | 'completed' | 'failed';
+    status: 'initiated' | 'pending' | 'completed' | 'failed';
 
     /**
      * ID of the target account, or null.
@@ -5118,11 +5118,14 @@ export namespace AccountHolderActiveWebhookEvent {
 
       /**
        * Business registration number: type "ein" (Employer Identification Number, format
-       * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+       * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+       * other registration number, 1-32 characters, non-US businesses only, with a
+       * required `description` of what the number is).
        */
       registration_number:
         | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+        | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
       /**
        * State or subdivision where the business is incorporated.
@@ -7707,6 +7710,21 @@ export namespace AccountHolderActiveWebhookEvent {
       export interface V1SsnIdentification {
         type: 'ssn';
 
+        value: string;
+      }
+
+      export interface V1OtherRegistrationNumber {
+        /**
+         * A short explanation of what this number is and which authority issued it.
+         */
+        description: string;
+
+        type: 'other';
+
+        /**
+         * The registration number, 1-32 characters. Any characters are allowed, but at
+         * least one must be a letter or digit.
+         */
         value: string;
       }
     }
@@ -9058,11 +9076,14 @@ export namespace AccountHolderClosedWebhookEvent {
 
       /**
        * Business registration number: type "ein" (Employer Identification Number, format
-       * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+       * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+       * other registration number, 1-32 characters, non-US businesses only, with a
+       * required `description` of what the number is).
        */
       registration_number:
         | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+        | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+        | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
       /**
        * State or subdivision where the business is incorporated.
@@ -11647,6 +11668,21 @@ export namespace AccountHolderClosedWebhookEvent {
       export interface V1SsnIdentification {
         type: 'ssn';
 
+        value: string;
+      }
+
+      export interface V1OtherRegistrationNumber {
+        /**
+         * A short explanation of what this number is and which authority issued it.
+         */
+        description: string;
+
+        type: 'other';
+
+        /**
+         * The registration number, 1-32 characters. Any characters are allowed, but at
+         * least one must be a letter or digit.
+         */
         value: string;
       }
     }

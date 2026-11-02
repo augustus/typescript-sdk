@@ -97,7 +97,7 @@ export interface ConversionCreateResponse {
   /**
    * Current status of the conversion.
    */
-  status: 'pending' | 'completed' | 'failed';
+  status: 'initiated' | 'pending' | 'completed' | 'failed';
 
   /**
    * ID of the target account, or null.
@@ -156,7 +156,7 @@ export interface ConversionRetrieveResponse {
   /**
    * Current status of the conversion.
    */
-  status: 'pending' | 'completed' | 'failed';
+  status: 'initiated' | 'pending' | 'completed' | 'failed';
 
   /**
    * ID of the target account, or null.
@@ -215,7 +215,7 @@ export interface ConversionListResponse {
   /**
    * Current status of the conversion.
    */
-  status: 'pending' | 'completed' | 'failed';
+  status: 'initiated' | 'pending' | 'completed' | 'failed';
 
   /**
    * ID of the target account, or null.
@@ -271,7 +271,7 @@ export interface ConversionListParams extends CursorPageParams {
   /**
    * Filter by conversion status.
    */
-  status?: 'pending' | 'completed' | 'failed';
+  status?: 'initiated' | 'pending' | 'completed' | 'failed';
 
   /**
    * Filter by target currency code.

@@ -1421,11 +1421,14 @@ export namespace AccountHolderCreateResponse {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+      | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -4010,6 +4013,21 @@ export namespace AccountHolderCreateResponse {
     export interface V1SsnIdentification {
       type: 'ssn';
 
+      value: string;
+    }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
       value: string;
     }
   }
@@ -5329,11 +5347,14 @@ export namespace AccountHolderRetrieveResponse {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+      | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -7918,6 +7939,21 @@ export namespace AccountHolderRetrieveResponse {
     export interface V1SsnIdentification {
       type: 'ssn';
 
+      value: string;
+    }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
       value: string;
     }
   }
@@ -9237,11 +9273,14 @@ export namespace AccountHolderUpdateResponse {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+      | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -11826,6 +11865,21 @@ export namespace AccountHolderUpdateResponse {
     export interface V1SsnIdentification {
       type: 'ssn';
 
+      value: string;
+    }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
       value: string;
     }
   }
@@ -13145,11 +13199,14 @@ export namespace AccountHolderListResponse {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryDataResponse.V1EinIdentification
-      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification;
+      | V1BusinessBeneficiaryDataResponse.V1SsnIdentification
+      | V1BusinessBeneficiaryDataResponse.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -15736,6 +15793,21 @@ export namespace AccountHolderListResponse {
 
       value: string;
     }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
+      value: string;
+    }
   }
 }
 
@@ -17028,11 +17100,14 @@ export namespace AccountHolderCreateParams {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryData.V1EinIdentification
-      | V1BusinessBeneficiaryData.V1SsnIdentification;
+      | V1BusinessBeneficiaryData.V1SsnIdentification
+      | V1BusinessBeneficiaryData.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -19624,6 +19699,21 @@ export namespace AccountHolderCreateParams {
     export interface V1SsnIdentification {
       type: 'ssn';
 
+      value: string;
+    }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
       value: string;
     }
   }
@@ -20901,11 +20991,14 @@ export namespace AccountHolderUpdateParams {
 
     /**
      * Business registration number: type "ein" (Employer Identification Number, format
-     * ##-#######) or "ssn" (Social Security Number, format ###-##-####).
+     * ##-#######), "ssn" (Social Security Number, format ###-##-####), or "other" (any
+     * other registration number, 1-32 characters, non-US businesses only, with a
+     * required `description` of what the number is).
      */
     registration_number:
       | V1BusinessBeneficiaryData.V1EinIdentification
-      | V1BusinessBeneficiaryData.V1SsnIdentification;
+      | V1BusinessBeneficiaryData.V1SsnIdentification
+      | V1BusinessBeneficiaryData.V1OtherRegistrationNumber;
 
     /**
      * State or subdivision where the business is incorporated.
@@ -23497,6 +23590,21 @@ export namespace AccountHolderUpdateParams {
     export interface V1SsnIdentification {
       type: 'ssn';
 
+      value: string;
+    }
+
+    export interface V1OtherRegistrationNumber {
+      /**
+       * A short explanation of what this number is and which authority issued it.
+       */
+      description: string;
+
+      type: 'other';
+
+      /**
+       * The registration number, 1-32 characters. Any characters are allowed, but at
+       * least one must be a letter or digit.
+       */
       value: string;
     }
   }
