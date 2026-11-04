@@ -579,7 +579,7 @@ export namespace TransactionRetrieveResponse {
     /**
      * Type of the resource that originated this transaction.
      */
-    type: 'deposit' | 'payout' | 'return';
+    type: 'deposit' | 'payout' | 'return' | 'conversion';
   }
 }
 
@@ -1132,7 +1132,7 @@ export namespace TransactionListResponse {
     /**
      * Type of the resource that originated this transaction.
      */
-    type: 'deposit' | 'payout' | 'return';
+    type: 'deposit' | 'payout' | 'return' | 'conversion';
   }
 }
 
