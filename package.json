@@ -27,6 +27,7 @@
     "fix": "./scripts/format"
   },
   "dependencies": {
+    "http-message-sig": "0.3.0",
     "standardwebhooks": "^1.0.0"
   },
   "devDependencies": {
