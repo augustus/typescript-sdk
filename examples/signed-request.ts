@@ -6,20 +6,20 @@ async function main(): Promise<void> {
   const apiKey = process.env['AUGUSTUS_API_KEY'];
 
   if (!keyPath || !apiKey) {
-    throw new Error('Set SIGNING_PRIVATE_KEY_PATH and AUGUSTUS_API_KEY for a dedicated local API key.');
+    throw new Error('Set SIGNING_PRIVATE_KEY_PATH and AUGUSTUS_API_KEY for a sandbox API key.');
   }
 
   const client = new Augustus({
     apiKey,
     signingPrivateKey: await readFile(keyPath, 'utf8'),
-    baseURL: 'http://localhost:3333',
+    environment: 'sandbox',
     maxRetries: 0,
     logLevel: 'off',
   });
 
-  const response = await client.get('/v1/account_programs', { query: { limit: 1 } }).asResponse();
+  const response = await client.accountPrograms.list({ limit: 1 }).asResponse();
 
-  console.log(`Signed local request returned HTTP ${response.status}.`);
+  console.log(`Signed sandbox request returned HTTP ${response.status}.`);
 }
 
 void main();

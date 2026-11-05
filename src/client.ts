@@ -198,7 +198,8 @@ type Environment = keyof typeof environments;
 export interface ClientOptions {
   /**
    * Unencrypted PKCS#8 Ed25519 or P-256 private PEM key for automatic request signing.
-   * Kept client-side. Pass null to disable signing on a client created with withOptions().
+   * Defaults to process.env['AUGUSTUS_SIGNING_PRIVATE_KEY']. Kept client-side.
+   * Pass null to disable signing on a client created with withOptions().
    */
   signingPrivateKey?: string | null | undefined;
 
@@ -332,7 +333,7 @@ export class Augustus {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    signingPrivateKey,
+    signingPrivateKey = readEnv('AUGUSTUS_SIGNING_PRIVATE_KEY'),
     baseURL = readEnv('AUGUSTUS_BASE_URL'),
     apiKey = readEnv('AUGUSTUS_API_KEY'),
     webhookKey = readEnv('AUGUSTUS_WEBHOOK_KEY') ?? null,
