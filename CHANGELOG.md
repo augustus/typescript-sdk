@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.36.1](https://github.com/augustus/typescript-sdk/compare/v0.36.0...v0.36.1) (2026-11-06)
+
+
+### Documentation
+
+* **jup-2026:** document request signing in the readme ([cf578cf](https://github.com/augustus/typescript-sdk/commit/cf578cf87aa3d2d39926599380ee4ab2b7abbfa9))
+* **jup-2026:** document request signing in the readme ([a419f22](https://github.com/augustus/typescript-sdk/commit/a419f22f1c472b03261f2a9ab9119b365e66e9f3))
+
 ## [0.36.0](https://github.com/augustus/typescript-sdk/compare/v0.35.0...v0.36.0) (2026-11-06)
 
 
