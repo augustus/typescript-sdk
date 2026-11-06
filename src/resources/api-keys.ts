@@ -49,6 +49,12 @@ export interface APIKeyIntrospectResponse {
   merchant_id: string;
 
   /**
+   * Request signing of this key. `null` if the key has no signing public key. Every
+   * request made with a key that has one must be signed.
+   */
+  request_signing: APIKeyIntrospectResponse.RequestSigning | null;
+
+  /**
    * The effective set of scopes for this key. Stored aliases (e.g. `full_access`,
    * `read_only`) are always expanded to concrete `resource:action` scopes against
    * the current registry before they appear here.
@@ -89,6 +95,26 @@ export interface APIKeyIntrospectResponse {
    * change, revoke). `null` if the key has not been updated since creation.
    */
   updated_at: string | null;
+}
+
+export namespace APIKeyIntrospectResponse {
+  /**
+   * Request signing of this key. `null` if the key has no signing public key. Every
+   * request made with a key that has one must be signed.
+   */
+  export interface RequestSigning {
+    /**
+     * Signature algorithm of the signing public key. `null` if the stored key type is
+     * not recognised.
+     */
+    algorithm: 'ed25519' | 'ecdsa_p256_sha256' | null;
+
+    /**
+     * RFC 7638 JWK thumbprint of the signing public key. Signed requests send it as
+     * `keyid`.
+     */
+    key_id: string;
+  }
 }
 
 export declare namespace APIKeys {
