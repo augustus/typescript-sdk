@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.36.0](https://github.com/augustus/typescript-sdk/compare/v0.35.0...v0.36.0) (2026-11-06)
+
+
+### Features
+
+* **api:** new sdk build due to api update ([6157619](https://github.com/augustus/typescript-sdk/commit/6157619105d831e332784a6c45bce5eec3c976f6))
+* **jup-2013:** sign banking sdk requests automatically ([7daa7c8](https://github.com/augustus/typescript-sdk/commit/7daa7c8e0023c70fe8a26509f47b66d8672a5e0c))
+* **jup-2013:** sign banking sdk requests automatically ([2698398](https://github.com/augustus/typescript-sdk/commit/2698398ffdde2e99ceeac502565f8bca9a1f469a))
+
+
+### Bug Fixes
+
+* **jup-2013:** build request signatures with http-message-sig ([9283e52](https://github.com/augustus/typescript-sdk/commit/9283e527429d60bf4fc1ba9ec16583881b814fb6))
+* **jup-2013:** match the pinned sdk formatter ([47b0b56](https://github.com/augustus/typescript-sdk/commit/47b0b56469fd5fa558a863ba23b3f027a21a223b))
+* **jup-2013:** preserve generated client formatting ([ad796df](https://github.com/augustus/typescript-sdk/commit/ad796df9a089192b75f4e706b3ca7f693c0e20b9))
+* **jup-2013:** support signing keys from the environment ([2ef23c5](https://github.com/augustus/typescript-sdk/commit/2ef23c5c94bd112a74fc6bcc7b559704c645ddfb))
+
 ## [0.35.0](https://github.com/augustus/typescript-sdk/compare/v0.34.0...v0.35.0) (2026-11-04)
 
 
