@@ -174,6 +174,11 @@ export interface AccountCreateResponse {
   metadata: { [key: string]: string };
 
   /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -373,6 +378,11 @@ export interface AccountRetrieveResponse {
    * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
+
+  /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
 
   /**
    * Current status of the account.
@@ -576,6 +586,11 @@ export interface AccountListResponse {
   metadata: { [key: string]: string };
 
   /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -777,6 +792,11 @@ export interface AccountCloseResponse {
   metadata: { [key: string]: string };
 
   /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
+
+  /**
    * Current status of the account.
    */
   status: 'pending' | 'active' | 'frozen' | 'closed';
@@ -976,6 +996,11 @@ export interface AccountFreezeResponse {
    * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
+
+  /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
 
   /**
    * Current status of the account.
@@ -1215,6 +1240,11 @@ export interface AccountUnfreezeResponse {
    * system. Keys may be up to 40 characters and values up to 500 characters.
    */
   metadata: { [key: string]: string };
+
+  /**
+   * Editable nickname for the account. Null when no nickname is set.
+   */
+  nickname: string | null;
 
   /**
    * Current status of the account.
