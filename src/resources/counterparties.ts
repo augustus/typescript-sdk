@@ -2627,7 +2627,9 @@ export interface CounterpartyCreateParams {
   email?: string;
 
   /**
-   * Classification of the counterparty. Defaults to business.
+   * Classification of the counterparty. Defaults to business when omitted. Set
+   * individual for a personal bank account. US ACH payments to individual
+   * counterparties are sent as consumer payments.
    */
   entity_type?: 'business' | 'individual' | 'non_profit' | 'sole_proprietor';
 
