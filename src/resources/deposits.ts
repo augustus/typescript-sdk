@@ -65,6 +65,7 @@ export interface DepositRetrieveResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'
@@ -121,9 +122,9 @@ export namespace DepositRetrieveResponse {
    */
   export interface TrackingReference {
     /**
-     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
      */
-    type: 'uetr' | 'imad' | 'trace_number';
+    type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
     /**
      * Rail-provided tracking identifier.
@@ -170,6 +171,7 @@ export interface DepositListResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'
@@ -226,9 +228,9 @@ export namespace DepositListResponse {
    */
   export interface TrackingReference {
     /**
-     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
      */
-    type: 'uetr' | 'imad' | 'trace_number';
+    type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
     /**
      * Rail-provided tracking identifier.
@@ -256,6 +258,7 @@ export interface DepositListParams extends CursorPageParams {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'

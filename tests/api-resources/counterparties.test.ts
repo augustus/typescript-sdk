@@ -37,6 +37,7 @@ describe('resource counterparties', () => {
         type: 'aba',
         account_type: 'checking',
       },
+      account_holder_id: '68e0a1b2c3d4e5f60718293a',
       date_of_birth: '1990-01-15',
       email: 'finance@example.com',
       entity_type: 'business',
@@ -98,6 +99,7 @@ describe('resource counterparties', () => {
     await expect(
       client.counterparties.list(
         {
+          account_holder_id: '68e0a1b2c3d4e5f60718293a',
           cursor: 'cursor',
           limit: 1,
           status: 'pending',

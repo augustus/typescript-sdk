@@ -106,6 +106,12 @@ export interface CounterpartyCreateResponse {
   id: string;
 
   /**
+   * ID of the account holder the counterparty belongs to, or null for your own
+   * counterparties.
+   */
+  account_holder_id: string | null;
+
+  /**
    * Whether payments to or from this counterparty are currently blocked.
    */
   blocked: boolean;
@@ -605,6 +611,12 @@ export interface CounterpartyRetrieveResponse {
    * Unique identifier of the counterparty.
    */
   id: string;
+
+  /**
+   * ID of the account holder the counterparty belongs to, or null for your own
+   * counterparties.
+   */
+  account_holder_id: string | null;
 
   /**
    * Whether payments to or from this counterparty are currently blocked.
@@ -1108,6 +1120,12 @@ export interface CounterpartyUpdateResponse {
   id: string;
 
   /**
+   * ID of the account holder the counterparty belongs to, or null for your own
+   * counterparties.
+   */
+  account_holder_id: string | null;
+
+  /**
    * Whether payments to or from this counterparty are currently blocked.
    */
   blocked: boolean;
@@ -1609,6 +1627,12 @@ export interface CounterpartyListResponse {
   id: string;
 
   /**
+   * ID of the account holder the counterparty belongs to, or null for your own
+   * counterparties.
+   */
+  account_holder_id: string | null;
+
+  /**
    * Whether payments to or from this counterparty are currently blocked.
    */
   blocked: boolean;
@@ -2108,6 +2132,12 @@ export interface CounterpartyActivateResponse {
    * Unique identifier of the counterparty.
    */
   id: string;
+
+  /**
+   * ID of the account holder the counterparty belongs to, or null for your own
+   * counterparties.
+   */
+  account_holder_id: string | null;
 
   /**
    * Whether payments to or from this counterparty are currently blocked.
@@ -2614,6 +2644,12 @@ export interface CounterpartyCreateParams {
     | CounterpartyCreateParams.SortCodeFinancialAddressRequest
     | CounterpartyCreateParams.BicFinancialAddressRequest
     | CounterpartyCreateParams.CryptoWalletFinancialAddress;
+
+  /**
+   * ID of the account holder whose counterparties to act on. Omit for your own
+   * counterparties.
+   */
+  account_holder_id?: string;
 
   /**
    * Date of birth in YYYY-MM-DD format.
@@ -3431,6 +3467,12 @@ export namespace CounterpartyUpdateParams {
 }
 
 export interface CounterpartyListParams extends CursorPageParams {
+  /**
+   * ID of the account holder whose counterparties to act on. Omit for your own
+   * counterparties.
+   */
+  account_holder_id?: string;
+
   /**
    * Filter by counterparty status. All statuses are included when omitted.
    */

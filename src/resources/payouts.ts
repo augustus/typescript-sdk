@@ -448,6 +448,7 @@ export interface PayoutCreateResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'
@@ -535,9 +536,9 @@ export namespace PayoutCreateResponse {
    */
   export interface TrackingReference {
     /**
-     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
      */
-    type: 'uetr' | 'imad' | 'trace_number';
+    type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
     /**
      * Rail-provided tracking identifier.
@@ -935,6 +936,7 @@ export interface PayoutRetrieveResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'
@@ -1022,9 +1024,9 @@ export namespace PayoutRetrieveResponse {
    */
   export interface TrackingReference {
     /**
-     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
      */
-    type: 'uetr' | 'imad' | 'trace_number';
+    type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
     /**
      * Rail-provided tracking identifier.
@@ -1422,6 +1424,7 @@ export interface PayoutListResponse {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'
@@ -1509,9 +1512,9 @@ export namespace PayoutListResponse {
    */
   export interface TrackingReference {
     /**
-     * Tracking reference type: UETR, IMAD, or ACH trace number.
+     * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
      */
-    type: 'uetr' | 'imad' | 'trace_number';
+    type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
     /**
      * Rail-provided tracking identifier.
@@ -1928,6 +1931,7 @@ export interface PayoutListParams extends CursorPageParams {
     | 'target'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'bitcoin'
     | 'bitcoin_testnet4'
     | 'ethereum'

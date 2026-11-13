@@ -438,6 +438,7 @@ export namespace PayoutInitiatedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -525,9 +526,9 @@ export namespace PayoutInitiatedWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -957,6 +958,7 @@ export namespace PayoutSubmittedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -1044,9 +1046,9 @@ export namespace PayoutSubmittedWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -1476,6 +1478,7 @@ export namespace PayoutSentWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -1563,9 +1566,9 @@ export namespace PayoutSentWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -1995,6 +1998,7 @@ export namespace PayoutFailedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -2082,9 +2086,9 @@ export namespace PayoutFailedWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -2514,6 +2518,7 @@ export namespace PayoutReturnedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -2601,9 +2606,9 @@ export namespace PayoutReturnedWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -2694,6 +2699,7 @@ export namespace ReturnInitiatedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -2846,6 +2852,7 @@ export namespace ReturnSubmittedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -2998,6 +3005,7 @@ export namespace ReturnSentWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -3150,6 +3158,7 @@ export namespace ReturnFailedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -3302,6 +3311,7 @@ export namespace ReturnReturnedWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -3442,6 +3452,7 @@ export namespace DepositSettledWebhookEvent {
       | 'target'
       | 'ach'
       | 'fedwire'
+      | 'chips'
       | 'bitcoin'
       | 'bitcoin_testnet4'
       | 'ethereum'
@@ -3498,9 +3509,9 @@ export namespace DepositSettledWebhookEvent {
      */
     export interface TrackingReference {
       /**
-       * Tracking reference type: UETR, IMAD, or ACH trace number.
+       * Tracking reference type: UETR, IMAD, ACH trace number, or CHIPS sequence number.
        */
-      type: 'uetr' | 'imad' | 'trace_number';
+      type: 'uetr' | 'imad' | 'trace_number' | 'chips_sequence_number';
 
       /**
        * Rail-provided tracking identifier.
@@ -11737,6 +11748,12 @@ export namespace CounterpartyPendingWebhookEvent {
     id: string;
 
     /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
+
+    /**
      * Whether payments to or from this counterparty are currently blocked.
      */
     blocked: boolean;
@@ -12268,6 +12285,12 @@ export namespace CounterpartyActiveWebhookEvent {
      * Unique identifier of the counterparty.
      */
     id: string;
+
+    /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
 
     /**
      * Whether payments to or from this counterparty are currently blocked.
@@ -12803,6 +12826,12 @@ export namespace CounterpartyRejectedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
+
+    /**
      * Whether payments to or from this counterparty are currently blocked.
      */
     blocked: boolean;
@@ -13334,6 +13363,12 @@ export namespace CounterpartyBlockedWebhookEvent {
      * Unique identifier of the counterparty.
      */
     id: string;
+
+    /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
 
     /**
      * Whether payments to or from this counterparty are currently blocked.
@@ -13869,6 +13904,12 @@ export namespace CounterpartyUnblockedWebhookEvent {
     id: string;
 
     /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
+
+    /**
      * Whether payments to or from this counterparty are currently blocked.
      */
     blocked: boolean;
@@ -14400,6 +14441,12 @@ export namespace CounterpartyUpdatedWebhookEvent {
      * Unique identifier of the counterparty.
      */
     id: string;
+
+    /**
+     * ID of the account holder the counterparty belongs to, or null for your own
+     * counterparties.
+     */
+    account_holder_id: string | null;
 
     /**
      * Whether payments to or from this counterparty are currently blocked.
