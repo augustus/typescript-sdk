@@ -2671,7 +2671,7 @@ export interface CounterpartyCreateParams {
 
   /**
    * Whether the counterparty is self-owned. `false` if the counterparty is not owned
-   * by you, `true` if it is.
+   * by you, `true` if it is. Must be `true` for a crypto wallet.
    */
   is_self_owned?: boolean;
 
