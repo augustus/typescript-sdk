@@ -72,6 +72,7 @@ export interface DepositCreateParams {
     | 'swift'
     | 'ach'
     | 'fedwire'
+    | 'chips'
     | 'ethereum'
     | 'ethereum_sepolia'
     | 'solana'
