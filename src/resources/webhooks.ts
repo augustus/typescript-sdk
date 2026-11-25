@@ -11710,6 +11710,958 @@ export namespace AccountHolderClosedWebhookEvent {
   }
 }
 
+export interface AccountActivatedWebhookEvent {
+  /**
+   * Unique identifier for the event. Stable across retries.
+   */
+  id: string;
+
+  /**
+   * API version the payload was rendered at. Stable across retries and redeliveries.
+   */
+  api_version: string;
+
+  /**
+   * ISO 8601 UTC timestamp when the event was created.
+   */
+  date: string;
+
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  payload: AccountActivatedWebhookEvent.Payload;
+
+  /**
+   * Event type in resource.action format.
+   */
+  type: 'account.activated';
+}
+
+export namespace AccountActivatedWebhookEvent {
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  export interface Payload {
+    /**
+     * Unique identifier of the account.
+     */
+    id: string;
+
+    /**
+     * Asset type of the account.
+     */
+    asset_type: 'fiat' | 'crypto';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was created.
+     */
+    created_at: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto).
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Payment identifiers (e.g. IBAN, account number, wallet address) through which
+     * this account can send or receive funds. US dollar accounts that use an ABA
+     * routing number also include a companion `bic` entry for inbound wires: it
+     * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+     * entry, and leaves `local_bank_code` null.
+     */
+    financial_addresses: Array<
+      | Payload.AbaFinancialAddress
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.BicFinancialAddress
+      | Payload.CryptoWalletFinancialAddress
+    >;
+
+    /**
+     * Human-readable label for the account. For FBO accounts the label is set to the
+     * account holder’s name.
+     */
+    label: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Editable nickname for the account. Null when no nickname is set.
+     */
+    nickname: string | null;
+
+    /**
+     * Current status of the account.
+     */
+    status: 'pending' | 'active' | 'frozen' | 'closed';
+
+    /**
+     * Resource type discriminator.
+     */
+    type: 'account';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was last updated.
+     */
+    updated_at: string;
+  }
+
+  export namespace Payload {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
+    export interface IbanFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * Bank Identifier Code, or null if not provided.
+       */
+      bic: string | null;
+
+      /**
+       * International Bank Account Number.
+       */
+      iban: string;
+
+      /**
+       * Discriminator for IBAN financial address.
+       */
+      type: 'iban';
+    }
+
+    export interface SortCodeFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * UK account number (8 digits).
+       */
+      account_number: string;
+
+      /**
+       * UK sort code (6 digits).
+       */
+      sort_code: string;
+
+      /**
+       * Discriminator for UK sort code financial address.
+       */
+      type: 'sort_code';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
+    }
+
+    export interface CryptoWalletFinancialAddress {
+      /**
+       * Wallet address on the specified blockchain.
+       */
+      address: string;
+
+      /**
+       * Blockchain network for the crypto wallet.
+       */
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
+
+      /**
+       * Discriminator for crypto wallet financial address.
+       */
+      type: 'crypto_wallet';
+    }
+  }
+}
+
+export interface AccountUnfrozenWebhookEvent {
+  /**
+   * Unique identifier for the event. Stable across retries.
+   */
+  id: string;
+
+  /**
+   * API version the payload was rendered at. Stable across retries and redeliveries.
+   */
+  api_version: string;
+
+  /**
+   * ISO 8601 UTC timestamp when the event was created.
+   */
+  date: string;
+
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  payload: AccountUnfrozenWebhookEvent.Payload;
+
+  /**
+   * Event type in resource.action format.
+   */
+  type: 'account.unfrozen';
+}
+
+export namespace AccountUnfrozenWebhookEvent {
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  export interface Payload {
+    /**
+     * Unique identifier of the account.
+     */
+    id: string;
+
+    /**
+     * Asset type of the account.
+     */
+    asset_type: 'fiat' | 'crypto';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was created.
+     */
+    created_at: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto).
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Payment identifiers (e.g. IBAN, account number, wallet address) through which
+     * this account can send or receive funds. US dollar accounts that use an ABA
+     * routing number also include a companion `bic` entry for inbound wires: it
+     * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+     * entry, and leaves `local_bank_code` null.
+     */
+    financial_addresses: Array<
+      | Payload.AbaFinancialAddress
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.BicFinancialAddress
+      | Payload.CryptoWalletFinancialAddress
+    >;
+
+    /**
+     * Human-readable label for the account. For FBO accounts the label is set to the
+     * account holder’s name.
+     */
+    label: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Editable nickname for the account. Null when no nickname is set.
+     */
+    nickname: string | null;
+
+    /**
+     * Current status of the account.
+     */
+    status: 'pending' | 'active' | 'frozen' | 'closed';
+
+    /**
+     * Resource type discriminator.
+     */
+    type: 'account';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was last updated.
+     */
+    updated_at: string;
+  }
+
+  export namespace Payload {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
+    export interface IbanFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * Bank Identifier Code, or null if not provided.
+       */
+      bic: string | null;
+
+      /**
+       * International Bank Account Number.
+       */
+      iban: string;
+
+      /**
+       * Discriminator for IBAN financial address.
+       */
+      type: 'iban';
+    }
+
+    export interface SortCodeFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * UK account number (8 digits).
+       */
+      account_number: string;
+
+      /**
+       * UK sort code (6 digits).
+       */
+      sort_code: string;
+
+      /**
+       * Discriminator for UK sort code financial address.
+       */
+      type: 'sort_code';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
+    }
+
+    export interface CryptoWalletFinancialAddress {
+      /**
+       * Wallet address on the specified blockchain.
+       */
+      address: string;
+
+      /**
+       * Blockchain network for the crypto wallet.
+       */
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
+
+      /**
+       * Discriminator for crypto wallet financial address.
+       */
+      type: 'crypto_wallet';
+    }
+  }
+}
+
+export interface AccountFrozenWebhookEvent {
+  /**
+   * Unique identifier for the event. Stable across retries.
+   */
+  id: string;
+
+  /**
+   * API version the payload was rendered at. Stable across retries and redeliveries.
+   */
+  api_version: string;
+
+  /**
+   * ISO 8601 UTC timestamp when the event was created.
+   */
+  date: string;
+
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  payload: AccountFrozenWebhookEvent.Payload;
+
+  /**
+   * Event type in resource.action format.
+   */
+  type: 'account.frozen';
+}
+
+export namespace AccountFrozenWebhookEvent {
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  export interface Payload {
+    /**
+     * Unique identifier of the account.
+     */
+    id: string;
+
+    /**
+     * Asset type of the account.
+     */
+    asset_type: 'fiat' | 'crypto';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was created.
+     */
+    created_at: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto).
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Payment identifiers (e.g. IBAN, account number, wallet address) through which
+     * this account can send or receive funds. US dollar accounts that use an ABA
+     * routing number also include a companion `bic` entry for inbound wires: it
+     * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+     * entry, and leaves `local_bank_code` null.
+     */
+    financial_addresses: Array<
+      | Payload.AbaFinancialAddress
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.BicFinancialAddress
+      | Payload.CryptoWalletFinancialAddress
+    >;
+
+    /**
+     * Human-readable label for the account. For FBO accounts the label is set to the
+     * account holder’s name.
+     */
+    label: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Editable nickname for the account. Null when no nickname is set.
+     */
+    nickname: string | null;
+
+    /**
+     * Current status of the account.
+     */
+    status: 'pending' | 'active' | 'frozen' | 'closed';
+
+    /**
+     * Resource type discriminator.
+     */
+    type: 'account';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was last updated.
+     */
+    updated_at: string;
+  }
+
+  export namespace Payload {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
+    export interface IbanFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * Bank Identifier Code, or null if not provided.
+       */
+      bic: string | null;
+
+      /**
+       * International Bank Account Number.
+       */
+      iban: string;
+
+      /**
+       * Discriminator for IBAN financial address.
+       */
+      type: 'iban';
+    }
+
+    export interface SortCodeFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * UK account number (8 digits).
+       */
+      account_number: string;
+
+      /**
+       * UK sort code (6 digits).
+       */
+      sort_code: string;
+
+      /**
+       * Discriminator for UK sort code financial address.
+       */
+      type: 'sort_code';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
+    }
+
+    export interface CryptoWalletFinancialAddress {
+      /**
+       * Wallet address on the specified blockchain.
+       */
+      address: string;
+
+      /**
+       * Blockchain network for the crypto wallet.
+       */
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
+
+      /**
+       * Discriminator for crypto wallet financial address.
+       */
+      type: 'crypto_wallet';
+    }
+  }
+}
+
+export interface AccountClosedWebhookEvent {
+  /**
+   * Unique identifier for the event. Stable across retries.
+   */
+  id: string;
+
+  /**
+   * API version the payload was rendered at. Stable across retries and redeliveries.
+   */
+  api_version: string;
+
+  /**
+   * ISO 8601 UTC timestamp when the event was created.
+   */
+  date: string;
+
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  payload: AccountClosedWebhookEvent.Payload;
+
+  /**
+   * Event type in resource.action format.
+   */
+  type: 'account.closed';
+}
+
+export namespace AccountClosedWebhookEvent {
+  /**
+   * Full resource snapshot at the time of the event.
+   */
+  export interface Payload {
+    /**
+     * Unique identifier of the account.
+     */
+    id: string;
+
+    /**
+     * Asset type of the account.
+     */
+    asset_type: 'fiat' | 'crypto';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was created.
+     */
+    created_at: string;
+
+    /**
+     * Currency code (ISO 4217 or crypto).
+     */
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
+
+    /**
+     * Payment identifiers (e.g. IBAN, account number, wallet address) through which
+     * this account can send or receive funds. US dollar accounts that use an ABA
+     * routing number also include a companion `bic` entry for inbound wires: it
+     * carries the bank’s SWIFT code, reuses the same `account_number` as the `aba`
+     * entry, and leaves `local_bank_code` null.
+     */
+    financial_addresses: Array<
+      | Payload.AbaFinancialAddress
+      | Payload.IbanFinancialAddress
+      | Payload.SortCodeFinancialAddress
+      | Payload.BicFinancialAddress
+      | Payload.CryptoWalletFinancialAddress
+    >;
+
+    /**
+     * Human-readable label for the account. For FBO accounts the label is set to the
+     * account holder’s name.
+     */
+    label: string;
+
+    /**
+     * Set of up to 50 key-value string pairs you can attach to store structured
+     * information, such as correlating this resource with an object in your own
+     * system. Keys may be up to 40 characters and values up to 500 characters.
+     */
+    metadata: { [key: string]: string };
+
+    /**
+     * Editable nickname for the account. Null when no nickname is set.
+     */
+    nickname: string | null;
+
+    /**
+     * Current status of the account.
+     */
+    status: 'pending' | 'active' | 'frozen' | 'closed';
+
+    /**
+     * Resource type discriminator.
+     */
+    type: 'account';
+
+    /**
+     * ISO 8601 UTC timestamp when the account was last updated.
+     */
+    updated_at: string;
+  }
+
+  export namespace Payload {
+    export interface AbaFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ABA routing number (9 digits).
+       */
+      routing_number: string;
+
+      /**
+       * Discriminator for ABA wire financial address.
+       */
+      type: 'aba';
+    }
+
+    export interface IbanFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * Bank Identifier Code, or null if not provided.
+       */
+      bic: string | null;
+
+      /**
+       * International Bank Account Number.
+       */
+      iban: string;
+
+      /**
+       * Discriminator for IBAN financial address.
+       */
+      type: 'iban';
+    }
+
+    export interface SortCodeFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * UK account number (8 digits).
+       */
+      account_number: string;
+
+      /**
+       * UK sort code (6 digits).
+       */
+      sort_code: string;
+
+      /**
+       * Discriminator for UK sort code financial address.
+       */
+      type: 'sort_code';
+    }
+
+    export interface BicFinancialAddress {
+      /**
+       * Name of the account holder.
+       */
+      account_holder_name: string;
+
+      /**
+       * Local-format bank account number.
+       */
+      account_number: string;
+
+      /**
+       * Whether the account is a checking or a savings account, or null if not provided.
+       */
+      account_type: 'checking' | 'savings' | null;
+
+      /**
+       * ISO 9362 Bank Identifier Code (8 or 11 characters).
+       */
+      bic: string;
+
+      /**
+       * Domestic bank or branch code where the destination country uses one (for example
+       * the BSB in Australia), or null.
+       */
+      local_bank_code: string | null;
+
+      /**
+       * Discriminator for BIC + local account financial address.
+       */
+      type: 'bic';
+    }
+
+    export interface CryptoWalletFinancialAddress {
+      /**
+       * Wallet address on the specified blockchain.
+       */
+      address: string;
+
+      /**
+       * Blockchain network for the crypto wallet.
+       */
+      blockchain:
+        | 'bitcoin'
+        | 'ethereum'
+        | 'solana'
+        | 'polygon'
+        | 'bitcoin_testnet4'
+        | 'ethereum_sepolia'
+        | 'solana_devnet'
+        | 'polygon_amoy';
+
+      /**
+       * Discriminator for crypto wallet financial address.
+       */
+      type: 'crypto_wallet';
+    }
+  }
+}
+
 export interface CounterpartyPendingWebhookEvent {
   /**
    * Unique identifier for the event. Stable across retries.
@@ -15302,6 +16254,10 @@ export type UnwrapWebhookEvent =
   | ConversionFailedWebhookEvent
   | AccountHolderActiveWebhookEvent
   | AccountHolderClosedWebhookEvent
+  | AccountActivatedWebhookEvent
+  | AccountUnfrozenWebhookEvent
+  | AccountFrozenWebhookEvent
+  | AccountClosedWebhookEvent
   | CounterpartyPendingWebhookEvent
   | CounterpartyActiveWebhookEvent
   | CounterpartyRejectedWebhookEvent
@@ -15329,6 +16285,10 @@ export declare namespace Webhooks {
     type ConversionFailedWebhookEvent as ConversionFailedWebhookEvent,
     type AccountHolderActiveWebhookEvent as AccountHolderActiveWebhookEvent,
     type AccountHolderClosedWebhookEvent as AccountHolderClosedWebhookEvent,
+    type AccountActivatedWebhookEvent as AccountActivatedWebhookEvent,
+    type AccountUnfrozenWebhookEvent as AccountUnfrozenWebhookEvent,
+    type AccountFrozenWebhookEvent as AccountFrozenWebhookEvent,
+    type AccountClosedWebhookEvent as AccountClosedWebhookEvent,
     type CounterpartyPendingWebhookEvent as CounterpartyPendingWebhookEvent,
     type CounterpartyActiveWebhookEvent as CounterpartyActiveWebhookEvent,
     type CounterpartyRejectedWebhookEvent as CounterpartyRejectedWebhookEvent,

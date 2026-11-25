@@ -147,8 +147,12 @@ import {
   WebhookSubscriptions,
 } from './resources/webhook-subscriptions';
 import {
+  AccountActivatedWebhookEvent,
+  AccountClosedWebhookEvent,
+  AccountFrozenWebhookEvent,
   AccountHolderActiveWebhookEvent,
   AccountHolderClosedWebhookEvent,
+  AccountUnfrozenWebhookEvent,
   ConversionCompletedWebhookEvent,
   ConversionCreatedWebhookEvent,
   ConversionFailedWebhookEvent,
@@ -1042,6 +1046,10 @@ export declare namespace Augustus {
     type ConversionFailedWebhookEvent as ConversionFailedWebhookEvent,
     type AccountHolderActiveWebhookEvent as AccountHolderActiveWebhookEvent,
     type AccountHolderClosedWebhookEvent as AccountHolderClosedWebhookEvent,
+    type AccountActivatedWebhookEvent as AccountActivatedWebhookEvent,
+    type AccountUnfrozenWebhookEvent as AccountUnfrozenWebhookEvent,
+    type AccountFrozenWebhookEvent as AccountFrozenWebhookEvent,
+    type AccountClosedWebhookEvent as AccountClosedWebhookEvent,
     type CounterpartyPendingWebhookEvent as CounterpartyPendingWebhookEvent,
     type CounterpartyActiveWebhookEvent as CounterpartyActiveWebhookEvent,
     type CounterpartyRejectedWebhookEvent as CounterpartyRejectedWebhookEvent,

@@ -13,13 +13,13 @@ export class Conversions extends APIResource {
    * @example
    * ```ts
    * const response =
-   *   await client.simulations.conversions.complete(
+   *   await client.simulations.conversions.continue(
    *     '550e8400-e29b-41d4-a716-446655440006',
    *   );
    * ```
    */
-  complete(id: string, options?: RequestOptions): APIPromise<ConversionCompleteResponse> {
-    return this._client.post(path`/v1/simulations/conversions/${id}/complete`, options);
+  continue(id: string, options?: RequestOptions): APIPromise<ConversionContinueResponse> {
+    return this._client.post(path`/v1/simulations/conversions/${id}/continue`, options);
   }
 
   /**
@@ -38,7 +38,7 @@ export class Conversions extends APIResource {
   }
 }
 
-export interface ConversionCompleteResponse {
+export interface ConversionContinueResponse {
   /**
    * Conversion whose execution is being simulated.
    */
@@ -64,7 +64,7 @@ export interface ConversionFailResponse {
 
 export declare namespace Conversions {
   export {
-    type ConversionCompleteResponse as ConversionCompleteResponse,
+    type ConversionContinueResponse as ConversionContinueResponse,
     type ConversionFailResponse as ConversionFailResponse,
   };
 }

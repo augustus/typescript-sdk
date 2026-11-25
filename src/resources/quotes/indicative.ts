@@ -40,7 +40,7 @@ export interface IndicativeRetrieveResponse {
   /**
    * Currency code (ISO 4217 or crypto).
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Amount as a string decimal (e.g. "100.50").
@@ -50,7 +50,7 @@ export interface IndicativeRetrieveResponse {
   /**
    * Currency code (ISO 4217 or crypto).
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 }
 
 export namespace IndicativeRetrieveResponse {
@@ -66,7 +66,7 @@ export namespace IndicativeRetrieveResponse {
     /**
      * Fee currency code.
      */
-    currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+    currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
   }
 }
 
@@ -74,12 +74,12 @@ export interface IndicativeRetrieveParams {
   /**
    * Currency code (ISO 4217 or crypto).
    */
-  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  source_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Currency code (ISO 4217 or crypto).
    */
-  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC' | 'BTC' | 'ETH' | 'SOL' | 'POL';
+  target_currency: 'EUR' | 'GBP' | 'USD' | 'USDC';
 
   /**
    * Amount as a string decimal (e.g. "100.50").

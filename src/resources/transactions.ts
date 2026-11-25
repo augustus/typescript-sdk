@@ -52,6 +52,24 @@ export interface TransactionRetrieveResponse {
   booked_at: string;
 
   /**
+   * The kind of money movement this transaction represents.
+   */
+  category:
+    | 'payment'
+    | 'account_transfer'
+    | 'return'
+    | 'conversion'
+    | 'interest'
+    | 'fee'
+    | 'network_fee'
+    | 'loan_disbursement'
+    | 'loan_repayment'
+    | 'loan_interest'
+    | 'loan_fee'
+    | 'loan_collateral'
+    | 'adjustment';
+
+  /**
    * Counterparty of the transaction.
    */
   counterparty: TransactionRetrieveResponse.Counterparty | null;
@@ -606,6 +624,24 @@ export interface TransactionListResponse {
   booked_at: string;
 
   /**
+   * The kind of money movement this transaction represents.
+   */
+  category:
+    | 'payment'
+    | 'account_transfer'
+    | 'return'
+    | 'conversion'
+    | 'interest'
+    | 'fee'
+    | 'network_fee'
+    | 'loan_disbursement'
+    | 'loan_repayment'
+    | 'loan_interest'
+    | 'loan_fee'
+    | 'loan_collateral'
+    | 'adjustment';
+
+  /**
    * Counterparty of the transaction.
    */
   counterparty: TransactionListResponse.Counterparty | null;
@@ -1145,6 +1181,26 @@ export interface TransactionListParams extends CursorPageParams {
   account_id: string;
 
   booked_at?: TransactionListParams.BookedAt;
+
+  /**
+   * Filter to these categories. Use a separate `categories` query parameter for each
+   * value (e.g. `?categories=fee&categories=network_fee`).
+   */
+  categories?: Array<
+    | 'payment'
+    | 'account_transfer'
+    | 'return'
+    | 'conversion'
+    | 'interest'
+    | 'fee'
+    | 'network_fee'
+    | 'loan_disbursement'
+    | 'loan_repayment'
+    | 'loan_interest'
+    | 'loan_fee'
+    | 'loan_collateral'
+    | 'adjustment'
+  >;
 }
 
 export namespace TransactionListParams {

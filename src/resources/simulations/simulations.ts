@@ -26,7 +26,7 @@ import {
   Accounts,
 } from './accounts';
 import * as ConversionsAPI from './conversions';
-import { ConversionCompleteResponse, ConversionFailResponse, Conversions } from './conversions';
+import { ConversionContinueResponse, ConversionFailResponse, Conversions } from './conversions';
 import * as CounterpartiesAPI from './counterparties';
 import { Counterparties, CounterpartyRejectResponse } from './counterparties';
 import * as DepositsAPI from './deposits';
@@ -77,7 +77,7 @@ export declare namespace Simulations {
 
   export {
     Conversions as Conversions,
-    type ConversionCompleteResponse as ConversionCompleteResponse,
+    type ConversionContinueResponse as ConversionContinueResponse,
     type ConversionFailResponse as ConversionFailResponse,
   };
 

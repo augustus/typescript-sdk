@@ -9,8 +9,8 @@ const client = new Augustus({
 
 describe('resource conversions', () => {
   // Mock server tests are disabled
-  test.skip('complete', async () => {
-    const responsePromise = client.simulations.conversions.complete('550e8400-e29b-41d4-a716-446655440006');
+  test.skip('continue', async () => {
+    const responsePromise = client.simulations.conversions.continue('550e8400-e29b-41d4-a716-446655440006');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

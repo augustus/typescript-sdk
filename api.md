@@ -18,6 +18,10 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">ConversionFailedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">AccountHolderActiveWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">AccountHolderClosedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountActivatedWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountUnfrozenWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountFrozenWebhookEvent</a></code>
+- <code><a href="./src/resources/webhooks.ts">AccountClosedWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">CounterpartyPendingWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">CounterpartyActiveWebhookEvent</a></code>
 - <code><a href="./src/resources/webhooks.ts">CounterpartyRejectedWebhookEvent</a></code>
@@ -86,12 +90,12 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/simulations/conversions.ts">ConversionCompleteResponse</a></code>
+- <code><a href="./src/resources/simulations/conversions.ts">ConversionContinueResponse</a></code>
 - <code><a href="./src/resources/simulations/conversions.ts">ConversionFailResponse</a></code>
 
 Methods:
 
-- <code title="post /v1/simulations/conversions/{id}/complete">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">complete</a>(id) -> ConversionCompleteResponse</code>
+- <code title="post /v1/simulations/conversions/{id}/continue">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">continue</a>(id) -> ConversionContinueResponse</code>
 - <code title="post /v1/simulations/conversions/{id}/fail">client.simulations.conversions.<a href="./src/resources/simulations/conversions.ts">fail</a>(id) -> ConversionFailResponse</code>
 
 ## Counterparties

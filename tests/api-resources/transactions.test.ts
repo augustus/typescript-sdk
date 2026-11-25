@@ -37,6 +37,7 @@ describe('resource transactions', () => {
     const response = await client.transactions.list({
       account_id: '550e8400-e29b-41d4-a716-446655440001',
       booked_at: { gte: '2026-01-01T00:00:00Z', lte: '2026-02-01T00:00:00Z' },
+      categories: ['payment'],
       cursor: 'cursor',
       limit: 1,
     });
